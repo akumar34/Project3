@@ -8,13 +8,17 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 		<script src="js/ClassExtension.js"></script>
 		<script src="js/map/MapApp.js"></script>
-		<script src="js/weather/WeatherApp.js"></script>
-		<script src="js/ajax/AjaxApp.js"></script>
+		<script src="js/weather/suncalc.js"></script>
+		<script src="js/weather/USWeatherApp.js"></script>
 		<script>
 			var mapApp;
+			var usWeatherApp;
 			function init(){
 				mapApp = new MapApp;
 				mapApp.refreshData();
+				
+				usWeatherApp = new USWeatherApp;
+				usWeatherApp.init(1,"#viz");
 			}
 		</script>
 	</head>
@@ -42,15 +46,5 @@
 						value="Refresh" 
 						onclick="mapApp.refreshData()" />
 		</div>
-		<script>
-			//underground weather api
-			getWeather(weather, "Chicago", "IL");
-			function weather(data){
-				var temp_f = data['current_observation']['temp_f'];
-				alert("Current temperature in " + location + " is: " + temp_f);
-			}
-
-			
-		</script>
 	</body>
 </html>
