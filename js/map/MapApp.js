@@ -5,6 +5,8 @@ var MapApp = Class.extend({
 		this.map2 = null;
 		this.svg = null;
 		
+		this.layers = [];
+		
 		this.mapURL2 = 'http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png'
 		this.mapCopyright2 = '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
 
@@ -13,23 +15,14 @@ var MapApp = Class.extend({
 
 		this.map1 = L.tileLayer(this.mapURL1, {attribution: this.mapCopyright1});
 		this.map2 = L.tileLayer(this.mapURL2, {attribution: this.mapCopyright2});
-
-		this.map = L.map('map', {layers: [this.map1], zoomControl: false}).setView([41.869910, -87.65], 16);
-
-		/* Initialize the SVG layer */
-		this.map._initPathRoot();  
-
-		/* We simply pick up the SVG from the map object */
-		//this.svg = d3.select(this.map.getPanes().overlayPane).select("svg");
-
-		//this.g = this.svg.append("g");
-
+		
 		this.parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
-
 		this.today = new Date();
-
 		this.bigCollection = [];
 	},
+
+    /////////////////////////////////////////////////////////////
+	
 	toGeoJson: function(collection){
 		var type = '"type"';
 		var featureCollectionLabel = '"FeatureCollection"';
@@ -88,6 +81,8 @@ var MapApp = Class.extend({
 		geoJson = jQuery.parseJSON(geoJson);
 		return geoJson;
 	},
+
+    /////////////////////////////////////////////////////////////
 	
 	setMap: function(whichMap) {
 		var selectedOnes = null;
@@ -110,7 +105,9 @@ var MapApp = Class.extend({
 			}
 	},
 
-	getNewData: function(url){
+	/////////////////////////////////////////////////////////////
+	
+	getNewData: function(url, layer, mode){
 		var callback = this.processData.bind(this);
 		var query = url;
 		var bigCollection = this.bigCollection;
@@ -120,12 +117,14 @@ var MapApp = Class.extend({
 			query, function(collection) 
 			{
 				bigCollection = bigCollection.concat(collection);
-				callback(bigCollection);
+				callback(bigCollection, layer, mode);
 			}
 		);
 	},
+
+    /////////////////////////////////////////////////////////////
 	
-	processData: function(collection){
+	processData: function(collection, layer, mode){
 		var parseDate = this.parseDate;
 		var today = this.today;
 		
@@ -138,7 +137,7 @@ var MapApp = Class.extend({
 		};
 		
 		L.geoJson(geoJsonData, {
-			filter: function(feature, layer) {
+			filter: function(feature, layers) {
 				var myDate = parseDate(feature.properties.creation_date);
 				var daysAgo = (today - myDate) / 1000 / 60 / 60 / 24;
 				return daysAgo <= 31;
@@ -151,19 +150,66 @@ var MapApp = Class.extend({
 				var daysAgo = (today - myDate) / 1000 / 60 / 60 / 24;
 				var inLastWeek = 0;
 				if(daysAgo <= 7) inLastWeek = 1;
-				switch (inLastWeek) {
-					case 1: return {color: "green"};
-					case 0:   return {color: "yellow"};
+				if(mode === 0){
+					switch (inLastWeek) {
+						case 1:
+							return {color: "green"};
+						case 0:   
+							return {color: "yellow"};
+					}
+				} else if(mode === 1){
+					switch (inLastWeek) {
+						case 1:
+							return {color: "red"};
+						case 0:   
+							return {color: "brown"};
+					}
+				} else {
+					switch (inLastWeek) {
+						case 1:
+							return {color: "orange"};
+						case 0:   
+							return {color: "pink"};
+					}					
 				}
 			}
-		}).addTo(this.map);
+		}).addTo(layer);
 	},
 	
+	/////////////////////////////////////////////////////////////
+		
 	refreshData: function()
 	{
-		this.getNewData("http://data.cityofchicago.org/resource/7as2-ds3y.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
+		this.layers.push(new L.LayerGroup());
+		this.layers.push(new L.LayerGroup());
+		this.layers.push(new L.LayerGroup());
+		
+		this.getNewData(
+			"http://data.cityofchicago.org/resource/7as2-ds3y.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr",
+			this.layers[0], 0);
+			
+		this.getNewData(
+			"http://data.cityofchicago.org/resource/3c9v-pnva.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr",
+			this.layers[1], 1);
+			
+		this.getNewData(
+			"http://http://data.cityofchicago.org/resource/zuxi-7xem.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr",
+			this.layers[2], 2);
+		
+		this.map = L.map('map', {layers: [this.map1,this.layers[0]], zoomControl: false}).setView([41.869910, -87.65], 16);
+		this.map._initPathRoot();  
+
+		var baseLayers = {
+			"Aerial"  : this.map1,
+			"Map"	  : this.map2
+		};
+		
+		var overlays = {
+			"Potholes"  : this.layers[0],
+			"Abandoned Vehicles"	: this.layers[1],
+			"Street Lights" : this.layers[2]
+		};
+		
+		L.control.layers(baseLayers, overlays).addTo(this.map);
 	},
-	
-
-
 });
