@@ -53,7 +53,7 @@ var MapApp = Class.extend({
 	},
 
 	getNewData: function(){
-		var callback = this.dealWithData.bind(this);
+		var callback = this.processData.bind(this);
 		var query = 
 "http://data.cityofchicago.org/resource/7as2-ds3y.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr";
 		var bigCollection = this.bigCollection;
@@ -68,7 +68,25 @@ var MapApp = Class.extend({
 		);
 	},
 	
-	dealWithData: function(collection){
+	processData: function(collection){
+		var geoJsonData = this.toGeoJson(collection);
+		var geojsonMarkerOptions = {
+			radius: 8,
+			fillColor: "#ff7800",
+			color: "#000",
+			weight: 1,
+			opacity: 1,
+			fillOpacity: 0.8
+		};
+		
+		L.geoJson(geoJsonData, {
+			pointToLayer: function (feature, latlng) {
+				return L.circleMarker(latlng, geojsonMarkerOptions);
+			}
+		}).addTo(this.map);
+	},
+	
+	/*processPotholesData: function(collection){
 		var parseDate = this.parseDate;
 		var today = this.today;
 		var map = this.map;
@@ -104,12 +122,28 @@ var MapApp = Class.extend({
 						case 1: d.color = "green"; break;
 						case 0: d.color = "yellow"; break;
 					}
+					
+					var potholes = new L.LayerGroup();
+					L.marker([d.longitude, d.latitude]).bindPopup('Location' + d.street + '\nstatus' + d.status).addTo(potholes);
+					
+					//this.map = L.map('map', {layers: [this.map1, potholes], zoomControl: false}).setView([41.869910, -87.65], 16);
+
+					var baseLayers = {
+						"aerial": this.map1,
+						"map":    this.map2
+					};
+
+					var overlays = {
+						"potholes": potholes
+					};
+
+					L.control.layers(baseLayers, overlays).addTo(this.map);
 				} else {
 					d.LatLng = new L.LatLng(0,0);
 				}	
 			}
-		);
-		var feature = this.g.selectAll("circle")
+		);*/
+		/*var feature = this.g.selectAll("circle")
 			.data(collection)
 			.enter()
 			.append("svg:circle")
@@ -152,17 +186,78 @@ var MapApp = Class.extend({
 					(map.latLngToLayerPoint(d.LatLng).y+5.0) +")";
 				}
 			);
-		}			
-	},
+		}*/			
+	//},
 
 	refreshData: function()
 	{
 		/* We simply pick up the SVG from the map object */
-		if (this.g != null)
-		{
-				this.g.selectAll("circle").remove();
-				this.g.selectAll("text").remove();
-		}
+		//if (this.g != null)
+		//{
+		//	this.g.selectAll("circle").remove();
+		//	this.g.selectAll("text").remove();
+		//}
 		this.getNewData();
 	},
+	
+	toGeoJson: function(collection){
+
+		var type = '"type"';
+		var featureCollectionLabel = '"FeatureCollection"';
+
+		var FeatureLabel = '"Feature"';
+		var featuresLabel = '"features"';
+		var geometryLabel = '"geometry"';
+
+		var pointLabel = '"Point"';
+		var coordinatesLabel = '"coordinates"';
+		var propertiesLabel = '"properties"';
+			
+		var geoJson = "{" + type + ":" + featureCollectionLabel + ",";
+		geoJson = geoJson + featuresLabel + ":[";
+
+		collection.forEach
+		(
+			function(d)
+			{
+				geoJson = geoJson + "{";
+				geoJson = geoJson + type + ":";
+				geoJson = geoJson + FeatureLabel + ",";
+				geoJson = geoJson + geometryLabel + ":{";
+				geoJson = geoJson + type + ":";
+				geoJson = geoJson + pointLabel + ",";
+				geoJson = geoJson + coordinatesLabel + ":[";
+				if(d.location){
+					var longitude = d.location.longitude;
+					var latitude = d.location.latitude;
+					geoJson = geoJson + longitude + "," + latitude + "]},";
+				} else geoJson = geoJson + 0.00000 + "," + 0.00000 + "]},";
+				geoJson = geoJson + propertiesLabel + ":{";
+				for( obj in d ){
+					if(obj !== "location"){
+						geoJson = geoJson + '"' + obj + '":"' + d[obj] + '",';	
+						continue;
+					}
+					if(! d.location){
+						geoJson = geoJson + 
+							'"location/needs_recoding":"","location/longitude":"","location/latitude":"",';
+						continue;
+					}
+					var longitude = d.location.longitude;
+					var latitude = d.location.latitude;
+					for(var locObj in d[obj]){
+						geoJson = geoJson + '"location/' + locObj + '":"' + d[obj][locObj] + '",';
+					}
+				}
+				geoJson = geoJson.substring(0, geoJson.length - 1);
+				geoJson = geoJson + "}},";
+
+			}
+		);
+		geoJson = geoJson.substring(0, geoJson.length - 1);
+		geoJson = geoJson + "]}";
+		geoJson = jQuery.parseJSON(geoJson);
+		return geoJson;
+	},
+
 });
