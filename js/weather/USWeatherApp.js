@@ -90,7 +90,6 @@ var USWeatherApp = Class.extend({
 
 		weatherIcon = iconSet[8].icon_url;
 		var weatherName = weatherIcon.substring(28, weatherIcon.length-4);
-		//var currentHour = new Date().getHours(); // 0-23
 		var currentTime = new Date().getHours()+new Date().getMinutes()/60;
 
 		if (weatherName === "")
@@ -123,9 +122,9 @@ var USWeatherApp = Class.extend({
 
 		var self = this;
 
-		if (this.gwin.numIconsLoaded === 20){
+		//if (this.gwin.numIconsLoaded === 20){
 			self.drawEverything(weather, weatherImage.src);
-		}
+		//}
 	},
 
 ///////////////////////////////////////
@@ -135,8 +134,6 @@ var USWeatherApp = Class.extend({
 		var self = this;
 		(
 			function(lattitude,longitude, arrayX, arrayY){
-				//lattitude = 21.307;
-				//longitude = -157.858;
 				longitude = longitude.toFixed(3);
 				lattitude = lattitude.toFixed(3);
 
@@ -153,7 +150,6 @@ var USWeatherApp = Class.extend({
 			}(lattitude,longitude)
 		);
 	},
-
 
 ///////////////////////////////////////
 
@@ -331,5 +327,4 @@ var USWeatherApp = Class.extend({
         this.loadInIcons();
 		this.updateOutsideTemp(41.52,87.38);
     }
-
 });

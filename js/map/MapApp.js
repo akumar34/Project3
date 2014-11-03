@@ -29,9 +29,6 @@ var MapApp = Class.extend({
 		this.today = new Date();
 
 		this.bigCollection = [];
-
-		this.numBeats = 3;
-		this.currentBeats = 0;
 	},
 
 	setMap: function(whichMap) {
@@ -55,23 +52,104 @@ var MapApp = Class.extend({
 			}
 	},
 
-	getNewData: function(beat){
-		var query = "http://data.cityofchicago.org/resource/x2n5-8w5q.json?beat=".concat(beat);
+	getNewData: function(){
+		var callback = this.dealWithData.bind(this);
+		var query = 
+"http://data.cityofchicago.org/resource/7as2-ds3y.json?$where=creation_date%3E%272014-09-30T00:00:00%27&$order=creation_date&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr";
 		var bigCollection = this.bigCollection;
 		
-		d3.json(query, function(collection) {
-			this.currentBeats++;
-			if (this.currentBeats === 1)
-					bigCollection = collection;
-			else
-					bigCollection = bigCollection.concat(collection);
-			this.bigCollection = bigCollection;
-			if (this.currentBeats === this.numBeats)
-				this.dealWithData(bigCollection);
-		});
+		d3.json
+		(
+			query, function(collection) 
+			{
+				bigCollection = bigCollection.concat(collection);
+				callback(bigCollection);
+			}
+		);
 	},
 
-	dealWithData: function(collection){		
+	dealWithData: function(collection){
+		var parseDate = this.parseDate;
+		var today = this.today;
+		var map = this.map;
+		collection.forEach
+		(
+			function(d)
+			{
+				if (d.latitude && d.longitude)
+				{
+					if (isNaN(d.latitude))
+						console.log("latitude is not a number");
+					if (isNaN(d.longitude))
+						console.log("longitude is not a number");
+					d.LatLng = new L.LatLng(+d.latitude, +d.longitude);
+					d.myDate = parseDate(d.creation_date);
+					d.daysAgo = (today - d.myDate) / 1000 / 60 / 60 / 24; //7-373
+					
+					if (d.daysAgo < 8)
+						d.inLastWeek = 1;
+					else
+						d.inLastWeek = 0;
+					
+					switch(d.status)
+					{
+						case "Completed": d.color = "green"; break;
+						case "Completed - Dup": d.color = "red"; break;
+						case "Open": d.color = "purple"; break;
+						case "Open - Dup": d.color = "pink"; break;
+						default: d.color = "grey"; break;
+					}
+				} else {
+					d.LatLng = new L.LatLng(0,0);
+				}	
+			}
+		);
+		var feature = this.g.selectAll("circle")
+			.data(collection)
+			.enter()
+			.append("svg:circle")
+			.style("stroke", function (d) { if (d.inLastWeek) return "black"; else return "white"; })  
+			.style("stroke-width", function (d) { if (d.inLastWeek) return 6; else return 2; })
+			.style("opacity", function (d) { if (d.inLastWeek) return 1.0; else return 0.4; })
+			.style("fill", function (d) { return d.color; })
+			.attr("r", 15);
+
+		var feature2 = this.g.selectAll("text")
+			.data(collection)
+			.enter()
+			.append("svg:text")
+			.style("fill", "white")
+			.style("stroke", function (d) { return d.color; })
+			.style("stroke-width", "1")
+			.style("font-size", "30px")
+			.style("font-family", "Arial")
+			.style("text-anchor", "start")
+			.style("font-weight","bold")
+			.text(function (d){
+				if (d.inLastWeek) return d.status.toLowerCase(); 
+			});
+		
+		map.on("viewreset", update);
+		update();
+
+			function update() {
+			feature.attr("transform", 
+			function(d) { 
+				return "translate("+ 
+					map.latLngToLayerPoint(d.LatLng).x +","+ 
+					map.latLngToLayerPoint(d.LatLng).y +")";
+				}
+			);
+			feature2.attr("transform", 
+			function(d) { 
+				return "translate("+ 
+					(map.latLngToLayerPoint(d.LatLng).x+20.0) +","+ 
+					(map.latLngToLayerPoint(d.LatLng).y+5.0) +")";
+				}
+			);
+		}			
+	},
+	/*dealWithData: function(collection){		
 		collection.forEach(function(d) {
 			if (d.latitude && d.longitude){
 				if (isNaN(d.latitude))
@@ -159,7 +237,7 @@ var MapApp = Class.extend({
 				}
 			);
 		}	
-	},		
+	},	*/	
 
 	refreshData: function()
 	{
@@ -170,11 +248,10 @@ var MapApp = Class.extend({
 				this.g.selectAll("text").remove();
 			}
 
-		this.currentBeats = 0;
-		
-		this.getNewData("1232");
-		this.getNewData("1231");
-		this.getNewData("0124");
+		//this.currentBeats = 0;
+		this.getNewData();
+		//this.getNewData("1232");
+		//this.getNewData("1231");
+		//this.getNewData("0124");
 	},
-//this.refreshData();
 });
