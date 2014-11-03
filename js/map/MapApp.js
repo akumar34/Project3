@@ -138,6 +138,8 @@ var MapApp = Class.extend({
 		
 		L.geoJson(geoJsonData, {
 			filter: function(feature, layers) {
+				var status = feature.properties.status;
+				if(status === "STATUS") return false;
 				var myDate = parseDate(feature.properties.creation_date);
 				var daysAgo = (today - myDate) / 1000 / 60 / 60 / 24;
 				return daysAgo <= 31;
@@ -191,9 +193,9 @@ var MapApp = Class.extend({
 		this.getNewData(
 			"http://data.cityofchicago.org/resource/3c9v-pnva.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr",
 			this.layers[1], 1);
-			
+		
 		this.getNewData(
-			"http://http://data.cityofchicago.org/resource/zuxi-7xem.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr",
+			"http://data.cityofchicago.org/resource/zuxi-7xem.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr",
 			this.layers[2], 2);
 		
 		this.map = L.map('map', {layers: [this.map1,this.layers[0]], zoomControl: false}).setView([41.869910, -87.65], 16);
@@ -205,9 +207,9 @@ var MapApp = Class.extend({
 		};
 		
 		var overlays = {
-			"Potholes"  : this.layers[0],
+			"Potholes"  			: this.layers[0],
 			"Abandoned Vehicles"	: this.layers[1],
-			"Street Lights" : this.layers[2]
+			"Street Lights" 		: this.layers[2]
 		};
 		
 		L.control.layers(baseLayers, overlays).addTo(this.map);
