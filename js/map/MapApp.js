@@ -1,80 +1,79 @@
-var map = null;
-var map1 = null;
-var map2 = null;
+var MapApp = Class.extend({
+    construct: function () {
+		this.map = null;
+		this.map1 = null;
+		this.map2 = null;
+		this.svg = null;
+		
+		this.mapURL2 = 'http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png'
+		this.mapCopyright2 = '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
 
-var svg = null;
+		this.mapURL1 = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+		this.mapCopyright1 = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
 
-function setMap(whichMap)
-{
-	var selectedOnes = null;
+		this.map1 = L.tileLayer(this.mapURL1, {attribution: this.mapCopyright1});
+		this.map2 = L.tileLayer(this.mapURL2, {attribution: this.mapCopyright2});
 
-	if (whichMap === 1)
-		{
-			map.removeLayer(map2);
-			map1.addTo(map);
+		this.map = L.map('map', {layers: [this.map1], zoomControl: false}).setView([41.869910, -87.65], 16);
 
-			selectedOnes = svg.selectAll("text");
-    		selectedOnes.style("fill", "white");
-		}
-	else
-		{
-			map.removeLayer(map1);
-			map2.addTo(map);
+		/* Initialize the SVG layer */
+		this.map._initPathRoot();  
 
-			selectedOnes = svg.selectAll("text");
-    		selectedOnes.style("fill", "black");	
-    	}
-}
+		/* We simply pick up the SVG from the map object */
+		this.svg = d3.select(this.map.getPanes().overlayPane).select("svg");
 
-var mapURL2 = 'http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png'
-var mapCopyright2 = '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+		this.g = this.svg.append("g");
 
-var mapURL1 = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-var mapCopyright1 = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
+		this.parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
-map1 = L.tileLayer(mapURL1, {attribution: mapCopyright1});
-map2 = L.tileLayer(mapURL2, {attribution: mapCopyright2});
+		this.today = new Date();
 
-map = L.map('map', {layers: [map1], zoomControl: false}).setView([41.869910, -87.65], 16);
+		this.bigCollection = [];
 
-/* Initialize the SVG layer */
-map._initPathRoot();  
+		this.numBeats = 3;
+		this.currentBeats = 0;
+	},
 
-/* We simply pick up the SVG from the map object */
-svg = d3.select(map.getPanes().overlayPane).select("svg");
+	setMap: function(whichMap) {
+		var selectedOnes = null;
 
-var g = svg.append("g");
-
-var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
-
-var today = new Date();
-
-var bigCollection = {};
-
-var numBeats = 3;
-var currentBeats = 0;
-
-function getNewData(beat)
-{
-	var query = "http://data.cityofchicago.org/resource/x2n5-8w5q.json?beat=".concat(beat);
-
-	d3.json(query, function(collection) {
-		currentBeats++;
-		if (currentBeats === 1)
-				bigCollection = collection;
-		else
-				bigCollection = bigCollection.concat(collection);
-
-		if (currentBeats === numBeats)
-			dealWithData(bigCollection);
-	});
-}
-
-function dealWithData(collection)
-{		
-	collection.forEach(function(d) {
-		if (d.latitude && d.longitude)
+		if (whichMap === 1)
 			{
+				this.map.removeLayer(this.map2);
+				this.map1.addTo(this.map);
+
+				selectedOnes = this.svg.selectAll("text");
+				selectedOnes.style("fill", "white");
+			}
+		else
+			{
+				this.map.removeLayer(this.map1);
+				this.map2.addTo(this.map);
+
+				selectedOnes = this.svg.selectAll("text");
+				selectedOnes.style("fill", "black");	
+			}
+	},
+
+	getNewData: function(beat){
+		var query = "http://data.cityofchicago.org/resource/x2n5-8w5q.json?beat=".concat(beat);
+		var bigCollection = this.bigCollection;
+		
+		d3.json(query, function(collection) {
+			this.currentBeats++;
+			if (this.currentBeats === 1)
+					bigCollection = collection;
+			else
+					bigCollection = bigCollection.concat(collection);
+			this.bigCollection = bigCollection;
+			if (this.currentBeats === this.numBeats)
+				this.dealWithData(bigCollection);
+		});
+	},
+
+	dealWithData: function(collection){		
+		collection.forEach(function(d) {
+			if (d.latitude && d.longitude){
 				if (isNaN(d.latitude))
 					console.log("latitude is not a number");
 				if (isNaN(d.longitude))
@@ -111,74 +110,71 @@ function dealWithData(collection)
 				default: 					d.color = "grey"; 
 					break;
 				}
-			}
-		else
-			{
+			} else{
 				d.LatLng = new L.LatLng(0,0);
 			}	
-	});
-
-	var feature = g.selectAll("circle")
-		.data(collection)
-		.enter()
-		.append("svg:circle")
-		.style("stroke", function (d) { if (d.inLastMonth) return "black"; else return "white"; })  
-		.style("stroke-width", function (d) { if (d.inLastMonth) return 6; else return 2; })
-		.style("opacity", function (d) { if (d.inLastMonth) return 1.0; else return 0.4; })
-		.style("fill", function (d) { return d.color; })
-		.attr("r", 15);
-
-	var feature2 = g.selectAll("text")
-		.data(collection)
-		.enter()
-		.append("svg:text")
-		.style("fill", "white")
-		.style("stroke", function (d) { return d.color; })
-		.style("stroke-width", "1")
-		.style("font-size", "30px")
-		.style("font-family", "Arial")
-		.style("text-anchor", "start")
-		.style("font-weight","bold")
-		.text(function (d)
-		{
-			if (d.inLastMonth)
-				return d._primary_decsription.toLowerCase(); 
 		});
+
+		var feature = this.g.selectAll("circle")
+			.data(collection)
+			.enter()
+			.append("svg:circle")
+			.style("stroke", function (d) { if (d.inLastMonth) return "black"; else return "white"; })  
+			.style("stroke-width", function (d) { if (d.inLastMonth) return 6; else return 2; })
+			.style("opacity", function (d) { if (d.inLastMonth) return 1.0; else return 0.4; })
+			.style("fill", function (d) { return d.color; })
+			.attr("r", 15);
+
+		var feature2 = this.g.selectAll("text")
+			.data(collection)
+			.enter()
+			.append("svg:text")
+			.style("fill", "white")
+			.style("stroke", function (d) { return d.color; })
+			.style("stroke-width", "1")
+			.style("font-size", "30px")
+			.style("font-family", "Arial")
+			.style("text-anchor", "start")
+			.style("font-weight","bold")
+			.text(function (d){
+				if (d.inLastMonth) return d._primary_decsription.toLowerCase(); 
+			});
 		
-	map.on("viewreset", update);
-	update();
+		this.map.on("viewreset", update);
+		update();
 
-	function update() {
-		feature.attr("transform", 
-		function(d) { 
-			return "translate("+ 
-				map.latLngToLayerPoint(d.LatLng).x +","+ 
-				map.latLngToLayerPoint(d.LatLng).y +")";
+		function update() {
+			feature.attr("transform", 
+			function(d) { 
+				return "translate("+ 
+					this.map.latLngToLayerPoint(d.LatLng).x +","+ 
+					this.map.latLngToLayerPoint(d.LatLng).y +")";
+				}
+			);
+			feature2.attr("transform", 
+			function(d) { 
+				return "translate("+ 
+					(this.map.latLngToLayerPoint(d.LatLng).x+20.0) +","+ 
+					(this.map.latLngToLayerPoint(d.LatLng).y+5.0) +")";
+				}
+			);
+		}	
+	},		
+
+	refreshData: function()
+	{
+		/* We simply pick up the SVG from the map object */
+		if (this.g != null)
+			{
+				this.g.selectAll("circle").remove();
+				this.g.selectAll("text").remove();
 			}
-		);
-		feature2.attr("transform", 
-		function(d) { 
-			return "translate("+ 
-				(map.latLngToLayerPoint(d.LatLng).x+20.0) +","+ 
-				(map.latLngToLayerPoint(d.LatLng).y+5.0) +")";
-			}
-		);
-	}		
-}
 
-function refreshData()
-{
-	/* We simply pick up the SVG from the map object */
-	if (g != null)
-		{
-			g.selectAll("circle").remove();
-			g.selectAll("text").remove();
-		}
-
-	currentBeats = 0;
-	
-	getNewData("1232");
-	getNewData("1231");
-	getNewData("0124");
-}
-refreshData();
+		this.currentBeats = 0;
+		
+		this.getNewData("1232");
+		this.getNewData("1231");
+		this.getNewData("0124");
+	},
+//this.refreshData();
+});

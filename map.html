@@ -7,41 +7,50 @@
 		<script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 		<script src="js/ClassExtension.js"></script>
+		<script src="js/map/MapApp.js"></script>
 		<script src="js/weather/WeatherApp.js"></script>
 		<script src="js/ajax/AjaxApp.js"></script>
+		<script>
+			var mapApp;
+			function init(){
+				mapApp = new MapApp;
+				mapApp.refreshData();
+			}
+		</script>
 	</head>
 	<body onload="init();">
 		<div id="map" style="width:400px; height: 275px"></div>
-		 <script src="js/map/MapApp.js"></script>
 		<div id="buttons" style="width:400px; height:10%; text-align: center; background: #fff">
 				<input name="updateButton1" 
 						 type="button" 
 						value="Zoom In" 
-						onclick="map.zoomIn()" />
+						onclick="mapApp.map.zoomIn()" />
 			<input name="updateButton2" 
 						 type="button" 
 						value="Zoom Out" 
-						onclick="map.zoomOut()" />
+						onclick="mapApp.map.zoomOut()" />
 			<input name="updateButton3" 
 						 type="button" 
 						value="Map View" 
-						onclick="setMap(2)" />
+						onclick="mapApp.setMap(2)" />
 			<input name="updateButton4" 
 						 type="button" 
 						value="Aerial View" 
-						onclick="setMap(1)" />
+						onclick="mapApp.setMap(1)" />
 			<input name="updateButton4" 
 						 type="button" 
 						value="Refresh" 
-						onclick="refreshData()" />
+						onclick="mapApp.refreshData()" />
 		</div>
 		<script>
 			//underground weather api
-			getWeather(render, "Chicago", "IL");
-			function render(response){
-				var temp_f = response['current_observation']['temp_f'];
+			getWeather(weather, "Chicago", "IL");
+			function weather(data){
+				var temp_f = data['current_observation']['temp_f'];
 				alert("Current temperature in " + location + " is: " + temp_f);
 			}
+
+			
 		</script>
 	</body>
 </html>
