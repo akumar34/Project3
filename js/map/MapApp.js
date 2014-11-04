@@ -214,4 +214,32 @@ var MapApp = Class.extend({
 		
 		L.control.layers(baseLayers, overlays).addTo(this.map);
 	},
+
+	var testMarkers = new Array();
+
+	map.on('click', onMapClick);
+
+	function onMarkerClick(e) {
+		$('div').removeClass('activ');
+		$('div #' + e.target._leaflet_id).addClass('active');
+	}
+
+	function onMapClick(e) {
+		var testMarker = new L.Marker(e.latlng);
+
+		marker.on('click', onMarkerClick);
+		map.addLayer(marker);
+		testMarkers[marker._leaflet_id] = testMarker;
+		console.log(testMarkers);
+		$('#messages > ul').append(
+			'<div class="item" id="' + testMarker._leaflet_id + 
+			'">Marker ' + testMarker._leaflet_id + ' - <a href="#" class="remove" id="' + 
+			testMarker._leaflet_id + '">remove</a></div>');
+
+			$('.remove').on("click", function() {
+				map.removeLayer(testMarkers[$(this).attr('id')]);
+
+				$(this).parent('div').remove();
+			});
+	}
 });
