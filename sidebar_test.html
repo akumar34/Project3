@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Crime around UIC using leaflet</title>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+		<script src="js/ClassExtension.js"></script>
+		<script src="js/map/MapApp.js"></script>
+		<script src="js/weather/suncalc.js"></script>
+		<script src="js/weather/USWeatherApp.js"></script>
+		<script>
+			var mapApp;
+			var usWeatherApp;
+			function init(){
+				mapApp = new MapApp;
+				mapApp.refreshData();
+				
+				usWeatherApp = new USWeatherApp;
+				usWeatherApp.init(1,"#viz");
+			}
+		</script>
+
+		<!--sidebar includes-->
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="sidebar-v2-gh-pages/css/leaflet-sidebar.min.css" />
+		<script src="sidebar-v2-gh-pages/js/leaflet-sidebar.min.js"></script>
+		<!--end sidebar includes-->
+	</head>
+	<body onload="init();">
+		<div id="map" style="width:1200px; height: 800px"></div>
+		<div id="buttons" style="width:400px; height:10%; text-align: center; background: #fff">
+				<input name="updateButton1" 
+						 type="button" 
+						value="Zoom In" 
+						onclick="mapApp.map.zoomIn()" />
+			<input name="updateButton2" 
+						 type="button" 
+						value="Zoom Out" 
+						onclick="mapApp.map.zoomOut()" />
+			<input name="updateButton3" 
+						 type="button" 
+						value="Map View" 
+						onclick="mapApp.setMap(2)" />
+			<input name="updateButton4" 
+						 type="button" 
+						value="Aerial View" 
+						onclick="mapApp.setMap(1)" />
+			<input name="updateButton4" 
+						 type="button" 
+						value="Refresh" 
+						onclick="mapApp.refreshData()" />
+		</div>
+	</body>
+</html>
