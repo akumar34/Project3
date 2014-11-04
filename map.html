@@ -10,12 +10,14 @@
 		<script src="js/map/MapApp.js"></script>
 		<script src="js/weather/suncalc.js"></script>
 		<script src="js/weather/USWeatherApp.js"></script>
+		<!-- custom js -->
+		<script src="js/DataCircles.js"></script>
 		<script>
 			var mapApp;
 			var usWeatherApp;
 			function init(){
 				mapApp = new MapApp;
-				mapApp.refreshData();
+				mapApp.init();
 				
 				usWeatherApp = new USWeatherApp;
 				usWeatherApp.init(1,"#viz");
