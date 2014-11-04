@@ -83,10 +83,41 @@
 	            	<p>Abinav Kumar- Developer</p>
 	            	<p>Bryan Sphar- Developer</p>
 	            </div>
-	            <div class="sidebar-pane" id="messages"><h1>Messages</h1></div>
+	            <div class="sidebar-pane" id="messages"><h1>Messages</h1>
+	            	<ul></ul>
+	            </div>
 	            <div class="sidebar-pane" id="settings"><h1>Settings</h1></div>
 	        </div><!--tab panes-->
 		</div>
 		<script>var sidebar = L.control.sidebar('sidebar').addTo(map);</script>
+		<script>
+			var testMarkers = new Array();
+
+			map.on('click', onMapClick);
+
+			function onMarkerClick(e) {
+				$('div').removeClass('activ');
+				$('div #' + e.target._leaflet_id).addClass('active');
+			}
+
+			function onMapClick(e) {
+				var testMarker = new L.Marker(e.latlng);
+
+				marker.on('click', onMarkerClick);
+				map.addLayer(marker);
+				testMarkers[marker._leaflet_id] = testMarker;
+				console.log(testMarkers);
+				$('#messages > ul').append(
+					'<div class="item" id="' + testMarker._leaflet_id + 
+					'">Marker ' + testMarker._leaflet_id + ' - <a href="#" class="remove" id="' + 
+					testMarker._leaflet_id + '">remove</a></div>');
+
+					$('.remove').on("click", function() {
+						map.removeLayer(testMarkers[$(this).attr('id')]);
+
+						$(this).parent('div').remove();
+					});
+			}
+		</script
 	</body>
 </html>
