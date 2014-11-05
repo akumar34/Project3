@@ -24,18 +24,26 @@ function DataCircles() {
 
     function addData(layerInfo, index, mapLayer){
         var sourceLink = layerInfo.sourceLink;
-        d3.json(sourceLink, function(data){
+        d3.json(sourceLink, function(error, data){
+            if (error) {
+                console.error(error);
+            };
+
             for (var i = 0; i < data.length; i++) {
                 // filters
-                var daysAgo = (new Date() - parseDate(data[i].creation_date)) / 1000 / 60 / 60 / 24;
-                
-                if (daysAgo >= 31) continue;
+                if (data[i].creation_date == null) continue;
                 if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
 
+                var daysAgo = (new Date() - parseDate(data[i].creation_date)) / 1000 / 60 / 60 / 24;
+                if (daysAgo >= 31) continue;
+                
                 // add the circles
-                var outLine = "white";
+                var outLine = "black";
                 if (daysAgo >= 7)
                     outLine = layerInfo.monthColor;
+
+                if (data[i].status.indexOf("completed") > -1)
+                    outLine = "white";
 
                 layers[index].circles.push(
                     L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 

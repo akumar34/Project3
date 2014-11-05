@@ -191,14 +191,14 @@ var MapApp = Class.extend({
 		var layersInfo = [
 			{
 				sourceLink : "http://data.cityofchicago.org/resource/7as2-ds3y.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
-				nameType : "Potholes",
+				type : "Potholes",
 				fill : "cyan",
 				monthColor : "orange",
 				id : 0
 			},
 			{
 				sourceLink : "http://data.cityofchicago.org/resource/3c9v-pnva.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
-				nameType : "Abandoned Vehicles",
+				type : "Abandoned Vehicles",
 				fill : "brown",
 				monthColor : "orange",
 				id : 1
@@ -206,7 +206,7 @@ var MapApp = Class.extend({
 
 			{
 				sourceLink : "http://data.cityofchicago.org/resource/zuxi-7xem.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
-				nameType : "Lights",
+				type : "Lights",
 				fill : "red",
 				monthColor : "orange",
 				id : 2
@@ -221,7 +221,7 @@ var MapApp = Class.extend({
 		var baseLayers = {
 	        'Streets' : L.tileLayer('http://{s}.tiles.mapbox.com/v3/dare2wow.jkic38a8/{z}/{x}/{y}.png', 
 	        {
-                attribution: 'Tiles Courtesy of <a href="http://www.mapbox.com/">Mapbox</a>;',
+                attribution: 'Tiles Courtesy of <a href="http://www.mapbox.com/">Mapbox</a>',
                 maxZoom: 18,
                 minZoom: 10
 	      	}),
