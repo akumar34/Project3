@@ -65,7 +65,7 @@ var MapApp = Class.extend({
 		};
 		
 		// L.control.layers(baseLayers, overlays).addTo(this.map);
-		L.control.layers(baseLayers, overlays, {position: 'bottomleft'}).addTo(this.map);
+		L.control.layers(baseLayers, overlays, {position: 'bottomright'}).addTo(this.map);
 		baseLayers['Streets'].addTo(this.map);
 	},
 });
