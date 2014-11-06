@@ -215,7 +215,7 @@ var MapApp = Class.extend({
 		L.control.layers(baseLayers, overlays).addTo(this.map);
 	},
 
-	var testMarkers = new Array();
+	/*var testMarkers = new Array();
 
 	map.on('click', onMapClick);
 
@@ -241,5 +241,5 @@ var MapApp = Class.extend({
 
 				$(this).parent('div').remove();
 			});
-	}
+	}*/
 });

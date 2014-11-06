@@ -20,6 +20,35 @@
 				usWeatherApp = new USWeatherApp;
 				usWeatherApp.init(1,"#viz");
 			}
+
+			var testMarkers = new Array();
+
+			
+
+			function onMarkerClick(e) {
+				$('div').removeClass('activ');
+				$('div #' + e.target._leaflet_id).addClass('active');
+			}
+
+			function onMapClick(e) {
+				var testMarker = new L.Marker(e.latlng);
+
+				marker.on('click', onMarkerClick);
+				map.addLayer(marker);
+				testMarkers[marker._leaflet_id] = testMarker;
+				console.log(testMarkers);
+				$('#messages > ul').append(
+					'<div class="item" id="' + testMarker._leaflet_id + 
+					'">Marker ' + testMarker._leaflet_id + ' - <a href="#" class="remove" id="' + 
+					testMarker._leaflet_id + '">remove</a></div>');
+
+					$('.remove').on("click", function() {
+						map.removeLayer(testMarkers[$(this).attr('id')]);
+
+						$(this).parent('div').remove();
+					});
+			}
+			MapApp.map.on('click', onMapClick);
 		</script>
 
 		<!--sidebar includes-->
@@ -93,7 +122,7 @@
 		<script>/*
 			var testMarkers = new Array();
 
-			map.on('click', onMapClick);
+			MapApp.map.on('click', onMapClick);
 
 			function onMarkerClick(e) {
 				$('div').removeClass('activ');
@@ -117,7 +146,7 @@
 
 						$(this).parent('div').remove();
 					});
-			}
-		*/</script
+			}*/
+		</script
 	</body>
 </html>
