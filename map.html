@@ -21,6 +21,12 @@
 				<link rel="stylesheet" href="sidebar-v2-gh-pages/css/leaflet-sidebar.min.css" />
 				<script src="sidebar-v2-gh-pages/js/leaflet-sidebar.min.js"></script>
 		<!--end sidebar includes-->
+		<!--full screen overlay includes-->
+		<link rel="stylesheet" type="text/css" href="FullscreenOverlayStyles-master/css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="FullscreenOverlayStyles-master/css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="FullscreenOverlayStyles-master/css/style1.css" />
+  		<script src="FullscreenOverlayStyles-master/js/modernizr.custom.js"></script>
+		<!--end full screen overlay includes-->
 		<script>
 			var mapApp;
 			var usWeatherApp;
@@ -78,5 +84,23 @@
 	        </div><!--tab panes-->
 		</div>
 		<script>var sidebar = L.control.sidebar('sidebar').addTo(map);</script>
+		<!--fs overlay-->
+		<section>
+			<p>Overlay fades in and menu rotates slightly in perspective. As seen on <a href="http://hugeinc.com">Huge</a></p>
+			<p><button id="trigger-overlay" type="button">Open Overlay</button></p>
+		</section>
+		<div class="overlay overlay-hugeinc">
+			<button type="button" class="overlay-close">Close</button>
+			<nav>
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">About</a></li>
+					<li><a href="#">Work</a></li>
+					<li><a href="#">Clients</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+		<!--end fs overlay-->
 	</body>
 </html>
