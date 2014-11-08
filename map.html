@@ -89,15 +89,16 @@
 	            	<p>Bryan Sphar- Developer</p>
 	            </div>
 	            <div class="sidebar-pane" id="messages"><h1>Messages</h1></div>
-	            <div class="sidebar-pane" id="settings"><h1>Settings</h1></div>
+	            <div class="sidebar-pane" id="settings"><h1>Settings</h1>
+	            	<section id="overlayButton">
+	            		<p><button id="trigger-overlay" type="button">Open Overlay</button></p>
+	            	</section>
+	            </div>
 	        </div><!--tab panes-->
 		</div>
 		<script>var sidebar = L.control.sidebar('sidebar').addTo(map);</script>
 		<!--fs overlay-->
-		<section id="overlayButton">
-			<p>Overlay fades in and menu rotates slightly in perspective. As seen on <a href="http://hugeinc.com">Huge</a></p>
-			<p><button id="trigger-overlay" type="button">Open Overlay</button></p>
-		</section>
+		
 		<div class="overlay overlay-hugeinc">
 			<button type="button" class="overlay-close">Close</button>
 			<nav>
