@@ -26,6 +26,7 @@
 		<link rel="stylesheet" type="text/css" href="FullscreenOverlayStyles-master/css/demo.css" />
 		<link rel="stylesheet" type="text/css" href="FullscreenOverlayStyles-master/css/style1.css" />
   		<script src="FullscreenOverlayStyles-master/js/modernizr.custom.js"></script>
+
 		<!--end full screen overlay includes-->
 		<script>
 			var mapApp;
@@ -38,6 +39,14 @@
 				mapApp.init();
 			}
 		</script>
+		<style>
+			#overlayButton {
+				position: absolute;
+				top: 10%;
+				right: 5%;
+				z-index: 100;
+			}
+		</style>
 	</head>
 	<body onload="init();">
 		
@@ -85,7 +94,7 @@
 		</div>
 		<script>var sidebar = L.control.sidebar('sidebar').addTo(map);</script>
 		<!--fs overlay-->
-		<section>
+		<section id="overlayButton">
 			<p>Overlay fades in and menu rotates slightly in perspective. As seen on <a href="http://hugeinc.com">Huge</a></p>
 			<p><button id="trigger-overlay" type="button">Open Overlay</button></p>
 		</section>
@@ -101,6 +110,8 @@
 				</ul>
 			</nav>
 		</div>
+		<script src="FullscreenOverlayStyles-master/js/classie.js"></script>
+		<script src="FullscreenOverlayStyles-master/js/demo1.js"></script>
 		<!--end fs overlay-->
 	</body>
 </html>
