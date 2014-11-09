@@ -43,12 +43,12 @@ var MapApp = Class.extend({
 		this.map._initPathRoot();  
 
 		var baseLayers = {
-	        'Streets' : L.tileLayer('http://{s}.tiles.mapbox.com/v3/dare2wow.jkic38a8/{z}/{x}/{y}.png', 
-	        {
-                attribution: 'Tiles Courtesy of <a href="http://www.mapbox.com/">Mapbox</a>',
-                maxZoom: 18,
-                minZoom: 10
-	      	}),
+	        'Streets' : L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', {
+				attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+				subdomains: '1234',
+				maxZoom : 18,
+				minZoom: 10
+			}),
 
 	        'Aerial': L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 
 	        {
