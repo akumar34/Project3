@@ -22,6 +22,8 @@ function DataCircles() {
        
     };
 
+    // function filterByShapes()
+
     function addData(layerInfo, index, mapLayer){
         var sourceLink = layerInfo.sourceLink;
         d3.json(sourceLink, function(error, data){
