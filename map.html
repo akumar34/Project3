@@ -23,22 +23,24 @@
 		<script src="sidebar-v2-gh-pages/js/leaflet-sidebar.min.js"></script>
 		<!--end sidebar includes-->
 		<!--leaflet.draw includes-->
-		<script src="Leaflet-draw-master/dist/leaflet.draw.js"></script>
-		<link rel="stylesheet" href="Leaflet-draw-master/dist/leaflet.draw.css" />
+		<script src="Leaflet.draw-master/dist/leaflet.draw.js"></script>
+		<link rel="stylesheet" href="Leaflet.draw-master/dist/leaflet.draw.css" />
 		<!--end leaflet.draw includes-->
 		<script>
 			var mapApp;
 			var usWeatherApp;
 			function init(){
 				mapApp = new MapApp;
-				mapApp.init();
+				d3.json("data/chicagoDist.json", function(data){
+					mapApp.init(data);
+				});
 
 				// update regularly
 				setInterval(function() {mapApp.refresh() }, 5000); 
 				
 				usWeatherApp = new USWeatherApp;
 				usWeatherApp.init(1,"#viz");
-				
+
 				// update regularly
 				setInterval(function() {usWeatherApp.updateOutsideTemp(41.88,-87.63) }, 100000); 
 			}

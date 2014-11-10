@@ -18,7 +18,7 @@ var MapApp = Class.extend({
 		return (date1-date2) === 0; 
 	},
 	
-	init: function()
+	init: function(chicagoMap)
 	{
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
@@ -77,7 +77,26 @@ var MapApp = Class.extend({
 		var overlays = {
 			"Potholes"  			: this.layers[0],
 			"Abandoned Vehicles"	: this.layers[1],
-			"Street Lights" 		: this.layers[2]
+			"Street Lights" 		: this.layers[2],
+
+			'Chicago Communities' : L.geoJson(chicagoMap, {
+                style: function (feature){
+                    return {
+                        color: "#A669FF",
+                        // colorOpacity: 1,
+                        fillColor: "white",
+                        fillOpacity: 0.25,
+                        opacity: 1,
+                        weight: 2
+                    };
+                },
+                onEachFeature: function (feature, layer){
+                    layer.bindPopup(feature.properties.name);
+                    layer.on('click', function (){
+                        // call some function;
+                    });
+                }
+            })
 		};
 		
 		// L.control.layers(baseLayers, overlays).addTo(this.map);
