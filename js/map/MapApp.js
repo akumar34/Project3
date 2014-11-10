@@ -54,7 +54,7 @@ var MapApp = Class.extend({
 
 		this.DataCircles.addLayers(layersInfo, this.layers);
 		
-		this.map = L.map('map', {zoomControl: false}).setView([41.869910, -87.65], 12);
+		this.map = L.map('map', {zoomControl: false, drawControl: true}).setView([41.869910, -87.65], 12);
 		this.map._initPathRoot();  
 
 		var baseLayers = {
@@ -83,6 +83,37 @@ var MapApp = Class.extend({
 		// L.control.layers(baseLayers, overlays).addTo(this.map);
 		L.control.layers(baseLayers, overlays, {position: 'bottomright'}).addTo(this.map);
 		baseLayers['Streets'].addTo(this.map);
+
+		//LEAFLET.DRAW STUF
+		//FeatureGroup to store editabble layers
+		var drawnItems = new L.FeatureGroup();
+		//drawnItems.addTo(map);
+		this.map.addLayer(drawnItems); 
+		//draw control, passed the FeatureGroup from above
+		var drawControl = new L.Control.Draw({
+				position: 'bottomright',
+			edit: {
+				featureGroup: drawnItems
+			}
+		});
+
+		//add control to map
+		this.map.addControl(drawControl);
+		console.log("yeah, bs");
+		//drawControl.addTo(map);
+
+		this.map.on('draw:created', function(e) {
+			var type = e.layerType,
+			layer = e.layer;
+
+			if (type == 'marker') {
+				//do marker stuff
+			}
+
+			//this.map.addLayer(layer);
+			drawnItems.addLayer(layer);
+		});//ennd this.map.on('draw:created
+		//END LEAFLET.DRAW STUFF
 	},
 	
 	refresh: function(){
