@@ -157,7 +157,8 @@ var USWeatherApp = Class.extend({
         var weatherlegend = L.control({position: 'topright'});
         weatherlegend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'map image');
-            div.innerHTML = '<img src="' + iconSrc + '"/>' + '<i class="WeatherIcon" style="color:blue;font-size=30%;font-weight:bold">' + weather + ' F</i>';
+            div.innerHTML = '<img src="' + iconSrc + '"/>' + '<i class="WeatherIcon" style="padding-bottom: 50px;color:black;font-size:25px;font-style:normal;font-weight:bold">' + weather + ' F</i>';
+            //div.innerHTML = '<i class="WeatherIcon" style="color:black;font-size:50px;font-weight:bold">' + weather + ' F</i>' + '<img src="' + iconSrc + '"/>';
             return div;
         };
         weatherlegend.addTo(mapApp.map);
@@ -231,88 +232,88 @@ var USWeatherApp = Class.extend({
 
 // load in all of the weather icons at startup time
     loadInIcons: function () {
-        var path = "./icons/weather/";
+        var path = "./icons/weather/simple icons/small/";
         var self = this;
 
-        this.gwin.iconmostlycloudynight.src = path + "mostlycloudy-night.jpg";
+        this.gwin.iconmostlycloudynight.src = path + "night mostly cloudy.png";
         this.gwin.iconmostlycloudynight.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconpartlycloudynight.src = path + "partlycloudy-night.jpg";
+        this.gwin.iconpartlycloudynight.src = path + "night partly cloudy.png";
         this.gwin.iconpartlycloudynight.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconclearnight.src = path + "clear-night.jpg";
+        this.gwin.iconclearnight.src = path + "night clear.png";
         this.gwin.iconclearnight.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconsnownight.src = path + "snow-night.jpg";
+        this.gwin.iconsnownight.src = path + "snowstorm.png";
         this.gwin.iconsnownight.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconstormsnight.src = path + "storms-night.jpg";
+        this.gwin.iconstormsnight.src = path + "thunderstorm.png";
         this.gwin.iconstormsnight.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconcloudynight.src = path + "cloudy-night.jpg";
+        this.gwin.iconcloudynight.src = path + "night mostly cloudy.png";
         this.gwin.iconcloudynight.onload = function () {
             self.gwin.numIconsLoaded++
         };
 
-        this.gwin.iconhazynight.src = path + "hazy-night.jpg";
+        this.gwin.iconhazynight.src = path + "night foggy.png";
         this.gwin.iconhazynight.onload = function () {
             self.gwin.numIconsLoaded++
         };
 
-        this.gwin.iconsnow.src = path + "snow.jpg";
+        this.gwin.iconsnow.src = path + "snowstorm.png";
         this.gwin.iconsnow.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconunknown.src = path + "unknown.jpg";
+        this.gwin.iconunknown.src = path + "unknown.png";
         this.gwin.iconunknown.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconstorms.src = path + "storms.jpg";
+        this.gwin.iconstorms.src = path + "rainstorm.png";
         this.gwin.iconstorms.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.icontstorms.src = path + "tstorms.jpg";
+        this.gwin.icontstorms.src = path + "thunderstorm.png";
         this.gwin.icontstorms.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconmostlycloudy.src = path + "mostlycloudy.jpg";
+        this.gwin.iconmostlycloudy.src = path + "day mostly cloudy.png";
         this.gwin.iconmostlycloudy.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconpartlycloudy.src = path + "partlycloudy.jpg";
+        this.gwin.iconpartlycloudy.src = path + "day partly cloudy.png";
         this.gwin.iconpartlycloudy.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconrain.src = path + "rain.jpg";
+        this.gwin.iconrain.src = path + "rainstorm.png";
         this.gwin.iconrain.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconfog.src = path + "fog.jpg";
+        this.gwin.iconfog.src = path + "foggy.png";
         this.gwin.iconfog.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconhazy.src = path + "hazy.jpg";
+        this.gwin.iconhazy.src = path + "foggy.png";
         this.gwin.iconhazy.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconsleet.src = path + "sleet.jpg";
+        this.gwin.iconsleet.src = path + "mixed precipitation.png";
         this.gwin.iconsleet.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconcloudy.src = path + "cloudy.jpg";
+        this.gwin.iconcloudy.src = path + "cloudy.png";
         this.gwin.iconcloudy.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconclear.src = path + "clear.jpg";
+        this.gwin.iconclear.src = path + "day clear.png";
         this.gwin.iconclear.onload = function () {
             self.gwin.numIconsLoaded++
         };
-        this.gwin.iconsunny.src = path + "sunny.jpg";
+        this.gwin.iconsunny.src = path + "day sunny.png";
         this.gwin.iconsunny.onload = function () {
             self.gwin.numIconsLoaded++
         };
