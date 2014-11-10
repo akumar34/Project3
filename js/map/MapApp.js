@@ -99,8 +99,6 @@ var MapApp = Class.extend({
 
 		//add control to map
 		this.map.addControl(drawControl);
-		console.log("yeah, bs");
-		//drawControl.addTo(map);
 
 		this.map.on('draw:created', function(e) {
 			var type = e.layerType,
