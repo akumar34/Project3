@@ -325,6 +325,6 @@ var USWeatherApp = Class.extend({
         this.gwin.mode = newMode;
         this.gwin.appID = "A" + this.myTag;
         this.loadInIcons();
-		this.updateOutsideTemp(41.52,87.38);
+		this.updateOutsideTemp(41.88,-87.63);
     }
 });

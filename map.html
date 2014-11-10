@@ -26,11 +26,17 @@
 			var mapApp;
 			var usWeatherApp;
 			function init(){
-				usWeatherApp = new USWeatherApp;
-				usWeatherApp.init(1,"#viz");
-
 				mapApp = new MapApp;
 				mapApp.init();
+
+				// update regularly
+				setInterval(function() {mapApp.refresh() }, 5000); 
+				
+				usWeatherApp = new USWeatherApp;
+				usWeatherApp.init(1,"#viz");
+				
+				// update regularly
+				setInterval(function() {usWeatherApp.updateOutsideTemp(41.88,-87.63) }, 100000); 
 			}
 		</script>
 	</head>

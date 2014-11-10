@@ -1,7 +1,9 @@
-function ajaxRequest(callback, actionUrl) {   
+function ajaxRequest(callback, url) {   
 	$.ajax({       
-		url: actionUrl,
-		dataType : "jsonp",
+		type: "GET",
+		crossOrigin: true,
+		url: url,
+		dataType : "json",
 		success: callback,
 		error:function() {   
 			console.log("ajax request failed"); 
