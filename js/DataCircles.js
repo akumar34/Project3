@@ -132,19 +132,22 @@ function DataCircles() {
                 outLine = layerInfo.color[statusValue];
                 layersContainer[index].circles.push(
                     L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
-                    {
-                        zindex: 10,
-                        radius: 5,
-                        color: outLine,
-                        fillColor: layerInfo.fill,
-                        fillOpacity: 1,
-                        opacity: 1,
-						//properties
-						totalDocks : data[i].totalDocks,
-						availableBikes : data[i].availableBikes,
-						statusValue : data[i].statusValue
-                    }
-                ));
+                        {
+                            zindex: 10,
+                            radius: 5,
+                            color: outLine,
+                            fillColor: layerInfo.fill,
+                            fillOpacity: 1,
+                            opacity: 1,
+    						//properties
+    						totalDocks : data[i].totalDocks,
+    						availableBikes : data[i].availableBikes,
+    						statusValue : data[i].statusValue
+                        }
+                    ).bindPopup("<strong>Station Name:</strong> " + data[i]["stationName"] +
+                        "<br><strong>Street Address:</strong> " + data[i]["location"] + "<br><strong>Status:</strong> " +
+                        data[i]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[i]["availableBikes"] + "/" + data[i]["totalDocks"])
+                );
             };
 		L.layerGroup(layersContainer[index].circles).addTo(layers);
 		//layersContainer[index].refresh = parseDate(data[refreshIndex].executionTime);
