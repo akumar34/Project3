@@ -137,7 +137,6 @@ var MapApp = Class.extend({
 
 		//add control to map
 		this.map.addControl(drawControl);
-		console.log("yeah, bs");
 		//drawControl.addTo(map);
 		var context = this;
 		this.map.on('draw:created', function(e) {
