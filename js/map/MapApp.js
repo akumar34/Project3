@@ -18,8 +18,7 @@ var MapApp = Class.extend({
 		return (date1-date2) === 0; 
 	},
 	
-	init: function(chicagoMap)
-	{
+	init: function(chicagoMap){
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
@@ -120,20 +119,35 @@ var MapApp = Class.extend({
 		this.map.addControl(drawControl);
 		console.log("yeah, bs");
 		//drawControl.addTo(map);
-
+		var context = this;
 		this.map.on('draw:created', function(e) {
 			var type = e.layerType,
 			layer = e.layer;
 
-			if (type == 'marker') {
+			// very simple test right now
+			if (type == 'rectangle') {
 				//do marker stuff
-			}
+				// console.log(layer._latlngs);
+				// console.log(context.extractLngLatFromShape(layer._latlngs));
+				var coorArray = context.extractLngLatFromShape(layer._latlngs);
+				context.DataCircles.filterByShape(coorArray);	
+
+			};
 
 			//this.map.addLayer(layer);
 			drawnItems.addLayer(layer);
 		});//ennd this.map.on('draw:created
 		//END LEAFLET.DRAW STUFF
 	},
+
+	extractLngLatFromShape: function (coordinatesArray) {
+        coordinates = [];
+        for (var i = 0; i < coordinatesArray.length; i++) {
+            coordinates.push([coordinatesArray[i].lng, coordinatesArray[i].lat]);
+        };
+
+        return coordinates;
+    },
 	
 	refresh: function(){
 		//for(var index = 0; index < this.layers.length; index++) this.layers[index].clearLayers();

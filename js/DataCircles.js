@@ -144,6 +144,26 @@ function DataCircles() {
         });
     };
 
+    // function that filters by a simple rectangle
+    function filterByShape(coordinates){
+         var poly = {
+            "type": "Polygon",
+            "coordinates": coordinates
+        };
+
+        for (var q = 0; q < layersContainer.length; q++) {
+            for (var i = 0; i < layersContainer[q].circles.length; i++) {
+                var point = {
+                    "type": "Point", 
+                    "coordinates": [layersContainer[q].circles[i]._latlng.lng, layersContainer[q].circles[i]._latlng.lat]
+                };
+
+                if (!gju.pointInPolygon(point, poly))
+                    layersContainer[q].circles[i].setStyle({opacity: 0, fillOpacity:0});
+            };
+        };
+    }
+
     // quick helper function
     function getByServiceNumber(layer, number) {
         for (var i = 0; i < layer.circles.length; i++) {
@@ -153,6 +173,7 @@ function DataCircles() {
         return null;
     };
 
+    DataCirclesObj.filterByShape = filterByShape;
     DataCirclesObj.addLayers = addLayers;
 	DataCirclesObj.refreshLayers = refreshLayers;
     return DataCirclesObj;
