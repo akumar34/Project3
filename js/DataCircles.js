@@ -89,17 +89,22 @@ function DataCircles() {
 
                 layersContainer[index].circles.push(
                     L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
-                    {
-                        zindex: 10,
-                        radius: 5,
-                        color: outLine,
-                        fillColor: layerInfo.fill,
-                        fillOpacity: 1,
-                        opacity: 1,
-                        // properties
-                        service_request_number : data[i].service_request_number
-                    }
-                ));
+                        {
+                            zindex: 10,
+                            radius: 5,
+                            color: outLine,
+                            fillColor: layerInfo.fill,
+                            fillOpacity: 1,
+                            opacity: 1,
+                            // properties
+                            service_request_number : data[i].service_request_number
+                        }
+                    ).bindPopup("<strong>Community Area:</strong> " + data[i]["community_area"] +
+                        "<br><strong>Street Address:</strong> " + data[i]["street_address"] + "<br><strong>Status:</strong> " +
+                        data[i]["status"] + "<br><strong>Creation Date:</strong> " + data[i]["creation_date"].substring(0,10))
+                    /*binds popup to the pothole markers pulling each bit of relevant data. on the last part, the substring just cuts off
+                    the extraneous 0'd out time that's appended after the date in each entry*/
+                );
             };
 
             L.layerGroup(layersContainer[index].circles).addTo(layers);
