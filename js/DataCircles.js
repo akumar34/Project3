@@ -1,8 +1,10 @@
 // Data circles obj
 function DataCircles() {
     var DataCirclesObj = new Object();
-    var layersContainer = [];
-    overlays = [];
+   
+    // make this private after testing
+    layersContainer = [];
+    
     var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
     // add layers of data
@@ -17,8 +19,7 @@ function DataCircles() {
             });
 
             // add circleMarkers to the layers
-            var index = layersContainer.length - 1;
-            addData(layersInfo[i], index, layers[i]);
+            addData(layersInfo[i], i, layers[i]);
         } 
        
     };
@@ -27,8 +28,7 @@ function DataCircles() {
     function refreshLayers(layersInfo, layers){
         for (var i = 0; i < layersInfo.length; i++) {
             // refresh circleMarkers to the layers
-            var index = layersContainer.length - 1;
-            refreshData(layersInfo[i], index, layers[i]);
+            refreshData(layersInfo[i], i, layers[i]);
         } 
     };
 
@@ -72,13 +72,15 @@ function DataCircles() {
                         color: outLine,
                         fillColor: layerInfo.fill,
                         fillOpacity: 1,
-                        opacity: 1
+                        opacity: 1,
+                        // properties
+                        service_request_number : data[i].service_request_number
                     }
                 ));
             };
 
             L.layerGroup(layersContainer[index].circles).addTo(layers);
-			layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
+			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
         });
     };
 	
@@ -96,16 +98,20 @@ function DataCircles() {
 					continue;
 				}
                 // filters
+                if (data[i].creation_date == null) continue;
 				var creation_date = parseDate(data[i].creation_date);
-                if (creation_date == null) continue;
 				
-				var isNewData = mapApp.dateAfter(creation_date,layerInfo.refresh);
-				if(! isNewData) break;
-				
-                if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
+				// var isNewData = mapApp.dateAfter(creation_date,layerInfo.refresh);
+				// if(! isNewData) break;
 
                 var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                if (daysAgo >= 31) break;
+                if (daysAgo >= 31) return;
+                if (getByServiceNumber(layersContainer[index], data[i].service_request_number) != null) return;
+                
+                if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
+
+                console.log("added stuff");
+               
                 
                 // add the circles
                 var outLine = "black";
@@ -119,19 +125,32 @@ function DataCircles() {
                     L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
                     {
                         zindex: 10,
-                        radius: 5,
+                        // change this later , only for testing
+                        radius: 20,
                         color: outLine,
                         fillColor: "pink",
                         fillOpacity: 1,
-                        opacity: 1
+                        opacity: 1,
+                        // properties
+                        service_request_number : data[i].service_request_number
                     }
                 ));
             };
 
             //if( layersContainer[index].refresh === null ) )
-			//	L.layerGroup(layersContainer[index].circles).addTo(layers);
-			layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
+            layers.clearLayers();
+			L.layerGroup(layersContainer[index].circles).addTo(layers);
+			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
         });
+    };
+
+    // quick helper function
+    function getByServiceNumber(layer, number) {
+        for (var i = 0; i < layer.circles.length; i++) {
+            if(layer.circles[i].options.service_request_number == number)
+                return layer.circles[i];
+        };
+        return null;
     };
 
     DataCirclesObj.addLayers = addLayers;
