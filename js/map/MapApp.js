@@ -23,32 +23,50 @@ var MapApp = Class.extend({
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
+		this.layers.push(new L.LayerGroup());
 
+		var statusColors = [];
+		statusColors["In Service"] = "blue";
+		statusColors["Out of Service"] = "purple";
+		
 		var layersInfo = [
 			{
 				sourceLink : "http://data.cityofchicago.org/resource/7as2-ds3y.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
 				type : "Potholes",
 				fill : "cyan",
-				monthColor : "orange",
+				color : "orange",
 				id : 0,
-				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+				dataType: "jsonp"
 			},
 			{
 				sourceLink : "http://data.cityofchicago.org/resource/3c9v-pnva.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
 				type : "Abandoned Vehicles",
 				fill : "brown",
-				monthColor : "orange",
+				color : "orange",
 				id : 1,
-				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+				dataType: "jsonp"
 			},
 
 			{
 				sourceLink : "http://data.cityofchicago.org/resource/zuxi-7xem.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
 				type : "Lights",
 				fill : "red",
-				monthColor : "orange",
+				color : "orange",
 				id : 2,
-				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+				dataType: "jsonp"
+			},
+
+			{
+				sourceLink : "http://www.divvybikes.com/stations/json/", 
+				type : "Divvy",
+				fill : "blue",
+				color : statusColors,
+				id : 3,
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+				dataType: "ajax"
 			}
 		];
 
@@ -147,23 +165,39 @@ var MapApp = Class.extend({
 				sourceLink : "http://data.cityofchicago.org/resource/7as2-ds3y.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
 				type : "Potholes",
 				fill : "cyan",
-				monthColor : "orange",
-				id : 0
+				color : "orange",
+				id : 0,
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+				dataType: "jsonp"
 			},
 			{
 				sourceLink : "http://data.cityofchicago.org/resource/3c9v-pnva.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
 				type : "Abandoned Vehicles",
 				fill : "brown",
-				monthColor : "orange",
-				id : 1
+				color : "orange",
+				id : 1,
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+				dataType: "jsonp"
 			},
 
 			{
 				sourceLink : "http://data.cityofchicago.org/resource/zuxi-7xem.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
 				type : "Lights",
 				fill : "red",
-				monthColor : "orange",
-				id : 2
+				color : "orange",
+				id : 2,
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+				dataType: "jsonp"
+			},
+
+			{
+				sourceLink : "http://www.divvybikes.com/stations/json/", 
+				type : "Divvy",
+				fill : "blue",
+				color : statusColors,
+				id : 3,
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+				dataType: "ajax"
 			}
 		];
 		this.DataCircles.refreshLayers(layersInfo, this.layers);	

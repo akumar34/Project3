@@ -12,8 +12,10 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 		<script src="js/weather/suncalc.js"></script>
 		<script type="text/javascript" src="js/ext-lib/geojson-utils.js"></script>
+		<script type="text/javascript" src="js/ajax/jquery.ajax-cross-origin.min.js"></script>
 		<!-- custom js -->
 		<script src="js/ClassExtension.js"></script>
+		<script type="text/javascript" src="js/ajax/AjaxApp.js"></script>
 		<script src="js/map/MapApp.js"></script>
 		<script src="js/DataCircles.js"></script>
 		<script src="js/weather/USWeatherApp.js"></script>
@@ -36,7 +38,7 @@
 				});
 
 				// update regularly
-				setInterval(function() {mapApp.refresh() }, 5000); 
+				setInterval(function() {mapApp.refresh() }, 60000); 
 				
 				usWeatherApp = new USWeatherApp;
 				usWeatherApp.init(1,"#viz");
