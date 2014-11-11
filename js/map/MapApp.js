@@ -4,6 +4,8 @@ var MapApp = Class.extend({
 		this.svg = null;
 		this.layers = [];
 		this.DataCircles = new DataCircles();
+		
+		this.statusColors = [];
 	},
 	
 	dateBefore: function(date1,date2) { 
@@ -24,11 +26,10 @@ var MapApp = Class.extend({
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
-
-		var statusColors = [];
-		statusColors["In Service"] = "blue";
-		statusColors["Out of Service"] = "purple";
 		
+		this.statusColors["In Service"] = "blue";
+		this.statusColors["Out of Service"] = "purple";
+		var statusColors = this.statusColors;
 		var layersInfo = [
 			{
 				sourceLink : "http://data.cityofchicago.org/resource/7as2-ds3y.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
@@ -96,6 +97,7 @@ var MapApp = Class.extend({
 			"Potholes"  			: this.layers[0],
 			"Abandoned Vehicles"	: this.layers[1],
 			"Street Lights" 		: this.layers[2],
+			"Divvy Bikes"			: this.layers[3],
 
 			'Chicago Communities' : L.geoJson(chicagoMap, {
                 style: function (feature){
@@ -159,6 +161,10 @@ var MapApp = Class.extend({
 		//this.layers.push(new L.LayerGroup());
 		//this.layers.push(new L.LayerGroup());
 		//this.layers.push(new L.LayerGroup());
+		
+		this.statusColors["In Service"] = "blue";
+		this.statusColors["Out of Service"] = "purple";
+		var statusColors = this.statusColors;
 
 		var layersInfo = [
 			{
