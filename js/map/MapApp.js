@@ -157,6 +157,10 @@ var MapApp = Class.extend({
 			drawnItems.addLayer(layer);
 		});//ennd this.map.on('draw:created
 		//END LEAFLET.DRAW STUFF
+
+		//leaflet locate control stuff
+		L.control.locate({position: "bottomright"}).addTo(this.map);
+		//end leaflet locate control stuff
 	},
 
 	extractLngLatFromShape: function (coordinatesArray) {
