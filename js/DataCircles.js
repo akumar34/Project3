@@ -11,7 +11,14 @@ function DataCircles() {
         popupAnchor:  [-3, -76]
     });
 
-    //var potholeMapIcon = new 
+    var abandonedVehicleIcon = L.icon({
+        iconUrl: 'icons/svg/car168.svg',
+        iconSize:     [38, 95],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76] 
+    });
     //end custom marker for potholes
 
     var DataCirclesObj = new Object();
