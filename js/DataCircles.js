@@ -1,5 +1,19 @@
 // Data circles obj
 function DataCircles() {
+
+    //custom marker for potholes
+    var potholeIcon = L.icon({
+        iconUrl: 'icons/svg/exclamation3.svg',
+        iconSize:     [38, 95],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76]
+    });
+
+    //var potholeMapIcon = new 
+    //end custom marker for potholes
+
     var DataCirclesObj = new Object();
    
     // make this private after testing
@@ -88,7 +102,11 @@ function DataCircles() {
                     outLine = "white";
 
                 layersContainer[index].circles.push(
-                    L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
+                    L.marker([data[i]["latitude"], data[i]["longitude"]], 
+                        {
+                            icon: potholeIcon
+                        }
+                    /*L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
                         {
                             zindex: 10,
                             radius: 5,
@@ -99,7 +117,7 @@ function DataCircles() {
                             // properties
                             service_request_number : data[i].service_request_number
                         }
-                    ).bindPopup("<strong>Community Area:</strong> " + data[i]["community_area"] +
+                    )*/).bindPopup("<strong>Community Area:</strong> " + data[i]["community_area"] +
                         "<br><strong>Street Address:</strong> " + data[i]["street_address"] + "<br><strong>Status:</strong> " +
                         data[i]["status"] + "<br><strong>Creation Date:</strong> " + data[i]["creation_date"].substring(0,10))
                     /*binds popup to the pothole markers pulling each bit of relevant data. on the last part, the substring just cuts off
