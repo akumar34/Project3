@@ -161,7 +161,21 @@ var MapApp = Class.extend({
 		//leaflet locate control stuff
 		L.control.locate({position: "bottomright"}).addTo(this.map);
 		//end leaflet locate control stuff
-	},
+
+		//LEAFLET ROUTING MACHINE STUFF
+		L.Routing.control({
+			options: {
+				position: 'bottomright'
+			},
+		    waypoints: [
+		        //L.latLng(57.74, 11.94),
+		        L.latLng(41.867215, -87.649062),
+		        //L.latLng(57.6792, 11.949)
+		        L.latLng(41.867517, -87.619069)
+		    ]
+		}).addTo(this.map);
+		//END LEAFLET ROUTING MACHINE STUFF
+	},//end init()
 
 	extractLngLatFromShape: function (coordinatesArray) {
         coordinates = [];
