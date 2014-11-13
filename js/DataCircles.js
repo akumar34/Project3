@@ -21,13 +21,13 @@ function DataCircles() {
             // add circleMarkers to the layers
             var index = layersContainer.length - 1;
 			
-			switch(layersInfo[i].dataType){
-				case "ajax":
-					addAjaxData(layersInfo[i], index, layers[i]);
+			switch(layersInfo[i].type){
+				case "Divvy":
+					addDivvyData(layersInfo[i], index, layers[i]);
 					break;
-				case "jsonp":
-					addData(layersInfo[i], index, layers[i]);
-					break;
+				case "Crime":
+					addCrimeData(layersInfo[i], index, layers[i]);
+					break;				
 				default:
 					addData(layersInfo[i], index, layers[i]);
 					break;
@@ -41,13 +41,13 @@ function DataCircles() {
             // refresh circleMarkers to the layers
             var index = layersContainer.length - 1;
 			
-			switch(layersInfo[i].dataType){
-				case "ajax":
-					refreshAjaxData(layersInfo[i], index, layers[i]);
+			switch(layersInfo[i].type){
+				case "Divvy":
+					refreshDivvyData(layersInfo[i], index, layers[i]);
 					break;
-				case "jsonp":
-					refreshData(layersInfo[i], index, layers[i]);
-					break;
+				case "Crime":
+					refreshCrimeData(layersInfo[i], index, layers[i]);
+					break;					
 				default:
 					refreshData(layersInfo[i], index, layers[i]);
 					break;
@@ -112,7 +112,7 @@ function DataCircles() {
         });
     };
 	
-	function addAjaxData(layerInfo, index, layers){
+	function addDivvyData(layerInfo, index, layers){
 		var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
 		
@@ -152,6 +152,54 @@ function DataCircles() {
 		L.layerGroup(layersContainer[index].circles).addTo(layers);
 		//layersContainer[index].refresh = parseDate(data[refreshIndex].executionTime);
 		}
+    };
+	
+    function addCrimeData(layerInfo, index, layers){
+        var sourceLink = layerInfo.sourceLink;
+		var refreshIndex = 0;
+        d3.json(sourceLink, function(error, data){
+            if (error) {
+                console.error(error);
+            };
+
+            for (var i = 0; i < data.length; i++) {
+				if(data[i].status === "STATUS"){
+					refreshIndex = i + 1;
+					continue;
+				}
+                // filters
+				var date = parseDate(data[i].date);
+                if (date == null) continue;
+
+                if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
+
+                var daysAgo = (new Date() - date) / 1000 / 60 / 60 / 24;
+                if (daysAgo >= 31) break;
+                
+                // add the circles
+                var outLine = "black";
+                if (daysAgo >= 14)
+                    outLine = layerInfo.color;
+
+				layersContainer[index].circles.push(
+					L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
+						{
+							zindex: 10,
+							radius: 5,
+							color: outLine,
+							fillColor: layerInfo.fill,
+							fillOpacity: 1,
+							opacity: 1,
+							//properties
+							id : data[i].id
+						}
+					)
+                );
+			};
+
+            L.layerGroup(layersContainer[index].circles).addTo(layers);
+			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
+        });
     };
 	
     function refreshData(layerInfo, index, layers){
@@ -214,7 +262,7 @@ function DataCircles() {
         });
     };
 	
-    function refreshAjaxData(layerInfo, index, layers){
+    function refreshDivvyData(layerInfo, index, layers){
 		var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
 		ajaxRequest(response,sourceLink);
@@ -230,7 +278,7 @@ function DataCircles() {
                 if (
 					(getByStatusValue(layersContainer[index], data[i].statusValue) != null) &&
 					(getByAvailableBikes(layersContainer[index], data[i].availableBikes) != null) &&
-					(getByAvailableBikes(layersContainer[index], data[i].availableBikes) != null ) ) return;
+					(getByTotalDocks(layersContainer[index], data[i].totalDocks) != null ) ) return;
 				
                 if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
 
@@ -257,6 +305,47 @@ function DataCircles() {
 			L.layerGroup(layersContainer[index].circles).addTo(layers);
 			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
 		}
+    };
+
+	function refreshCrimeData(layerInfo, index, layers){
+        var sourceLink = layerInfo.sourceLink;
+		var refreshIndex = 0;
+        d3.json(sourceLink, function(error, data){
+            if (error) {
+                console.error(error);
+            };
+
+            for (var i = 0; i < data.length; i++) {
+				// filters
+                if (data[i].id == null) continue;
+				var id = data[i].id;
+				
+                if ( getById(layersContainer[index], data[i].id) != null ) return;
+				
+                if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
+
+                // add the circles
+                outLine = layerInfo.color[statusValue];
+                layersContainer[index].circles.push(
+                    L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
+                    {
+                        zindex: 10,
+                        radius: 5,
+                        color: outLine,
+						fillColor: "pink",
+                        fillOpacity: 1,
+                        opacity: 1,
+						//properties
+						id : data[i].id
+                    }
+                ));
+            };
+
+            //if( layersContainer[index].refresh === null ) )
+            layers.clearLayers();
+			L.layerGroup(layersContainer[index].circles).addTo(layers);
+			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
+        });
     };
 
     // function that filters by a simple rectangle
@@ -307,6 +396,14 @@ function DataCircles() {
 	function getByTotalDocks(layer, number) {
         for (var i = 0; i < layer.circles.length; i++) {
             if(layer.circles[i].options.totalDocks == number)
+                return layer.circles[i];
+        };
+        return null;
+    };
+
+	function getId(layer, number) {
+        for (var i = 0; i < layer.circles.length; i++) {
+            if(layer.circles[i].options.id == number)
                 return layer.circles[i];
         };
         return null;

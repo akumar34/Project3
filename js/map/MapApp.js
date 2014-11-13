@@ -6,6 +6,8 @@ var MapApp = Class.extend({
 		this.DataCircles = new DataCircles();
 		
 		this.statusColors = [];
+		this.statusColors["In Service"] = "blue";
+		this.statusColors["Out of Service"] = "purple";
 	},
 	
 	dateBefore: function(date1,date2) { 
@@ -25,9 +27,8 @@ var MapApp = Class.extend({
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
-		
-		this.statusColors["In Service"] = "blue";
-		this.statusColors["Out of Service"] = "purple";
+		this.layers.push(new L.LayerGroup());
+
 		var statusColors = this.statusColors;
 		var layersInfo = [
 			{
@@ -37,7 +38,6 @@ var MapApp = Class.extend({
 				color : "orange",
 				id : 0,
 				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
-				dataType: "jsonp"
 			},
 			{
 				sourceLink : "http://data.cityofchicago.org/resource/3c9v-pnva.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
@@ -46,7 +46,6 @@ var MapApp = Class.extend({
 				color : "orange",
 				id : 1,
 				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
-				dataType: "jsonp"
 			},
 
 			{
@@ -56,7 +55,6 @@ var MapApp = Class.extend({
 				color : "orange",
 				id : 2,
 				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
-				dataType: "jsonp"
 			},
 
 			{
@@ -66,7 +64,15 @@ var MapApp = Class.extend({
 				color : statusColors,
 				id : 3,
 				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
-				dataType: "ajax"
+			},
+
+			{
+				sourceLink : "http://data.cityofchicago.org/resource/ijzp-q8t2.json?$order=date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
+				type : "Crime",
+				fill : "green",
+				color : "yellow",
+				id : 4,
+				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
 			}
 		];
 
@@ -97,6 +103,7 @@ var MapApp = Class.extend({
 			"Abandoned Vehicles"	: this.layers[1],
 			"Street Lights" 		: this.layers[2],
 			"Divvy Bikes"			: this.layers[3],
+			"Crime"					: this.layers[4],
 
 			'Chicago Communities' : L.geoJson(chicagoMap, {
                 style: function (feature){
@@ -173,14 +180,6 @@ var MapApp = Class.extend({
     },
 	
 	refresh: function(){
-		//for(var index = 0; index < this.layers.length; index++) this.layers[index].clearLayers();
-		
-		//this.layers.push(new L.LayerGroup());
-		//this.layers.push(new L.LayerGroup());
-		//this.layers.push(new L.LayerGroup());
-		
-		this.statusColors["In Service"] = "blue";
-		this.statusColors["Out of Service"] = "purple";
 		var statusColors = this.statusColors;
 
 		var layersInfo = [
@@ -191,7 +190,6 @@ var MapApp = Class.extend({
 				color : "orange",
 				id : 0,
 				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
-				dataType: "jsonp"
 			},
 			{
 				sourceLink : "http://data.cityofchicago.org/resource/3c9v-pnva.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
@@ -200,7 +198,6 @@ var MapApp = Class.extend({
 				color : "orange",
 				id : 1,
 				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
-				dataType: "jsonp"
 			},
 
 			{
@@ -210,7 +207,6 @@ var MapApp = Class.extend({
 				color : "orange",
 				id : 2,
 				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
-				dataType: "jsonp"
 			},
 
 			{
@@ -220,7 +216,15 @@ var MapApp = Class.extend({
 				color : statusColors,
 				id : 3,
 				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
-				dataType: "ajax"
+			},
+
+			{
+				sourceLink : "http://data.cityofchicago.org/resource/ijzp-q8t2.json?$order=date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
+				type : "Crime",
+				fill : "green",
+				color : "yellow",
+				id : 4,
+				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
 			}
 		];
 		this.DataCircles.refreshLayers(layersInfo, this.layers);	
