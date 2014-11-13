@@ -167,12 +167,16 @@ var MapApp = Class.extend({
 			options: {
 				position: 'bottomright'
 			},
+
+			geocoder: L.Control.Geocoder.nominatim()
+			/*
 		    waypoints: [
 		        //L.latLng(57.74, 11.94),
 		        L.latLng(41.867215, -87.649062),
 		        //L.latLng(57.6792, 11.949)
 		        L.latLng(41.867517, -87.619069)
 		    ]
+		    */
 		}).addTo(this.map);
 		//END LEAFLET ROUTING MACHINE STUFF
 	},//end init()
