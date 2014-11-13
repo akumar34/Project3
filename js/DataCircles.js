@@ -144,9 +144,9 @@ function DataCircles() {
     						availableBikes : data[i].availableBikes,
     						statusValue : data[i].statusValue
                         }
-                    ).bindPopup("<strong>Station Name:</strong> " + data[i]["stationName"] +
-                        "<br><strong>Street Address:</strong> " + data[i]["location"] + "<br><strong>Status:</strong> " +
-                        data[i]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[i]["availableBikes"] + "/" + data[i]["totalDocks"])
+                    ).bindPopup("<strong>Station Name:</strong> " + data[i]["stationName"] + "<br><strong>Status:</strong> " +
+                        data[i]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[i]["availableBikes"] + 
+                        "/" + data[i]["totalDocks"])
                 );
             };
 		L.layerGroup(layersContainer[index].circles).addTo(layers);
