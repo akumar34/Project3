@@ -7,6 +7,48 @@ function DataCircles() {
     
     var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
+    //custom markers
+    //pothole
+    var potholeIcon = L.icon({
+        iconUrl: 'icons/svg/exclamation3.svg',
+        iconSize:     [38, 95],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76]
+    });//end pothole
+
+    //abandoned vehicles
+    var abandonedVehicleIcon = L.icon({
+        iconUrl: 'icons/svg/car168.svg',
+        iconSize:     [38, 95],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76] 
+    });//end abandoned vehicles
+
+    //divvy stations
+    var divvyStationIcon = L.icon({
+        iconUrl: 'icons/svg/pins6.svg',
+        iconSize:     [38, 95],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76]
+    });//end divvy station
+
+    //street lights
+    var streetLightIcon = L.icon({
+        iconUrl: 'icons/svg/street9.svg',
+        iconSize:     [38, 95],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76] 
+    });//end street lights
+    //end custom markers
+
   // add layers of data
     function addLayers(layersInfo, layers){
         for (var i = 0; i < layersInfo.length; i++) {
@@ -57,6 +99,8 @@ function DataCircles() {
 
     // function filterByShapes()
 
+    //for non-divvy and non-crime data
+    //currently means potholes and street lights
     function addData(layerInfo, index, layers){
         var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
@@ -87,6 +131,32 @@ function DataCircles() {
                 if (data[i].status.indexOf("completed") > -1)
                     outLine = "white";
 
+                //check what type of data we're using so we know what icon to use. could be switch/case
+                if(layerInfo.type == "Potholes") {
+                    layersContainer[index].circles.push(
+                        L.marker([data[i]["latitude"], data[i]["longitude"]], 
+                        {
+                            icon: potholeIcon
+                        }
+                    ).bindPopup("<strong>Community Area:</strong> " + data[i]["community_area"] +
+                        "<br><strong>Street Address:</strong> " + data[i]["street_address"] + "<br><strong>Status:</strong> " +
+                        data[i]["status"] + "<br><strong>Creation Date:</strong> " + data[i]["creation_date"].substring(0,10))
+                    );//end .push
+                };//end if Potholes
+
+                if(layerInfo.type == "Lights") {
+                    layersContainer[index].circles.push(
+                        L.marker([data[i]["latitude"], data[i]["longitude"]], 
+                        {
+                            icon: streetLightIcon
+                        }
+                    ).bindPopup("<strong>Community Area:</strong> " + data[i]["community_area"] +
+                        "<br><strong>Street Address:</strong> " + data[i]["street_address"] + "<br><strong>Status:</strong> " +
+                        data[i]["status"] + "<br><strong>Creation Date:</strong> " + data[i]["creation_date"].substring(0,10))
+                    );//end .push
+                };//end if lights
+
+                if(layerInfo.type != "Potholes" && layerInfo.type != "Lights"){
                 layersContainer[index].circles.push(
                     L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
                         {
@@ -105,6 +175,7 @@ function DataCircles() {
                     /*binds popup to the pothole markers pulling each bit of relevant data. on the last part, the substring just cuts off
                     the extraneous 0'd out time that's appended after the date in each entry*/
                 );
+                };
             };
 
             L.layerGroup(layersContainer[index].circles).addTo(layers);
