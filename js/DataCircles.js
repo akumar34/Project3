@@ -4,6 +4,7 @@ function DataCircles() {
    
     // make this private after testing
     layersContainer = [];
+    var selectedDataPoints = [];
     
     var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;
 
@@ -12,10 +13,11 @@ function DataCircles() {
         for (var i = 0; i < layersInfo.length; i++) {
             
             layersContainer.push({
-                link : layersInfo[i].sourceLink,
-                type : layersInfo[i].nameType,
+                link    : layersInfo[i].sourceLink,
+                type    : layersInfo[i].type,
                 circles : [],
-				refresh : layersInfo[i].refresh
+				refresh : layersInfo[i].refresh,
+                id      : layersInfo[i].id
             });
 
             // add circleMarkers to the layers
@@ -465,17 +467,60 @@ function DataCircles() {
         };
 
         for (var q = 0; q < layersContainer.length; q++) {
+
+            selectedDataPoints.push({
+                link : layersContainer[q].sourceLink,
+                type : layersContainer[q].type,
+                circles : [],
+                refresh : layersContainer[q].refresh,
+                id : layersContainer[q].id
+            });
+
             for (var i = 0; i < layersContainer[q].circles.length; i++) {
                 var point = {
                     "type": "Point", 
                     "coordinates": [layersContainer[q].circles[i]._latlng.lng, layersContainer[q].circles[i]._latlng.lat]
                 };
 
-                if (!gju.pointInPolygon(point, poly))
+                if (!gju.pointInPolygon(point, poly)){
+                    // this needs to be changed later!
                     layersContainer[q].circles[i].setStyle({opacity: 0, fillOpacity:0});
+                }
+                else{
+                    // create subset of the total circles to be later shown on map and sent to graphs
+                    selectedDataPoints[q].circles.push(layersContainer[q].circles[i]);
+                };
             };
         };
-    }
+
+        cleanAndMakeGraphs();
+    };
+
+    // clean data of selectedDataPoints so that d3 can make graphs using D3Graphs object
+    function cleanAndMakeGraphs(){
+        var selectedData = [];
+        var overallData = [];
+
+        for (var i = 0; i < selectedDataPoints.length; i++) {
+            selectedData.push(
+            {
+                label : selectedDataPoints[i].type,
+                value : selectedDataPoints[i].circles.length
+            });
+        };
+
+        for (var i = 0; i < layersContainer.length; i++) {
+            overallData.push(
+            {
+                label : layersContainer[i].type,
+                value : layersContainer[i].circles.length
+            });
+        };
+
+        D3Graphs.clearAll();
+        D3Graphs.makeOverallGraph(overallData, "label", "value");
+        D3Graphs.makeSelectedGraph(selectedData, "label", "value");
+    };
 
     // quick helper functions
     function getByServiceNumber(layer, number) {
