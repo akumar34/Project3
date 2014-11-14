@@ -131,6 +131,20 @@ function DataCircles() {
                 if (data[i].status.indexOf("completed") > -1)
                     outLine = "white";
 
+                //check what type of data we're using so we know what icon to use.
+                switch(layerInfo.type) {
+                    case "Potholes":
+                        addPothole(index, i, data);
+                        break;
+                    case "Lights":
+                        addStreetLight(index, i, data);
+                        break;
+                    case "Abandoned Vehicles":
+                        addAbandonedVehicle(index, i, data);
+                        break;
+                }//end switch/case on what type of data we're importing
+
+                /*
                 //check what type of data we're using so we know what icon to use. could be switch/case
                 if(layerInfo.type == "Potholes") {
                     addPothole(index, i, data);
@@ -144,10 +158,13 @@ function DataCircles() {
                         "<br><strong>Street Address:</strong> " + data[i]["street_address"] + "<br><strong>Status:</strong> " +
                         data[i]["status"] + "<br><strong>Creation Date:</strong> " + data[i]["creation_date"].substring(0,10))
                     );//end .push
-*/
+                    /
                 };//end if Potholes
 
+                //if the data is for a street light out
                 if(layerInfo.type == "Lights") {
+                    addStreetLight(index, i, data);
+                    /*
                     layersContainer[index].circles.push(
                         L.marker([data[i]["latitude"], data[i]["longitude"]], 
                         {
@@ -157,9 +174,15 @@ function DataCircles() {
                         "<br><strong>Street Address:</strong> " + data[i]["street_address"] + "<br><strong>Status:</strong> " +
                         data[i]["status"] + "<br><strong>Creation Date:</strong> " + data[i]["creation_date"].substring(0,10))
                     );//end .push
+                    /
                 };//end if lights
 
-                if(layerInfo.type != "Potholes" && layerInfo.type != "Lights"){
+                //if the data is from an abandoned vehicle
+                if(layerInfo.type == "Abandoned Vehicles") {
+                    addAbandonedVehicle(index, i, data);
+                }
+
+                if(layerInfo.type != "Potholes" && layerInfo.type != "Lights" && layerInfo.type != "Abandoned Vehicles"){
                 layersContainer[index].circles.push(
                     L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
                         {
@@ -176,9 +199,10 @@ function DataCircles() {
                         "<br><strong>Street Address:</strong> " + data[i]["street_address"] + "<br><strong>Status:</strong> " +
                         data[i]["status"] + "<br><strong>Creation Date:</strong> " + data[i]["creation_date"].substring(0,10))
                     /*binds popup to the pothole markers pulling each bit of relevant data. on the last part, the substring just cuts off
-                    the extraneous 0'd out time that's appended after the date in each entry*/
+                    the extraneous 0'd out time that's appended after the date in each entry/
                 );
                 };
+                */
             };
 
             L.layerGroup(layersContainer[index].circles).addTo(layers);
@@ -492,10 +516,43 @@ function DataCircles() {
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
-            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))
+            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))//because time at end is always uselessly zeroed
         );//end .push
+        //TODO change icon based on value of "status"
         return null;
     };//end addPothole()
+
+    //helper function for adding street light data to map
+    function addStreetLight(layerIndex, dataIndex, data) {
+        layersContainer[layerIndex].circles.push(
+            L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
+            {
+                icon: streetLightIcon
+            }
+        ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
+            "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
+            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))
+        );//end .push
+        //TODO change icon based on value of "status"
+        return null;
+    };//end addStreetLight()
+
+    //helper function for adding abandoned vehicle data to map
+    function addAbandonedVehicle(layerIndex, dataIndex, data) {
+        layersContainer[layerIndex].circles.push(
+            L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
+            {
+                icon: abandonedVehicleIcon
+            }
+        ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
+            "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
+            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10) + 
+            "<br><strong>Days Reported Parked:</strong> " + data[dataIndex]["how_many_days_has_the_vehicle_been_reported_as_parked_"])
+        );//end .push
+        //TODO change icon based on value of "status"
+        //TODO do we want to put extra data like color, licenese plate, make/model? maybe under a "show more" tab/button, etc?
+        return null;
+    };//end addAbandonedVehicle()
 	
     DataCirclesObj.filterByShape = filterByShape;
     DataCirclesObj.addLayers = addLayers;
