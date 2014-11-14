@@ -228,6 +228,21 @@ function DataCircles() {
 
                 // add the circles
                 outLine = layerInfo.color[statusValue];
+
+                addDivvyStation(index, i, data, layers, 0);
+
+                /*
+                layersContainer[index].circles.push(
+                    L.marker([data[i]["latitude"], data[i]["longitude"]], 
+                    {
+                        icon: divvyStationIcon
+                    }
+                ).bindPopup("<strong>Station Name:</strong> " + data[i]["stationName"] + "<br><strong>Status:</strong> " +
+                        data[i]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[i]["availableBikes"] + 
+                        "/" + data[i]["totalDocks"])
+                );//end .push
+                */
+                /*
                 layersContainer[index].circles.push(
                     L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
                         {
@@ -245,8 +260,9 @@ function DataCircles() {
                     ).bindPopup("<strong>Station Name:</strong> " + data[i]["stationName"] + "<br><strong>Status:</strong> " +
                         data[i]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[i]["availableBikes"] + 
                         "/" + data[i]["totalDocks"])
-                );
-            };
+                );//end .push
+                */
+            };//end for loop
 		L.layerGroup(layersContainer[index].circles).addTo(layers);
 		//layersContainer[index].refresh = parseDate(data[refreshIndex].executionTime);
 		}
@@ -582,6 +598,25 @@ function DataCircles() {
         L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
         return null;
     };//end addAbandonedVehicle()
+
+    //helper function for adding divvy stations to map
+    function addDivvyStation(layerIndex, dataIndex, data, layers, refresh) {
+        layersContainer[layerIndex].circles.push(
+            L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
+            {
+                icon: divvyStationIcon
+            }
+        ).bindPopup("<strong>Station Name:</strong> " + data[dataIndex]["stationName"] + "<br><strong>Status:</strong> " +
+                data[dataIndex]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[dataIndex]["availableBikes"] + 
+                "/" + data[dataIndex]["totalDocks"])
+        );//end .push
+        //TODO change icon based on value of "statusValue"
+        if(refresh == 1) {
+            layers.clearLayers();
+        }
+        L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
+        return null;
+    };//end addDivvyStation()
 	
     DataCirclesObj.filterByShape = filterByShape;
     DataCirclesObj.addLayers = addLayers;
