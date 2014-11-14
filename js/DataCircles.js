@@ -47,6 +47,16 @@ function DataCircles() {
         shadowAnchor: [4, 62],
         popupAnchor:  [-3, -76] 
     });//end street lights
+
+    //crimes
+    var crimeIcon = L.icon({
+        iconUrl: 'icons/svg/handcuffs.svg',
+        iconSize:     [38, 95],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76] 
+    });//end crimes
     //end custom markers
 
   // add layers of data
@@ -295,7 +305,10 @@ function DataCircles() {
                 if (daysAgo >= 14)
                     outLine = layerInfo.color;
 
-				layersContainer[index].circles.push(
+                addCrime(index, i, data, layers, 0);
+
+				/*
+                layersContainer[index].circles.push(
 					L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
 						{
 							zindex: 10,
@@ -308,10 +321,11 @@ function DataCircles() {
 							id : data[i].id
 						}
 					)
-                );
+                );//end .push
+                */
 			};
 
-            L.layerGroup(layersContainer[index].circles).addTo(layers);
+            //L.layerGroup(layersContainer[index].circles).addTo(layers);
 			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
         });
     };
@@ -621,6 +635,27 @@ function DataCircles() {
         L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
         return null;
     };//end addDivvyStation()
+
+    //helper function for adding crime data to map
+    function addCrime(layerIndex, dataIndex, data, layers, refresh) {
+        layersContainer[layerIndex].circles.push(
+            L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
+            {
+                icon: crimeIcon
+            }
+        ).bindPopup("<strong>Type:</strong> " + data[dataIndex]["primary_type"] + "<br><strong>Arrest:</strong> " +
+                data[dataIndex]["arrest"] +"<br><strong>Location Description:</strong> " + data[dataIndex]["location_description"] + 
+                "<br><strong>Date:</strong> " + data[dataIndex]["date"].substring(0,10) + "<br><strong>Updated On:</strong> " +
+                data[dataIndex]["updated_on"])
+        );//end .push
+        //TODO maybe add details like the description and if it was domestic or not, case number, iucr, etc? either
+        //in the popup or some sort of "show more"? or maybe we show some basic info on hover, and that+more on click/popup?
+        if(refresh == 1) {
+            layers.clearLayers();
+        }
+        L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
+        return null;
+    };//end addCrime()
 	
     DataCirclesObj.filterByShape = filterByShape;
     DataCirclesObj.addLayers = addLayers;
