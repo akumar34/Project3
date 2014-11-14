@@ -77,7 +77,7 @@ var MapApp = Class.extend({
 			},
 
 			{
-				sourceLink : "http://www.ctabustracker.com/bustime/api/v1/getvehicles?key=HJN3hHSdDr3HRiJ5AirDZaScN&rt=1", 
+				sourceLink : "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'http%3A%2F%2Fwww.ctabustracker.com%2Fbustime%2Fapi%2Fv1%2Fgetvehicles%3Fkey%3DHJN3hHSdDr3HRiJ5AirDZaScN%26rt%3D1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C8A'&format=json&diagnostics=true&callback=", 
 				type : "CTA",
 				fill : "orange",
 				color : "gray",
@@ -239,7 +239,7 @@ var MapApp = Class.extend({
 			},
 
 			{
-				sourceLink : "http://www.ctabustracker.com/bustime/api/v1/getvehicles?key=HJN3hHSdDr3HRiJ5AirDZaScN&rt=1", 
+				sourceLink : "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'http%3A%2F%2Fwww.ctabustracker.com%2Fbustime%2Fapi%2Fv1%2Fgetvehicles%3Fkey%3DHJN3hHSdDr3HRiJ5AirDZaScN%26rt%3D1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C8A'&format=json&diagnostics=true&callback=", 
 				type : "CTA",
 				fill : "orange",
 				color : "gray",

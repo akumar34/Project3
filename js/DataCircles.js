@@ -209,45 +209,54 @@ function DataCircles() {
     };
 	
 	function addCTAData(layerInfo, index, layers){
-		var sourceLink = layerInfo.sourceLink;
+        var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
-		
-		ajaxRequest(response,sourceLink);
-		
-		function response(xml){
-			var data = JSON.parse(xml).stationBeanList;
-			for (var i = 0; i < data.length; i++) {
-                
-				// filters
-                if (data[i].statusValue == null) continue;
-				var statusValue = data[i].statusValue;
-				
-                if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
+        d3.json(sourceLink, function(error, json){
+            if (error) {
+                console.error(error);
+            };
+			
+			var data = json.query.results['bustime-response'].vehicle;
+            for (var i = 0; i < data.length; i++) {
+				if(data[i].vid === null) continue;
 
+                // filters
+				//var creation_date = parseDate(data[i].creation_date);
+                //if (creation_date == null) continue;
+
+                if ( data[i]["lat"] == undefined || data[i]["lon"] == undefined) continue;
+
+                //var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
+                //if (daysAgo >= 31) break;
+                
                 // add the circles
-                outLine = layerInfo.color[statusValue];
+                //var outLine = "black";
+                //if (daysAgo >= 7)
+                //outLine = layerInfo.color;
+
+                //if (data[i].status.indexOf("completed") > -1)
+                //    outLine = "white";
+
                 layersContainer[index].circles.push(
-                    L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
+                    L.circleMarker([data[i]["lat"], data[i]["lon"]], 
                         {
                             zindex: 10,
                             radius: 5,
-                            color: outLine,
+                            color: layerInfo.color,
                             fillColor: layerInfo.fill,
                             fillOpacity: 1,
                             opacity: 1,
-    						//properties
-    						totalDocks : data[i].totalDocks,
-    						availableBikes : data[i].availableBikes,
-    						statusValue : data[i].statusValue
+                            // properties
+                            lat : data[i].lat,
+							lon : data[i].lon
                         }
-                    ).bindPopup("<strong>Station Name:</strong> " + data[i]["stationName"] + "<br><strong>Status:</strong> " +
-                        data[i]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[i]["availableBikes"] + 
-                        "/" + data[i]["totalDocks"])
+                    )
                 );
             };
-		L.layerGroup(layersContainer[index].circles).addTo(layers);
-		//layersContainer[index].refresh = parseDate(data[refreshIndex].executionTime);
-		}
+
+            L.layerGroup(layersContainer[index].circles).addTo(layers);
+			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
+        });
     };
 	
     function refreshData(layerInfo, index, layers){
@@ -373,13 +382,13 @@ function DataCircles() {
                 if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
 
                 // add the circles
-                outLine = layerInfo.color[statusValue];
+
                 layersContainer[index].circles.push(
                     L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
                     {
                         zindex: 10,
                         radius: 5,
-                        color: outLine,
+                        color: layerInfo.color,
 						fillColor: "pink",
                         fillOpacity: 1,
                         opacity: 1,
@@ -397,48 +406,60 @@ function DataCircles() {
     };
 	
     function refreshCTAData(layerInfo, index, layers){
-		var sourceLink = layerInfo.sourceLink;
+      var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
-		ajaxRequest(response,sourceLink);
-		
-		function response(xml){
-			var data = JSON.parse(xml).stationBeanList;
-			for (var i = 0; i < data.length; i++) {
-                
-				// filters
-                if (data[i].statusValue == null) continue;
-				var statusValue = data[i].statusValue;
-				
-                if (
-					(getByStatusValue(layersContainer[index], data[i].statusValue) != null) &&
-					(getByAvailableBikes(layersContainer[index], data[i].availableBikes) != null) &&
-					(getByTotalDocks(layersContainer[index], data[i].totalDocks) != null ) ) return;
-				
-                if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
-
-                // add the circles
-                outLine = layerInfo.color[statusValue];
-                layersContainer[index].circles.push(
-                    L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
-                    {
-                        zindex: 10,
-                        radius: 5,
-                        color: outLine,
-						fillColor: "pink",
-                        fillOpacity: 1,
-                        opacity: 1,
-						//properties
-						totalDocks : data[i].totalDocks,
-						availableBikes : data[i].availableBikes,
-						statusValue : data[i].statusValue
-                    }
-                ));
+        d3.json(sourceLink, function(error, json){
+            if (error) {
+                console.error(error);
             };
+			var data = json.query.results['bustime-response'].vehicle;
+            for (var i = 0; i < data.length; i++) {
+				if(data[i].vid === null) continue;
+
+                // filters
+				//var creation_date = parseDate(data[i].creation_date);
+                //if (creation_date == null) continue;
+
+				if ( getByLat(layersContainer[index], data[i].lat) != null && 
+					 getByLon(layersContainer[index], data[i].lon) != null ) return;
+								
+                if ( data[i]["lat"] == undefined || data[i]["lon"] == undefined) continue;
+				
+				
+
+                //var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
+                //if (daysAgo >= 31) break;
+                
+                // add the circles
+                //var outLine = "black";
+                //if (daysAgo >= 7)
+                //outLine = layerInfo.color;
+
+                //if (data[i].status.indexOf("completed") > -1)
+                //    outLine = "white";
+
+                layersContainer[index].circles.push(
+                    L.circleMarker([data[i]["lat"], data[i]["lon"]], 
+                        {
+                            zindex: 10,
+                            radius: 5,
+                            color: layerInfo.color,
+                            fillColor: layerInfo.fill,
+                            fillOpacity: 1,
+                            opacity: 1,
+                            // properties
+                            lat : data[i].lat,
+							lon : data[i].lon
+                        }
+                    )
+                );
+            };
+
             //if( layersContainer[index].refresh === null ) )
             layers.clearLayers();
 			L.layerGroup(layersContainer[index].circles).addTo(layers);
 			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
-		}
+        });
     };
 
     // function that filters by a simple rectangle
@@ -497,6 +518,22 @@ function DataCircles() {
 	function getById(layer, number) {
         for (var i = 0; i < layer.circles.length; i++) {
             if(layer.circles[i].options.id == number)
+                return layer.circles[i];
+        };
+        return null;
+    };
+
+	function getByLat(layer, number) {
+        for (var i = 0; i < layer.circles.length; i++) {
+            if(layer.circles[i].options.lat == number)
+                return layer.circles[i];
+        };
+        return null;
+    };
+
+	function getByLon(layer, number) {
+        for (var i = 0; i < layer.circles.length; i++) {
+            if(layer.circles[i].options.lon == number)
                 return layer.circles[i];
         };
         return null;
