@@ -401,7 +401,7 @@ function DataCircles() {
         return null;
     };
 
-	function getId(layer, number) {
+	function getById(layer, number) {
         for (var i = 0; i < layer.circles.length; i++) {
             if(layer.circles[i].options.id == number)
                 return layer.circles[i];
