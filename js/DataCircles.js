@@ -208,55 +208,54 @@ function DataCircles() {
         });
     };
 	
-	function addCTAData(layerInfo, index, layers){
+	function addCTAData(layerInfo, index, layers)
+	{
         var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
-        d3.json(sourceLink, function(error, json){
-            if (error) {
-                console.error(error);
-            };
-			
-			var data = json.query.results['bustime-response'].vehicle;
-            for (var i = 0; i < data.length; i++) {
-				if(data[i].vid === null) continue;
+		
+		sourceLink.forEach
+		(
+			function(link)
+			{
+				d3.json(link, function(error, json)
+				{
+					if (error) {
+						console.error(error);
+					};
+					
+					var data = json.query.results['bustime-response'].vehicle;
+					
+					if(data)
+					{		
+						for (var i = 0; i < data.length; i++) 
+						{
+							if(data[i].vid === null) continue;
 
-                // filters
-				//var creation_date = parseDate(data[i].creation_date);
-                //if (creation_date == null) continue;
+							if ( data[i]["lat"] == undefined || data[i]["lon"] == undefined) continue;
 
-                if ( data[i]["lat"] == undefined || data[i]["lon"] == undefined) continue;
+							layersContainer[index].circles.push(
+								L.circleMarker([data[i]["lat"], data[i]["lon"]], 
+									{
+										zindex: 10,
+										radius: 5,
+										color: layerInfo.color,
+										fillColor: layerInfo.fill,
+										fillOpacity: 1,
+										opacity: 1,
+										// properties
+										lat : data[i].lat,
+										lon : data[i].lon
+									}
+								)
+							);
+						};
+					};
 
-                //var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                //if (daysAgo >= 31) break;
-                
-                // add the circles
-                //var outLine = "black";
-                //if (daysAgo >= 7)
-                //outLine = layerInfo.color;
-
-                //if (data[i].status.indexOf("completed") > -1)
-                //    outLine = "white";
-
-                layersContainer[index].circles.push(
-                    L.circleMarker([data[i]["lat"], data[i]["lon"]], 
-                        {
-                            zindex: 10,
-                            radius: 5,
-                            color: layerInfo.color,
-                            fillColor: layerInfo.fill,
-                            fillOpacity: 1,
-                            opacity: 1,
-                            // properties
-                            lat : data[i].lat,
-							lon : data[i].lon
-                        }
-                    )
-                );
-            };
-
-            L.layerGroup(layersContainer[index].circles).addTo(layers);
-			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
-        });
+					L.layerGroup(layersContainer[index].circles).addTo(layers);
+					// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
+				});
+			}
+		);
     };
 	
     function refreshData(layerInfo, index, layers){
@@ -405,61 +404,57 @@ function DataCircles() {
         });
     };
 	
-    function refreshCTAData(layerInfo, index, layers){
-      var sourceLink = layerInfo.sourceLink;
+    function refreshCTAData(layerInfo, index, layers)
+	{
+	    var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
-        d3.json(sourceLink, function(error, json){
-            if (error) {
-                console.error(error);
-            };
-			var data = json.query.results['bustime-response'].vehicle;
-            for (var i = 0; i < data.length; i++) {
-				if(data[i].vid === null) continue;
+		
+		sourceLink.forEach
+		(
+			function(link)
+			{
+				d3.json(link, function(error, json)
+				{
+					if (error) {
+						console.error(error);
+					};
+					
+					var data = json.query.results['bustime-response'].vehicle;
+					
+					if(data)
+					{		
+						for (var i = 0; i < data.length; i++) 
+						{
+							if(data[i].vid === null) continue;
 
-                // filters
-				//var creation_date = parseDate(data[i].creation_date);
-                //if (creation_date == null) continue;
+							if ( getByLat(layersContainer[index], data[i].lat) != null && 
+								 getByLon(layersContainer[index], data[i].lon) != null ) return;
+							 
+							if ( data[i]["lat"] == undefined || data[i]["lon"] == undefined) continue;
 
-				if ( getByLat(layersContainer[index], data[i].lat) != null && 
-					 getByLon(layersContainer[index], data[i].lon) != null ) return;
-								
-                if ( data[i]["lat"] == undefined || data[i]["lon"] == undefined) continue;
-				
-				
+							layersContainer[index].circles.push(
+								L.circleMarker([data[i]["lat"], data[i]["lon"]], 
+									{
+										zindex: 10,
+										radius: 5,
+										color: layerInfo.color,
+										fillColor: layerInfo.fill,
+										fillOpacity: 1,
+										opacity: 1,
+										// properties
+										lat : data[i].lat,
+										lon : data[i].lon
+									}
+								)
+							);
+						};
+					};
 
-                //var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                //if (daysAgo >= 31) break;
-                
-                // add the circles
-                //var outLine = "black";
-                //if (daysAgo >= 7)
-                //outLine = layerInfo.color;
-
-                //if (data[i].status.indexOf("completed") > -1)
-                //    outLine = "white";
-
-                layersContainer[index].circles.push(
-                    L.circleMarker([data[i]["lat"], data[i]["lon"]], 
-                        {
-                            zindex: 10,
-                            radius: 5,
-                            color: layerInfo.color,
-                            fillColor: layerInfo.fill,
-                            fillOpacity: 1,
-                            opacity: 1,
-                            // properties
-                            lat : data[i].lat,
-							lon : data[i].lon
-                        }
-                    )
-                );
-            };
-
-            //if( layersContainer[index].refresh === null ) )
-            layers.clearLayers();
-			L.layerGroup(layersContainer[index].circles).addTo(layers);
-			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
-        });
+					L.layerGroup(layersContainer[index].circles).addTo(layers);
+					// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
+				});
+			}
+		);
     };
 
     // function that filters by a simple rectangle
