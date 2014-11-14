@@ -134,13 +134,13 @@ function DataCircles() {
                 //check what type of data we're using so we know what icon to use.
                 switch(layerInfo.type) {
                     case "Potholes":
-                        addPothole(index, i, data, layers);
+                        addPothole(index, i, data, layers, 0);
                         break;
                     case "Lights":
-                        addStreetLight(index, i, data, layers);
+                        addStreetLight(index, i, data, layers, 0);
                         break;
                     case "Abandoned Vehicles":
-                        addAbandonedVehicle(index, i, data, layers);
+                        addAbandonedVehicle(index, i, data, layers, 0);
                         break;
                 }//end switch/case on what type of data we're importing
 
@@ -300,6 +300,7 @@ function DataCircles() {
         });
     };
 	
+    //refresh for potholes, street lights, and abandoned vehicles
     function refreshData(layerInfo, index, layers){
         var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
@@ -337,6 +338,20 @@ function DataCircles() {
                 if (data[i].status.indexOf("completed") > -1)
                     outLine = "white";
 				
+                //check what type of data we're using so we know what icon to use.
+                switch(layerInfo.type) {
+                    case "Potholes":
+                        addPothole(index, i, data, layers, 1);
+                        break;
+                    case "Lights":
+                        addStreetLight(index, i, data, layers, 1);
+                        break;
+                    case "Abandoned Vehicles":
+                        addAbandonedVehicle(index, i, data, layers, 1);
+                        break;
+                }//end switch/case on what type of data we're importing
+
+                /*
                 layersContainer[index].circles.push(
                     L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
                     {
@@ -351,14 +366,15 @@ function DataCircles() {
                         service_request_number : data[i].service_request_number
                     }
                 ));
+                */
             };
 
             //if( layersContainer[index].refresh === null ) )
-            layers.clearLayers();
-			L.layerGroup(layersContainer[index].circles).addTo(layers);
+            //layers.clearLayers();
+			//L.layerGroup(layersContainer[index].circles).addTo(layers);
 			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
         });
-    };
+    };//end refreshData()
 	
     function refreshDivvyData(layerInfo, index, layers){
 		var sourceLink = layerInfo.sourceLink;
@@ -509,7 +525,7 @@ function DataCircles() {
     };
 
     //helper function for adding potholes to map
-    function addPothole(layerIndex, dataIndex, data, layers) {
+    function addPothole(layerIndex, dataIndex, data, layers, refresh) {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -520,12 +536,15 @@ function DataCircles() {
             data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))//because time at end is always uselessly zeroed
         );//end .push
         //TODO change icon based on value of "status"
+        if(refresh == 1) {
+            layers.clearLayers();
+        }
         L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
         return null;
     };//end addPothole()
 
     //helper function for adding street light data to map
-    function addStreetLight(layerIndex, dataIndex, data, layers) {
+    function addStreetLight(layerIndex, dataIndex, data, layers, refresh) {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -536,12 +555,15 @@ function DataCircles() {
             data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))
         );//end .push
         //TODO change icon based on value of "status"
+        if(refresh == 1) {
+            layers.clearLayers();
+        }
         L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
         return null;
     };//end addStreetLight()
 
     //helper function for adding abandoned vehicle data to map
-    function addAbandonedVehicle(layerIndex, dataIndex, data, layers) {
+    function addAbandonedVehicle(layerIndex, dataIndex, data, layers, refresh) {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -554,6 +576,9 @@ function DataCircles() {
         );//end .push
         //TODO change icon based on value of "status"
         //TODO do we want to put extra data like color, licenese plate, make/model? maybe under a "show more" tab/button, etc?
+        if(refresh == 1) {
+            layers.clearLayers();
+        }
         L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
         return null;
     };//end addAbandonedVehicle()
