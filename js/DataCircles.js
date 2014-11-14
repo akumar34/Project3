@@ -263,7 +263,7 @@ function DataCircles() {
                 );//end .push
                 */
             };//end for loop
-		L.layerGroup(layersContainer[index].circles).addTo(layers);
+		//L.layerGroup(layersContainer[index].circles).addTo(layers);
 		//layersContainer[index].refresh = parseDate(data[refreshIndex].executionTime);
 		}
     };
@@ -414,6 +414,9 @@ function DataCircles() {
 
                 // add the circles
                 outLine = layerInfo.color[statusValue];
+
+                addDivvyStation(index, i, data, layers, 1);
+                /*
                 layersContainer[index].circles.push(
                     L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
                     {
@@ -429,10 +432,11 @@ function DataCircles() {
 						statusValue : data[i].statusValue
                     }
                 ));
+                */
             };
             //if( layersContainer[index].refresh === null ) )
-            layers.clearLayers();
-			L.layerGroup(layersContainer[index].circles).addTo(layers);
+            //layers.clearLayers();
+			//L.layerGroup(layersContainer[index].circles).addTo(layers);
 			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
 		}
     };
