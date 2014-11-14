@@ -28,6 +28,7 @@ var MapApp = Class.extend({
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
+		this.layers.push(new L.LayerGroup());
 
 		var statusColors = this.statusColors;
 		var layersInfo = [
@@ -73,6 +74,15 @@ var MapApp = Class.extend({
 				color : "yellow",
 				id : 4,
 				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
+			},
+
+			{
+				sourceLink : "http://www.ctabustracker.com/bustime/api/v1/getvehicles?key=HJN3hHSdDr3HRiJ5AirDZaScN&rt=1", 
+				type : "CTA",
+				fill : "orange",
+				color : "gray",
+				id : 5,
+				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
 			}
 		];
 
@@ -104,6 +114,7 @@ var MapApp = Class.extend({
 			"Street Lights" 		: this.layers[2],
 			"Divvy Bikes"			: this.layers[3],
 			"Crime"					: this.layers[4],
+			"CTA"					: this.layers[5],
 
 			'Chicago Communities' : L.geoJson(chicagoMap, {
                 style: function (feature){
@@ -224,6 +235,15 @@ var MapApp = Class.extend({
 				fill : "green",
 				color : "yellow",
 				id : 4,
+				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
+			},
+
+			{
+				sourceLink : "http://www.ctabustracker.com/bustime/api/v1/getvehicles?key=HJN3hHSdDr3HRiJ5AirDZaScN&rt=1", 
+				type : "CTA",
+				fill : "orange",
+				color : "gray",
+				id : 5,
 				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
 			}
 		];

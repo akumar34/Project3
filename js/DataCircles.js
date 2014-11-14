@@ -27,7 +27,10 @@ function DataCircles() {
 					break;
 				case "Crime":
 					addCrimeData(layersInfo[i], index, layers[i]);
-					break;				
+					break;			
+				case "CTA":
+					addCTAData(layersInfo[i], index, layers[i]);
+					break;						
 				default:
 					addData(layersInfo[i], index, layers[i]);
 					break;
@@ -47,7 +50,10 @@ function DataCircles() {
 					break;
 				case "Crime":
 					refreshCrimeData(layersInfo[i], index, layers[i]);
-					break;					
+					break;			
+				case "CTA":
+					refreshCTAData(layersInfo[i], index, layers[i]);
+					break;						
 				default:
 					refreshData(layersInfo[i], index, layers[i]);
 					break;
@@ -119,7 +125,7 @@ function DataCircles() {
 		ajaxRequest(response,sourceLink);
 		
 		function response(json){
-			var data = JSON.parse(json).stationBeanList;
+			var data = json.stationBeanList;
 			for (var i = 0; i < data.length; i++) {
                 
 				// filters
@@ -202,6 +208,48 @@ function DataCircles() {
         });
     };
 	
+	function addCTAData(layerInfo, index, layers){
+		var sourceLink = layerInfo.sourceLink;
+		var refreshIndex = 0;
+		
+		ajaxRequest(response,sourceLink);
+		
+		function response(xml){
+			var data = JSON.parse(xml).stationBeanList;
+			for (var i = 0; i < data.length; i++) {
+                
+				// filters
+                if (data[i].statusValue == null) continue;
+				var statusValue = data[i].statusValue;
+				
+                if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
+
+                // add the circles
+                outLine = layerInfo.color[statusValue];
+                layersContainer[index].circles.push(
+                    L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
+                        {
+                            zindex: 10,
+                            radius: 5,
+                            color: outLine,
+                            fillColor: layerInfo.fill,
+                            fillOpacity: 1,
+                            opacity: 1,
+    						//properties
+    						totalDocks : data[i].totalDocks,
+    						availableBikes : data[i].availableBikes,
+    						statusValue : data[i].statusValue
+                        }
+                    ).bindPopup("<strong>Station Name:</strong> " + data[i]["stationName"] + "<br><strong>Status:</strong> " +
+                        data[i]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[i]["availableBikes"] + 
+                        "/" + data[i]["totalDocks"])
+                );
+            };
+		L.layerGroup(layersContainer[index].circles).addTo(layers);
+		//layersContainer[index].refresh = parseDate(data[refreshIndex].executionTime);
+		}
+    };
+	
     function refreshData(layerInfo, index, layers){
         var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
@@ -268,7 +316,7 @@ function DataCircles() {
 		ajaxRequest(response,sourceLink);
 		
 		function response(json){
-			var data = JSON.parse(json).stationBeanList;
+			var data = json.stationBeanList;
 			for (var i = 0; i < data.length; i++) {
                 
 				// filters
@@ -347,6 +395,51 @@ function DataCircles() {
 			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
         });
     };
+	
+    function refreshCTAData(layerInfo, index, layers){
+		var sourceLink = layerInfo.sourceLink;
+		var refreshIndex = 0;
+		ajaxRequest(response,sourceLink);
+		
+		function response(xml){
+			var data = JSON.parse(xml).stationBeanList;
+			for (var i = 0; i < data.length; i++) {
+                
+				// filters
+                if (data[i].statusValue == null) continue;
+				var statusValue = data[i].statusValue;
+				
+                if (
+					(getByStatusValue(layersContainer[index], data[i].statusValue) != null) &&
+					(getByAvailableBikes(layersContainer[index], data[i].availableBikes) != null) &&
+					(getByTotalDocks(layersContainer[index], data[i].totalDocks) != null ) ) return;
+				
+                if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
+
+                // add the circles
+                outLine = layerInfo.color[statusValue];
+                layersContainer[index].circles.push(
+                    L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
+                    {
+                        zindex: 10,
+                        radius: 5,
+                        color: outLine,
+						fillColor: "pink",
+                        fillOpacity: 1,
+                        opacity: 1,
+						//properties
+						totalDocks : data[i].totalDocks,
+						availableBikes : data[i].availableBikes,
+						statusValue : data[i].statusValue
+                    }
+                ));
+            };
+            //if( layersContainer[index].refresh === null ) )
+            layers.clearLayers();
+			L.layerGroup(layersContainer[index].circles).addTo(layers);
+			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
+		}
+    };
 
     // function that filters by a simple rectangle
     function filterByShape(coordinates){
@@ -401,7 +494,7 @@ function DataCircles() {
         return null;
     };
 
-	function getId(layer, number) {
+	function getById(layer, number) {
         for (var i = 0; i < layer.circles.length; i++) {
             if(layer.circles[i].options.id == number)
                 return layer.circles[i];
