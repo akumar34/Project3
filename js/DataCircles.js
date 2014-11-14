@@ -461,7 +461,7 @@ function DataCircles() {
         };
     }
 
-    // quick helper function
+    // quick helper functions
     function getByServiceNumber(layer, number) {
         for (var i = 0; i < layer.circles.length; i++) {
             if(layer.circles[i].options.service_request_number == number)

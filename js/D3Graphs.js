@@ -9,14 +9,14 @@ function D3Graphs(){
     function init(div){
         var height = $("#sidebar").height();
         var width = $(div).width();
-        container = $(div);
+        container = div;
 
         overallSVG = d3.select(container)
             .append("svg")
             .attr("viewBox", "0 0 " + width + " " + height/2)
             .attr("preserveAspectRatio", "xMidYMid meet");
 
-        selectedSVG = = d3.select(container)
+        selectedSVG = d3.select(container)
             .append("svg")
             .attr("viewBox", "0 0 " + width + " " + height/2)
             .attr("preserveAspectRatio", "xMidYMid meet")
@@ -174,4 +174,5 @@ function D3Graphs(){
     D3GraphsObj.init = init;
     D3GraphsObj.makeOverallGraph = makeOverallGraph;
     D3GraphsObj.makeSelectedGraph = makeSelectedGraph;
+    return D3GraphsObj;
 };

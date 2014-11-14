@@ -17,6 +17,7 @@
 		<script type="text/javascript" src="js/ajax/AjaxApp.js"></script>
 		<script src="js/map/MapApp.js"></script>
 		<script src="js/DataCircles.js"></script>
+		<script type="text/javascript" src="js/D3Graphs.js"></script>
 		<script src="js/weather/USWeatherApp.js"></script>
 		<!--sidebar includes-->
 		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -34,11 +35,15 @@
 		<script>
 			var mapApp;
 			var usWeatherApp;
+			var D3Graphs;
 			function init(){
 				mapApp = new MapApp;
 				d3.json("data/chicagoDist.json", function(data){
 					mapApp.init(data);
 				});
+
+				D3Graphs = new D3Graphs();
+				D3Graphs.init("#settings");
 
 				// update regularly
 				setInterval(function() {mapApp.refresh() }, 60000); 
