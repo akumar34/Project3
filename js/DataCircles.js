@@ -100,7 +100,7 @@ function DataCircles() {
     // function filterByShapes()
 
     //for non-divvy and non-crime data
-    //currently means potholes and street lights
+    //currently means potholes, street lights, and abandoned vehicles
     function addData(layerInfo, index, layers){
         var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
@@ -133,6 +133,8 @@ function DataCircles() {
 
                 //check what type of data we're using so we know what icon to use. could be switch/case
                 if(layerInfo.type == "Potholes") {
+                    addPothole(index, i, data);
+                    /*
                     layersContainer[index].circles.push(
                         L.marker([data[i]["latitude"], data[i]["longitude"]], 
                         {
@@ -142,6 +144,7 @@ function DataCircles() {
                         "<br><strong>Street Address:</strong> " + data[i]["street_address"] + "<br><strong>Status:</strong> " +
                         data[i]["status"] + "<br><strong>Creation Date:</strong> " + data[i]["creation_date"].substring(0,10))
                     );//end .push
+*/
                 };//end if Potholes
 
                 if(layerInfo.type == "Lights") {
@@ -479,6 +482,20 @@ function DataCircles() {
         };
         return null;
     };
+
+    //helper function for adding potholes to map
+    function addPothole(layerIndex, dataIndex, data) {
+        layersContainer[layerIndex].circles.push(
+            L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
+            {
+                icon: potholeIcon
+            }
+        ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
+            "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
+            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))
+        );//end .push
+        return null;
+    };//end addPothole()
 	
     DataCirclesObj.filterByShape = filterByShape;
     DataCirclesObj.addLayers = addLayers;
