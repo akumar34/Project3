@@ -208,46 +208,54 @@ function DataCircles() {
         });
     };
 	
-	function addCTAData(layerInfo, index, layers){
-		var sourceLink = layerInfo.sourceLink;
+	function addCTAData(layerInfo, index, layers)
+	{
+        var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
 		
-		ajaxRequest(response,sourceLink);
-		
-		function response(xml){
-			var data = JSON.parse(xml).stationBeanList;
-			for (var i = 0; i < data.length; i++) {
-                
-				// filters
-                if (data[i].statusValue == null) continue;
-				var statusValue = data[i].statusValue;
-				
-                if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
+		sourceLink.forEach
+		(
+			function(link)
+			{
+				d3.json(link, function(error, json)
+				{
+					if (error) {
+						console.error(error);
+					};
+					
+					var data = json.query.results['bustime-response'].vehicle;
+					
+					if(data)
+					{		
+						for (var i = 0; i < data.length; i++) 
+						{
+							if(data[i].vid === null) continue;
 
-                // add the circles
-                outLine = layerInfo.color[statusValue];
-                layersContainer[index].circles.push(
-                    L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
-                        {
-                            zindex: 10,
-                            radius: 5,
-                            color: outLine,
-                            fillColor: layerInfo.fill,
-                            fillOpacity: 1,
-                            opacity: 1,
-    						//properties
-    						totalDocks : data[i].totalDocks,
-    						availableBikes : data[i].availableBikes,
-    						statusValue : data[i].statusValue
-                        }
-                    ).bindPopup("<strong>Station Name:</strong> " + data[i]["stationName"] + "<br><strong>Status:</strong> " +
-                        data[i]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[i]["availableBikes"] + 
-                        "/" + data[i]["totalDocks"])
-                );
-            };
-		L.layerGroup(layersContainer[index].circles).addTo(layers);
-		//layersContainer[index].refresh = parseDate(data[refreshIndex].executionTime);
-		}
+							if ( data[i]["lat"] == undefined || data[i]["lon"] == undefined) continue;
+
+							layersContainer[index].circles.push(
+								L.circleMarker([data[i]["lat"], data[i]["lon"]], 
+									{
+										zindex: 10,
+										radius: 5,
+										color: layerInfo.color,
+										fillColor: layerInfo.fill,
+										fillOpacity: 1,
+										opacity: 1,
+										// properties
+										lat : data[i].lat,
+										lon : data[i].lon
+									}
+								)
+							);
+						};
+					};
+
+					L.layerGroup(layersContainer[index].circles).addTo(layers);
+					// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
+				});
+			}
+		);
     };
 	
     function refreshData(layerInfo, index, layers){
@@ -373,13 +381,13 @@ function DataCircles() {
                 if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
 
                 // add the circles
-                outLine = layerInfo.color[statusValue];
+
                 layersContainer[index].circles.push(
                     L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
                     {
                         zindex: 10,
                         radius: 5,
-                        color: outLine,
+                        color: layerInfo.color,
 						fillColor: "pink",
                         fillOpacity: 1,
                         opacity: 1,
@@ -396,49 +404,57 @@ function DataCircles() {
         });
     };
 	
-    function refreshCTAData(layerInfo, index, layers){
-		var sourceLink = layerInfo.sourceLink;
+    function refreshCTAData(layerInfo, index, layers)
+	{
+	    var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
-		ajaxRequest(response,sourceLink);
 		
-		function response(xml){
-			var data = JSON.parse(xml).stationBeanList;
-			for (var i = 0; i < data.length; i++) {
-                
-				// filters
-                if (data[i].statusValue == null) continue;
-				var statusValue = data[i].statusValue;
-				
-                if (
-					(getByStatusValue(layersContainer[index], data[i].statusValue) != null) &&
-					(getByAvailableBikes(layersContainer[index], data[i].availableBikes) != null) &&
-					(getByTotalDocks(layersContainer[index], data[i].totalDocks) != null ) ) return;
-				
-                if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
+		sourceLink.forEach
+		(
+			function(link)
+			{
+				d3.json(link, function(error, json)
+				{
+					if (error) {
+						console.error(error);
+					};
+					
+					var data = json.query.results['bustime-response'].vehicle;
+					
+					if(data)
+					{		
+						for (var i = 0; i < data.length; i++) 
+						{
+							if(data[i].vid === null) continue;
 
-                // add the circles
-                outLine = layerInfo.color[statusValue];
-                layersContainer[index].circles.push(
-                    L.circleMarker([data[i]["latitude"], data[i]["longitude"]], 
-                    {
-                        zindex: 10,
-                        radius: 5,
-                        color: outLine,
-						fillColor: "pink",
-                        fillOpacity: 1,
-                        opacity: 1,
-						//properties
-						totalDocks : data[i].totalDocks,
-						availableBikes : data[i].availableBikes,
-						statusValue : data[i].statusValue
-                    }
-                ));
-            };
-            //if( layersContainer[index].refresh === null ) )
-            layers.clearLayers();
-			L.layerGroup(layersContainer[index].circles).addTo(layers);
-			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
-		}
+							if ( getByLat(layersContainer[index], data[i].lat) != null && 
+								 getByLon(layersContainer[index], data[i].lon) != null ) return;
+							 
+							if ( data[i]["lat"] == undefined || data[i]["lon"] == undefined) continue;
+
+							layersContainer[index].circles.push(
+								L.circleMarker([data[i]["lat"], data[i]["lon"]], 
+									{
+										zindex: 10,
+										radius: 5,
+										color: layerInfo.color,
+										fillColor: layerInfo.fill,
+										fillOpacity: 1,
+										opacity: 1,
+										// properties
+										lat : data[i].lat,
+										lon : data[i].lon
+									}
+								)
+							);
+						};
+					};
+
+					L.layerGroup(layersContainer[index].circles).addTo(layers);
+					// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
+				});
+			}
+		);
     };
 
     // function that filters by a simple rectangle
@@ -497,6 +513,22 @@ function DataCircles() {
 	function getById(layer, number) {
         for (var i = 0; i < layer.circles.length; i++) {
             if(layer.circles[i].options.id == number)
+                return layer.circles[i];
+        };
+        return null;
+    };
+
+	function getByLat(layer, number) {
+        for (var i = 0; i < layer.circles.length; i++) {
+            if(layer.circles[i].options.lat == number)
+                return layer.circles[i];
+        };
+        return null;
+    };
+
+	function getByLon(layer, number) {
+        for (var i = 0; i < layer.circles.length; i++) {
+            if(layer.circles[i].options.lon == number)
                 return layer.circles[i];
         };
         return null;
