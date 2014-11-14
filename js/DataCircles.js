@@ -323,7 +323,7 @@ function DataCircles() {
 					)
                 );//end .push
                 */
-			};
+			};//end for loop
 
             //L.layerGroup(layersContainer[index].circles).addTo(layers);
 			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
@@ -472,6 +472,9 @@ function DataCircles() {
 				
                 if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
 
+                addCrime(index, i, data, layers, 1);
+
+                /*
                 // add the circles
                 outLine = layerInfo.color[statusValue];
                 layersContainer[index].circles.push(
@@ -486,12 +489,13 @@ function DataCircles() {
 						//properties
 						id : data[i].id
                     }
-                ));
-            };
+                ));//end .push
+                */
+            };//end for loop
 
             //if( layersContainer[index].refresh === null ) )
-            layers.clearLayers();
-			L.layerGroup(layersContainer[index].circles).addTo(layers);
+            //layers.clearLayers();
+			//L.layerGroup(layersContainer[index].circles).addTo(layers);
 			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
         });
     };
@@ -550,7 +554,7 @@ function DataCircles() {
         return null;
     };
 
-	function getId(layer, number) {
+	function getById(layer, number) {
         for (var i = 0; i < layer.circles.length; i++) {
             if(layer.circles[i].options.id == number)
                 return layer.circles[i];
