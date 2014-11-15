@@ -95,7 +95,7 @@ var MapApp = Class.extend({
 			},
 
 			{
-				sourceLink : "http://www.divvybikes.com/stations/json/", 
+				sourceLink : "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D%22http%3A%2F%2Fdivvybikes.com%2Fstations%2Fjson%3F_out%3Djson%22&format=json&diagnostics=true&callback=", 
 				type : "Divvy",
 				fill : "blue",
 				color : statusColors,
@@ -258,7 +258,7 @@ var MapApp = Class.extend({
 			},
 
 			{
-				sourceLink : "http://www.divvybikes.com/stations/json/", 
+				sourceLink : "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D%22http%3A%2F%2Fdivvybikes.com%2Fstations%2Fjson%3F_out%3Djson%22&format=json&diagnostics=true&callback=", 
 				type : "Divvy",
 				fill : "blue",
 				color : statusColors,

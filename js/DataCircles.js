@@ -217,10 +217,11 @@ function DataCircles() {
 		var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
 		
-		ajaxRequest(response,sourceLink);
-		
-		function response(json){
-			var data = json.stationBeanList;
+		d3.json(sourceLink, function(error, json){
+            if (error) {
+                console.error(error);
+            };
+			var data = json.query.results.json.stationBeanList;
 			for (var i = 0; i < data.length; i++) {
                 
 				// filters
@@ -257,7 +258,7 @@ function DataCircles() {
             };//end for loop
 		//L.layerGroup(layersContainer[index].circles).addTo(layers);
 		//layersContainer[index].refresh = parseDate(data[refreshIndex].executionTime);
-		}
+		});
     };
 	
     function addCrimeData(layerInfo, index, layers){
@@ -444,10 +445,12 @@ function DataCircles() {
     function refreshDivvyData(layerInfo, index, layers){
 		var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
-		ajaxRequest(response,sourceLink);
 		
-		function response(json){
-			var data = json.stationBeanList;
+		d3.json(sourceLink, function(error, json){
+            if (error) {
+                console.error(error);
+            };
+			var data = json.query.results.json.stationBeanList;
 			for (var i = 0; i < data.length; i++) {
                 
 				// filters
@@ -488,7 +491,7 @@ function DataCircles() {
             //layers.clearLayers();
 			//L.layerGroup(layersContainer[index].circles).addTo(layers);
 			// layersContainer[index].refresh = parseDate(data[refreshIndex].creation_date);
-		}
+		});
     };
 
 	function refreshCrimeData(layerInfo, index, layers){
