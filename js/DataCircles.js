@@ -83,21 +83,30 @@ function DataCircles() {
             });
 
             // add circleMarkers to the layers
-            var index = layersContainer.length - 1;
+            //var index = layersContainer.length - 1;
 			
 			switch(layersInfo[i].type){
+				case "Potholes":
+					addData(layersInfo[i], 0, layers[i]);					
+					break;
+				case "Abandoned Vehicles":
+					addData(layersInfo[i], 1, layers[i]);
+					break;
+				case "Lights":
+					addData(layersInfo[i], 2, layers[i]);
+					break;
 				case "Divvy":
-					addDivvyData(layersInfo[i], index, layers[i]);
+					addDivvyData(layersInfo[i], 3, layers[i]);
 					break;
 				case "Crime":
-					addCrimeData(layersInfo[i], index, layers[i]);
+					addCrimeData(layersInfo[i], 4, layers[i]);
 					break;			
 				case "CTA":
-					addCTAData(layersInfo[i], index, layers[i]);
+					addCTAData(layersInfo[i], 5, layers[i]);
 					break;						
-				default:
-					addData(layersInfo[i], index, layers[i]);
-					break;
+				//default:
+				//	addData(layersInfo[i], index, layers[i]);
+				//	break;
 			}					
         } 
     };
@@ -106,24 +115,31 @@ function DataCircles() {
     function refreshLayers(layersInfo, layers){
         for (var i = 0; i < layersInfo.length; i++) {
             // refresh circleMarkers to the layers
-            var index = layersContainer.length - 1;
+            //var index = layersContainer.length - 1;
 			
 			switch(layersInfo[i].type){
+				case "Potholes":
+					refreshData(layersInfo[i], 0, layers[i]);					
+					break;
+				case "Abandoned Vehicles":
+					refreshData(layersInfo[i], 1, layers[i]);
+					break;
+				case "Lights":
+					refreshData(layersInfo[i], 2, layers[i]);
+					break;
 				case "Divvy":
-					refreshDivvyData(layersInfo[i], index, layers[i]);
+					refreshDivvyData(layersInfo[i], 3, layers[i]);
 					break;
 				case "Crime":
-					refreshCrimeData(layersInfo[i], index, layers[i]);
+					refreshCrimeData(layersInfo[i], 4, layers[i]);
 					break;			
 				case "CTA":
-					refreshCTAData(layersInfo[i], index, layers[i]);
-					break;						
-				default:
-					refreshData(layersInfo[i], index, layers[i]);
+					refreshCTAData(layersInfo[i], 5, layers[i]);
 					break;
 			}	
         } 
     };
+
 
     // function filterByShapes()
 
