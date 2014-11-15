@@ -171,12 +171,12 @@ var MapApp = Class.extend({
         };
 		
 		var overlays = {
-			"Potholes"  			: this.layers[0],
-			"Abandoned Vehicles"	: this.layers[1],
-			"Street Lights" 		: this.layers[2],
-			"Divvy Bikes"			: this.layers[3],
-			"Crime"					: this.layers[4],
-			"CTA"					: this.layers[5],
+			"Potholes"  			: this.layers[this.POTHOLES],
+			"Abandoned Vehicles"	: this.layers[this.ABANDONED_VEHICLES],
+			"Street Lights" 		: this.layers[this.STREET_LIGHTS],
+			"Divvy Bikes"			: this.layers[this.DIVVY],
+			"Crime"					: this.layers[this.CRIME],
+			"CTA"					: this.layers[this.CTA],
 
 			'Chicago Communities' : L.geoJson(chicagoMap, {
                 style: function (feature){
@@ -254,7 +254,7 @@ var MapApp = Class.extend({
 	
 	refreshPotholes: function() { this.DataCircles.refreshPotholesData(this.layersInfo[this.POTHOLES], this.layers[this.POTHOLES]); },	
 	refreshAbandonedVehicles: function() { this.DataCircles.refreshAbandonedVehiclesData(this.layersInfo[this.ABANDONED_VEHICLES], this.layers[ABANDONED_VEHICLES]); },
-	refreshLights: function() { this.DataCircles.refreshLightsData(this.layersInfo[this.LIGHTS], this.layers[this.LIGHTS]); },
+	refreshStreetLights: function() { this.DataCircles.refreshStreetLightsData(this.layersInfo[this.STREET_LIGHTS], this.layers[this.STREET_LIGHTS]); },
 	refreshDivvy: function() { this.DataCircles.refreshDivvyData(this.layersInfo[this.DIVVY], this.layers[this.DIVVY]); },
 	refreshCrime: function() { this.DataCircles.refreshCrime(this.layersInfo[this.CRIME], this.layers[this.CRIME]); },
 	refreshCTA: function() { this.DataCircles.refreshCTA(this.layersInfo[this.CTA], this.layers[this.CTA]); }

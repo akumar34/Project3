@@ -49,10 +49,10 @@
 				//setInterval(function() {mapApp.refresh() }, 60000); 
 				setInterval(function() {mapApp.refreshPotholes() }, 			60000);
 				setInterval(function() {mapApp.refreshAbandonedVehicles() }, 	70000);
-				setInterval(function() {mapApp.refreshLights() }, 				80000);
+				setInterval(function() {mapApp.refreshStreetLights() }, 		80000);
 				setInterval(function() {mapApp.refreshDivvy() }, 				90000);
 				setInterval(function() {mapApp.refreshCrime() }, 			   100000);
-				//setInterval(function() {mapApp.refreshCTA() }, 				   110000);
+				setInterval(function() {mapApp.refreshCTA() }, 				   110000);
 				
 				usWeatherApp = new USWeatherApp;
 				usWeatherApp.init(1,"#viz");

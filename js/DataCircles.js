@@ -265,7 +265,7 @@ function DataCircles() {
                 var outLine = "black";
                 if (daysAgo >= 7) outLine = layerInfo.color;
                 if (data[index].status.indexOf("completed") > -1) outLine = "white";
-				addStreetLightsMarkers(layerContainer, index, data, layer, false);
+				addStreetLightsMarkers(layerContainers[STREET_LIGHTS], index, data, layer, false);
             };
         });
 	};
