@@ -119,7 +119,8 @@ var USWeatherApp = Class.extend({
 					weatherImage = this.getCorrectWeatherIcon(weatherName, 1); // night
 				}
 		}
-		$("div").remove(".map.image.leaflet-control");
+		if( $("div").get(".map.image.leaflet-control") )
+			$("div").remove(".map.image.leaflet-control");
 		var self = this;
 		self.drawEverything(weather, weatherImage.src);
 	},

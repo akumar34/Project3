@@ -452,7 +452,7 @@ function DataCircles() {
 				// filters
                 if (data[index].id == null) continue;
 				var id = data[index].id;
-                if ( getById(layersContainer[index], data[index].id) != null ) return;
+                if ( getById(layerContainers[CRIME], data[index].id) != null ) return;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
                 // add the circles
@@ -521,7 +521,7 @@ function DataCircles() {
 		});
 	};	
 
-    function refreshCTAData(layerInfo, index, layer){
+    function refreshCTAData(layerInfo, layer){
 	    var sourceLink = layerInfo.sourceLink;
 		sourceLink.forEach(function(link){
 			d3.json(link, function(error, json){
@@ -532,12 +532,12 @@ function DataCircles() {
 					for (var index = 0; index < data.length; index++) {
 						// filters
 						if(data[index].vid === null) continue;
-						if ( getByLat(layersContainer[CTA], data[index].lat) != null && 
-							 getByLon(layersContainer[CTA], data[index].lon) != null ) return;
+						if ( getByLat(layerContainers[CTA], data[index].lat) != null && 
+							 getByLon(layerContainers[CTA], data[index].lon) != null ) return;
 						if ( data[index]["lat"] == undefined || data[index]["lon"] == undefined) continue;
 						
 						// add the circles
-						addCTA(layerContainers[CTA], index, data, layer, true);
+						addCTAMarkers(layerContainers[CTA], index, data, layer, true);
 					};
 				};
 			});

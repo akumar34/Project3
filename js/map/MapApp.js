@@ -253,9 +253,11 @@ var MapApp = Class.extend({
     },
 	
 	refreshPotholes: function() { this.DataCircles.refreshPotholesData(this.layersInfo[this.POTHOLES], this.layers[this.POTHOLES]); },	
-	refreshAbandonedVehicles: function() { this.DataCircles.refreshAbandonedVehiclesData(this.layersInfo[this.ABANDONED_VEHICLES], this.layers[ABANDONED_VEHICLES]); },
+	refreshAbandonedVehicles: function() { this.DataCircles.refreshAbandonedVehiclesData(this.layersInfo[this.ABANDONED_VEHICLES], this.layers[this.ABANDONED_VEHICLES]); },
 	refreshStreetLights: function() { this.DataCircles.refreshStreetLightsData(this.layersInfo[this.STREET_LIGHTS], this.layers[this.STREET_LIGHTS]); },
 	refreshDivvy: function() { this.DataCircles.refreshDivvyData(this.layersInfo[this.DIVVY], this.layers[this.DIVVY]); },
 	refreshCrime: function() { this.DataCircles.refreshCrimeData(this.layersInfo[this.CRIME], this.layers[this.CRIME]); },
-	refreshCTA: function() { this.DataCircles.refreshCTAData(this.layersInfo[this.CTA], this.layers[this.CTA]); }
+	refreshCTA: function() { 
+		this.DataCircles.refreshCTAData(this.layersInfo[this.CTA], this.layers[this.CTA]); 
+	}
 });
