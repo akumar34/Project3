@@ -143,7 +143,7 @@ function DataCircles() {
 
     // function filterByShapes()
 
-    function addData(layerInfo, index, layers){
+    function addData(layerInfo, index, layer){
         var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
         d3.json(sourceLink, function(error, data){
@@ -176,13 +176,13 @@ function DataCircles() {
                 //check what type of data we're using so we know what icon to use.
                 switch(layerInfo.type) {
                     case "Potholes":
-                        addPothole(index, i, data, layers, 0);
+                        addPothole(index, i, data, layer, 0);
                         break;
                     case "Lights":
-                        addStreetLight(index, i, data, layers, 0);
+                        addStreetLight(index, i, data, layer, 0);
                         break;
                     case "Abandoned Vehicles":
-                        addAbandonedVehicle(index, i, data, layers, 0);
+                        addAbandonedVehicle(index, i, data, layer, 0);
                         break;
                 }//end switch/case on what type of data we're importing
 
@@ -213,7 +213,7 @@ function DataCircles() {
         });
     };
 	
-	function addDivvyData(layerInfo, index, layers){
+	function addDivvyData(layerInfo, index, layer){
 		var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
 		
@@ -233,7 +233,7 @@ function DataCircles() {
                 // add the circles
                 outLine = layerInfo.color[statusValue];
 
-                addDivvyStation(index, i, data, layers, 0);
+                addDivvyStation(index, i, data, layer, 0);
 
                 /*
                 layersContainer[index].circles.push(
@@ -261,7 +261,7 @@ function DataCircles() {
 		});
     };
 	
-    function addCrimeData(layerInfo, index, layers){
+    function addCrimeData(layerInfo, index, layer){
         var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
         d3.json(sourceLink, function(error, data){
@@ -288,7 +288,7 @@ function DataCircles() {
                 if (daysAgo >= 14)
                     outLine = layerInfo.color;
 
-                addCrime(index, i, data, layers, 0);
+                addCrime(index, i, data, layer, 0);
 				
                 /*
                 layersContainer[index].circles.push(
@@ -313,7 +313,7 @@ function DataCircles() {
         });
     };
 	
-	function addCTAData(layerInfo, index, layers)
+	function addCTAData(layerInfo, index, layer)
 	{
         var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
@@ -338,7 +338,7 @@ function DataCircles() {
 
 							if ( data[i]["lat"] == undefined || data[i]["lon"] == undefined) continue;
 
-							addCTA(index, i, data, layers, 0);
+							addCTA(index, i, data, layer, 0);
 
                             /*
                             layersContainer[index].circles.push(
@@ -367,7 +367,7 @@ function DataCircles() {
 		);
     };
 	
-    function refreshData(layerInfo, index, layers){
+    function refreshData(layerInfo, index, layer){
         var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
         d3.json(sourceLink, function(error, data){
@@ -407,13 +407,13 @@ function DataCircles() {
                 //check what type of data we're using so we know what icon to use.
                 switch(layerInfo.type) {
                     case "Potholes":
-                        addPothole(index, i, data, layers, 1);
+                        addPothole(index, i, data, layer, 1);
                         break;
                     case "Lights":
-                        addStreetLight(index, i, data, layers, 1);
+                        addStreetLight(index, i, data, layer, 1);
                         break;
                     case "Abandoned Vehicles":
-                        addAbandonedVehicle(index, i, data, layers, 1);
+                        addAbandonedVehicle(index, i, data, layer, 1);
                         break;
                 }//end switch/case on what type of data we're importing
 
@@ -442,7 +442,7 @@ function DataCircles() {
         });
     };
 	
-    function refreshDivvyData(layerInfo, index, layers){
+    function refreshDivvyData(layerInfo, index, layer){
 		var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
 		
@@ -467,7 +467,7 @@ function DataCircles() {
                 // add the circles
                 outLine = layerInfo.color[statusValue];
 
-                addDivvyStation(index, i, data, layers, 1);
+                addDivvyStation(index, i, data, layer, 1);
 
                 /*
                 layersContainer[index].circles.push(
@@ -494,7 +494,7 @@ function DataCircles() {
 		});
     };
 
-	function refreshCrimeData(layerInfo, index, layers){
+	function refreshCrimeData(layerInfo, index, layer){
         var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
         d3.json(sourceLink, function(error, data){
@@ -512,7 +512,7 @@ function DataCircles() {
                 if ( data[i]["latitude"] == undefined || data[i]["longitude"] == undefined) continue;
 
                 // add the circles
-                addCrime(index, i, data, layers, 1);
+                addCrime(index, i, data, layer, 1);
 
                 /*
                 layersContainer[index].circles.push(
@@ -538,7 +538,7 @@ function DataCircles() {
         });
     };
 	
-    function refreshCTAData(layerInfo, index, layers)
+    function refreshCTAData(layerInfo, index, layer)
 	{
 	    var sourceLink = layerInfo.sourceLink;
 		var refreshIndex = 0;
@@ -566,7 +566,7 @@ function DataCircles() {
 							 
 							if ( data[i]["lat"] == undefined || data[i]["lon"] == undefined) continue;
 
-							addCTA(index, i, data, layers, 1);
+							addCTA(index, i, data, layer, 1);
 
                             /*
                             layersContainer[index].circles.push(
@@ -717,7 +717,7 @@ function DataCircles() {
     };
 
     //helper function for adding potholes to map
-    function addPothole(layerIndex, dataIndex, data, layers, refresh) {
+    function addPothole(layerIndex, dataIndex, data, layer, refresh) {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -729,14 +729,14 @@ function DataCircles() {
         );//end .push
         //TODO change icon based on value of "status"
         if(refresh == 1) {
-            layers.clearLayers();
+            layer.clearLayers();
         }
-        L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
+        L.layerGroup(layersContainer[layerIndex].circles).addTo(layer);
         return null;
     };//end addPothole()
 
     //helper function for adding street light data to map
-    function addStreetLight(layerIndex, dataIndex, data, layers, refresh) {
+    function addStreetLight(layerIndex, dataIndex, data, layer, refresh) {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -748,14 +748,14 @@ function DataCircles() {
         );//end .push
         //TODO change icon based on value of "status"
         if(refresh == 1) {
-            layers.clearLayers();
+            layer.clearLayers();
         }
-        L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
+        L.layerGroup(layersContainer[layerIndex].circles).addTo(layer);
         return null;
     };//end addStreetLight()
 
     //helper function for adding abandoned vehicle data to map
-    function addAbandonedVehicle(layerIndex, dataIndex, data, layers, refresh) {
+    function addAbandonedVehicle(layerIndex, dataIndex, data, layer, refresh) {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -769,14 +769,14 @@ function DataCircles() {
         //TODO change icon based on value of "status"
         //TODO do we want to put extra data like color, licenese plate, make/model? maybe under a "show more" tab/button, etc?
         if(refresh == 1) {
-            layers.clearLayers();
+            layer.clearLayers();
         }
-        L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
+        L.layerGroup(layersContainer[layerIndex].circles).addTo(layer);
         return null;
     };//end addAbandonedVehicle()
 
     //helper function for adding divvy stations to map
-    function addDivvyStation(layerIndex, dataIndex, data, layers, refresh) {
+    function addDivvyStation(layerIndex, dataIndex, data, layer, refresh) {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -788,14 +788,14 @@ function DataCircles() {
         );//end .push
         //TODO change icon based on value of "statusValue"
         if(refresh == 1) {
-            layers.clearLayers();
+            layer.clearLayers();
         }
-        L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
+        L.layerGroup(layersContainer[layerIndex].circles).addTo(layer);
         return null;
     };//end addDivvyStation()
 
     //helper function for adding crime data to map
-    function addCrime(layerIndex, dataIndex, data, layers, refresh) {
+    function addCrime(layerIndex, dataIndex, data, layer, refresh) {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -809,14 +809,14 @@ function DataCircles() {
         //TODO maybe add details like the description and if it was domestic or not, case number, iucr, etc? either
         //in the popup or some sort of "show more"? or maybe we show some basic info on hover, and that+more on click/popup?
         if(refresh == 1) {
-            layers.clearLayers();
+            layer.clearLayers();
         }
-        L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
+        L.layerGroup(layersContainer[layerIndex].circles).addTo(layer);
         return null;
     };//end addCrime()
 
     //helper function for adding CTA data to map
-    function addCTA(layerIndex, dataIndex, data, layers, refresh) {
+    function addCTA(layerIndex, dataIndex, data, layer, refresh) {
     layersContainer[layerIndex].circles.push(
         L.marker([data[dataIndex]["lat"], data[dataIndex]["lon"]], 
         {
@@ -830,9 +830,9 @@ function DataCircles() {
     //TODO change icon based on value of "status"
     //TODO do we want to put extra data like color, licenese plate, make/model? maybe under a "show more" tab/button, etc?
     if(refresh == 1) {
-        layers.clearLayers();
+        layer.clearLayers();
     }
-    L.layerGroup(layersContainer[layerIndex].circles).addTo(layers);
+    L.layerGroup(layersContainer[layerIndex].circles).addTo(layer);
     return null;
 };//end addCTA()
 	
