@@ -111,6 +111,9 @@ function DataCircles() {
         } 
     };
 	
+	
+	
+	
 	    // add layers of data
     function refreshLayers(layersInfo, layers){
         for (var i = 0; i < layersInfo.length; i++) {
@@ -140,6 +143,28 @@ function DataCircles() {
         } 
     };
 
+	function refreshLayer(layerInfo, layer){
+			switch(layerInfo.type){
+				case "Potholes":
+					refreshData(layerInfo, 0, layer);					
+					break;
+				case "Abandoned Vehicles":
+					refreshData(layerInfo, 1, layer);
+					break;
+				case "Lights":
+					refreshData(layerInfo, 2, layer);
+					break;
+				case "Divvy":
+					refreshDivvyData(layerInfo, 3, layer);
+					break;
+				case "Crime":
+					refreshCrimeData(layerInfo, 4, layer);
+					break;			
+				case "CTA":
+					refreshCTAData(layerInfo, 5, layer);
+					break;
+			}	
+	};
 
     // function filterByShapes()
 
@@ -721,7 +746,9 @@ function DataCircles() {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
-                icon: potholeIcon
+                icon: potholeIcon,
+                service_request_number : data[dataIndex].service_request_number
+				
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -740,7 +767,8 @@ function DataCircles() {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
-                icon: streetLightIcon
+                icon: streetLightIcon,
+                service_request_number : data[dataIndex].service_request_number
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -759,7 +787,8 @@ function DataCircles() {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
-                icon: abandonedVehicleIcon
+                icon: abandonedVehicleIcon,
+                service_request_number : data[dataIndex].service_request_number
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -780,7 +809,10 @@ function DataCircles() {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
-                icon: divvyStationIcon
+                icon: divvyStationIcon,
+				totalDocks : data[dataIndex].totalDocks,
+    			availableBikes : data[dataIndex].availableBikes,
+    			statusValue : data[dataIndex].statusValue
             }
         ).bindPopup("<strong>Station Name:</strong> " + data[dataIndex]["stationName"] + "<br><strong>Status:</strong> " +
                 data[dataIndex]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[dataIndex]["availableBikes"] + 
@@ -799,7 +831,8 @@ function DataCircles() {
         layersContainer[layerIndex].circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
-                icon: crimeIcon
+                icon: crimeIcon,
+				id : data[dataIndex].id
             }
         ).bindPopup("<strong>Type:</strong> " + data[dataIndex]["primary_type"] + "<br><strong>Arrest:</strong> " +
                 data[dataIndex]["arrest"] +"<br><strong>Location Description:</strong> " + data[dataIndex]["location_description"] + 
@@ -820,7 +853,9 @@ function DataCircles() {
     layersContainer[layerIndex].circles.push(
         L.marker([data[dataIndex]["lat"], data[dataIndex]["lon"]], 
         {
-            icon: ctaIcon
+            icon: ctaIcon,
+			lat : data[dataIndex].lat,
+			lon : data[dataIndex].lon
         }
     )/*.bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
         "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -834,10 +869,11 @@ function DataCircles() {
     }
     L.layerGroup(layersContainer[layerIndex].circles).addTo(layer);
     return null;
-};//end addCTA()
+	};//end addCTA()
 	
     DataCirclesObj.filterByShape = filterByShape;
     DataCirclesObj.addLayers = addLayers;
 	DataCirclesObj.refreshLayers = refreshLayers;
+	DataCirclesObj.refreshLayer = refreshLayer;
     return DataCirclesObj;
 };

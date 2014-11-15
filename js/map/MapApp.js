@@ -226,6 +226,93 @@ var MapApp = Class.extend({
         return coordinates;
     },
 	
+	refreshPotholes: function() {
+		var layersInfo = [
+			{
+				sourceLink : "http://data.cityofchicago.org/resource/7as2-ds3y.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
+				type : "Potholes",
+				fill : "cyan",
+				color : "orange",
+				id : 0,
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+			}
+		];
+		this.DataCircles.refreshLayer(layersInfo[0], this.layers[0]);
+	},
+	
+	refreshAbandonedVehicles: function() {
+		var layersInfo = [
+			{
+				sourceLink : "http://data.cityofchicago.org/resource/3c9v-pnva.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
+				type : "Abandoned Vehicles",
+				fill : "brown",
+				color : "orange",
+				id : 1,
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+			}
+		];
+		this.DataCircles.refreshLayer(layersInfo[0], this.layers[1]);
+	},
+
+	refreshLights: function() {
+		var layersInfo = [
+			{
+				sourceLink : "http://data.cityofchicago.org/resource/zuxi-7xem.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
+				type : "Lights",
+				fill : "red",
+				color : "orange",
+				id : 2,
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+			}
+		];
+		this.DataCircles.refreshLayer(layersInfo[0], this.layers[2]);
+	},	
+	
+	refreshDivvy: function() {
+		var statusColors = this.statusColors;
+		var layersInfo = [
+			{
+				sourceLink : "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D%22http%3A%2F%2Fdivvybikes.com%2Fstations%2Fjson%3F_out%3Djson%22&format=json&diagnostics=true&callback=", 
+				type : "Divvy",
+				fill : "blue",
+				color : statusColors,
+				id : 3,
+				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+			}
+		];
+		this.DataCircles.refreshLayer(layersInfo[0], this.layers[3]);
+	},	
+	
+	refreshCrime: function() {
+		var statusColors = this.statusColors;
+		var layersInfo = [
+			{
+				sourceLink : "http://data.cityofchicago.org/resource/ijzp-q8t2.json?$order=date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
+				type : "Crime",
+				fill : "green",
+				color : "yellow",
+				id : 4,
+				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
+			}
+		];
+		this.DataCircles.refreshLayer(layersInfo[0], this.layers[4]);
+	},	
+
+	refreshCTA: function() {
+		var statusColors = this.statusColors;
+		var layersInfo = [
+			{
+				sourceLink : ctaUrl, 
+				type : "CTA",
+				fill : "orange",
+				color : "gray",
+				id : 5,
+				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
+			}
+		];
+		this.DataCircles.refreshLayer(layersInfo[0], this.layers[5]);
+	},		
+	
 	refresh: function(){
 		var statusColors = this.statusColors;
 		var ctaUrl = this.ctaUrl;
