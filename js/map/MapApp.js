@@ -198,15 +198,23 @@ var MapApp = Class.extend({
 		//drawnItems.addTo(map);
 		this.map.addLayer(drawnItems); 
 		//draw control, passed the FeatureGroup from above
-		var drawControl = new L.Control.Draw({
-				position: 'bottomright',
-			edit: {
+		drawControl = new L.Control.Draw({
+			position: 'bottomright',
+			edit: 
+			{
 				featureGroup: drawnItems
-			}
+			},
+			draw: 
+			{
+		        marker	: false,
+		        circle 	: false,
+		        polyline 	: false
+		    }
 		});
 
 		//add control to map
 		this.map.addControl(drawControl);
+		
 		//drawControl.addTo(map);
 		var context = this;
 		this.map.on('draw:created', function(e) {
