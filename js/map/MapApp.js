@@ -265,7 +265,9 @@ var MapApp = Class.extend({
 			};
 		};
 
-		console.log(pointsArray);
+		for (var i = 0; i < pointsArray.length; i++) {
+			this.DataCircles.filterByShape(pointsArray[i]);
+		};
 	},
 
 	extractLngLatFromShape: function (coordinatesArray) {

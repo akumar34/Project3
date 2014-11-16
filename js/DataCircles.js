@@ -624,6 +624,12 @@ function DataCircles() {
 
                 if (gju.pointInPolygon(point, poly)){
                     // create subset of the total circles to be later shown on map and sent to graphs
+                    for (var c = 0; c < selectedDataPoints[q].circles.length; c++) {
+                        if (selectedDataPoints[q].circles[c] == layerContainers[q].circles[i]) {
+                            console.log("Im already here");
+                            continue;
+                        };
+                    };
                     selectedDataPoints[q].circles.push(layerContainers[q].circles[i]);
                 };
             };
