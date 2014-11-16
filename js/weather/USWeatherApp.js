@@ -119,8 +119,8 @@ var USWeatherApp = Class.extend({
 					weatherImage = this.getCorrectWeatherIcon(weatherName, 1); // night
 				}
 		}
-		if( $("div").get(".map.image.leaflet-control") )
-			$("div").remove(".map.image.leaflet-control");
+		if( $("div.map.image.leaflet-control").length > 0 ) 
+			$("div.map.image.leaflet-control").remove();
 		var self = this;
 		self.drawEverything(weather, weatherImage.src);
 	},
@@ -159,7 +159,8 @@ var USWeatherApp = Class.extend({
             //div.innerHTML = '<i class="WeatherIcon" style="color:black;font-size:50px;font-weight:bold">' + weather + ' F</i>' + '<img src="' + iconSrc + '"/>';
             return div;
         };
-        weatherlegend.addTo(mapApp.map);
+        if(mapApp.map)
+			weatherlegend.addTo(mapApp.map);
     },
 
 ////////////////////////////////////////
