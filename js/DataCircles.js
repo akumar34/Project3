@@ -94,6 +94,16 @@ function DataCircles() {
             id           : layerInfo.id,
             controlLayer : layer
 		};
+
+        selectedDataPoints[POTHOLES] =
+        {
+            link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
+        };
 		
         var sourceLink = layerInfo.sourceLink;
         d3.json(sourceLink, function(error, data){
@@ -175,6 +185,16 @@ function DataCircles() {
             id           : layerInfo.id,
             controlLayer : layer
 		};
+
+        selectedDataPoints[ABANDONED_VEHICLES] =
+        {
+            link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
+        };
 		
         var sourceLink = layerInfo.sourceLink;
         d3.json(sourceLink, function(error, data){
@@ -254,6 +274,16 @@ function DataCircles() {
             id           : layerInfo.id,
             controlLayer : layer
 		};
+
+        selectedDataPoints[STREET_LIGHTS] =
+        {
+            link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
+        };
 		
         var sourceLink = layerInfo.sourceLink;
         d3.json(sourceLink, function(error, data){
@@ -341,6 +371,16 @@ function DataCircles() {
             id           : layerInfo.id,
             controlLayer : layer
 		};
+
+        selectedDataPoints[DIVVY] =
+        {
+            link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
+        };
 		
 		var sourceLink = layerInfo.sourceLink;
 		d3.json(sourceLink, function(error, json){
@@ -436,6 +476,16 @@ function DataCircles() {
             id           : layerInfo.id,
             controlLayer : layer
 		};
+
+        selectedDataPoints[CRIME] =
+        {
+            link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
+        };
 		
        var sourceLink = layerInfo.sourceLink;
         d3.json(sourceLink, function(error, data){
@@ -517,6 +567,16 @@ function DataCircles() {
 			id           : layerInfo.id,
             controlLayer : layer
 		};
+
+        selectedDataPoints[CTA] =
+        {
+            link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
+        };
 		
         var sourceLink = layerInfo.sourceLink;
 		sourceLink.forEach(function(link){
@@ -599,44 +659,51 @@ function DataCircles() {
 /************End CTA Data Handling************/	
 
     // function that filters by a simple rectangle
-    function filterByShape(coordinates){
+    function filterByShape(coordinates, add){
          var poly = {
             "type": "Polygon",
             "coordinates": coordinates
         };
 
         for (var q = 0; q < layerContainers.length; q++) {
-
-            selectedDataPoints.push({
-                link            : layerContainers[q].sourceLink,
-                type            : layerContainers[q].type,
-                circles         : [],
-                refresh         : layerContainers[q].refresh,
-                id              : layerContainers[q].id,
-                controlLayer    : layerContainers[q].controlLayer
-            });
-
             for (var i = 0; i < layerContainers[q].circles.length; i++) {
                 var point = {
                     "type": "Point", 
                     "coordinates": [layerContainers[q].circles[i]._latlng.lng, layerContainers[q].circles[i]._latlng.lat]
                 };
 
+                // if the point is in the polygon add it or remove it
                 if (gju.pointInPolygon(point, poly)){
+                    var index = containsCircle(selectedDataPoints[q].circles,layerContainers[q].circles[i]);
                     // create subset of the total circles to be later shown on map and sent to graphs
-                    for (var c = 0; c < selectedDataPoints[q].circles.length; c++) {
-                        if (selectedDataPoints[q].circles[c] == layerContainers[q].circles[i]) {
-                            console.log("Im already here");
-                            continue;
-                        };
-                    };
-                    selectedDataPoints[q].circles.push(layerContainers[q].circles[i]);
+                    if (add && index < 0) 
+                        selectedDataPoints[q].circles.push(layerContainers[q].circles[i]);
+                    // remove subset of circles
+                    else if (!add && index >= 0){
+                        selectedDataPoints[q].splice(index, 1);
+                    }
                 };
+            };
+
+            if (!add) {
+                L.layerGroup(selectedDataPoints[q].circles).removeFrom(selectedDataPoints[q].controlLayer);
             };
         };
 
         addSelectedToControl();
         cleanAndMakeGraphs();
+    };
+
+    // helper function
+    function containsCircle(circleArray,circle) {
+        for (var c = 0; c < circleArray.length; c++) {
+            if (circleArray[c] === circle) {
+                console.log("I already have that circle");
+                return c
+            }
+        };
+
+        return -1;
     };
 
     function addSelectedToControl(){

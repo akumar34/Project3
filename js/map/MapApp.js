@@ -227,11 +227,8 @@ var MapApp = Class.extend({
 			// todo: check if its ok to draw if needed
 			drawnItems.addLayer(layer);
 
-			// very simple test right now
 			if (type == 'rectangle') {
-				//do marker stuff
-				// var coorArray = context.extractLngLatFromShape(layer._latlngs);
-				// context.DataCircles.filterByShape(coorArray);
+
 				context.shapes[layer._leaflet_id] = 
 					{
 						type 	: "rectangle",
@@ -239,11 +236,12 @@ var MapApp = Class.extend({
 						latlngs : layer._latlngs
 					};
 
-				context.filterByShapes();
+				// extract lat lngs and add datapoints inside shape to the layers
+				context.filterByShapes(true);
 			};
 
-			//this.map.addLayer(layer);
-		});//ennd this.map.on('draw:created
+		});
+		//end this.map.on('draw:created
 
 		this.map.on('draw:deleted', function(e){
 			console.log(e);
@@ -255,7 +253,7 @@ var MapApp = Class.extend({
 		//end leaflet locate control stuff
 	},
 
-	filterByShapes: function (){
+	filterByShapes: function (add){
 		var pointsArray = [];
 		for(var x in this.shapes){
 			shape = this.shapes[x];
@@ -266,7 +264,7 @@ var MapApp = Class.extend({
 		};
 
 		for (var i = 0; i < pointsArray.length; i++) {
-			this.DataCircles.filterByShape(pointsArray[i]);
+			this.DataCircles.filterByShape(pointsArray[i], add);
 		};
 	},
 
