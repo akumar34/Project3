@@ -586,30 +586,30 @@ function DataCircles() {
             "coordinates": coordinates
         };
 
-        for (var q = 0; q < layersContainer.length; q++) {
+        for (var q = 0; q < layerContainers.length; q++) {
 
             selectedDataPoints.push({
-                link : layersContainer[q].sourceLink,
-                type : layersContainer[q].type,
+                link : layerContainers[q].sourceLink,
+                type : layerContainers[q].type,
                 circles : [],
-                refresh : layersContainer[q].refresh,
-                id : layersContainer[q].id
+                refresh : layerContainers[q].refresh,
+                id : layerContainers[q].id
             });
 
-            for (var i = 0; i < layersContainer[q].circles.length; i++) {
+            for (var i = 0; i < layerContainers[q].circles.length; i++) {
                 var point = {
                     "type": "Point", 
-                    "coordinates": [layersContainer[q].circles[i]._latlng.lng, layersContainer[q].circles[i]._latlng.lat]
+                    "coordinates": [layerContainers[q].circles[i]._latlng.lng, layerContainers[q].circles[i]._latlng.lat]
                 };
 
                 if (!gju.pointInPolygon(point, poly)){
                     // this needs to be changed later!
-                    layersContainer[q].circles[i].setOpacity(0);
-                    //layersContainer[q].circles[i].setStyle({opacity: 0, fillOpacity:0});
+                    layerContainers[q].circles[i].setOpacity(0);
+                    //layerContainers[q].circles[i].setStyle({opacity: 0, fillOpacity:0});
                 }
                 else{
                     // create subset of the total circles to be later shown on map and sent to graphs
-                    selectedDataPoints[q].circles.push(layersContainer[q].circles[i]);
+                    selectedDataPoints[q].circles.push(layerContainers[q].circles[i]);
                 };
             };
         };
@@ -630,11 +630,11 @@ function DataCircles() {
             });
         };
 
-        for (var i = 0; i < layersContainer.length; i++) {
+        for (var i = 0; i < layerContainers.length; i++) {
             overallData.push(
             {
-                label : layersContainer[i].type,
-                value : layersContainer[i].circles.length
+                label : layerContainers[i].type,
+                value : layerContainers[i].circles.length
             });
         };
 
