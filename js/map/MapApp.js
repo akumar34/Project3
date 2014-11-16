@@ -19,6 +19,18 @@ var MapApp = Class.extend({
 		this.layersInfo = [];
 		
 		this.ctaUrl = [];
+	},
+	
+	init: function(chicagoMap){
+		this.layers.push(new L.LayerGroup());
+		this.layers.push(new L.LayerGroup());
+		this.layers.push(new L.LayerGroup());
+		this.layers.push(new L.LayerGroup());
+		this.layers.push(new L.LayerGroup());
+		this.layers.push(new L.LayerGroup());
+
+		var statusColors = this.statusColors;
+		
 		this.ctaUrl.push("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'http%3A%2F%2Fwww.ctabustracker.com%2Fbustime%2Fapi%2Fv1%2Fgetvehicles%3Fkey%3DHJN3hHSdDr3HRiJ5AirDZaScN%26rt%3D1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C8A'&format=json&diagnostics=true&callback=");
 		
 		this.ctaUrl.push("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'http%3A%2F%2Fwww.ctabustracker.com%2Fbustime%2Fapi%2Fv1%2Fgetvehicles%3Fkey%3DHJN3hHSdDr3HRiJ5AirDZaScN%26rt%3D9%2C10%2C11%2C12%2CJ14%2C15%2C18%2C19'&format=json&diagnostics=true&callback=");
@@ -50,29 +62,7 @@ var MapApp = Class.extend({
 		this.ctaUrl.push("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'http%3A%2F%2Fwww.ctabustracker.com%2Fbustime%2Fapi%2Fv1%2Fgetvehicles%3Fkey%3DHJN3hHSdDr3HRiJ5AirDZaScN%26rt%3D152%2C155%2C156%2C157%2C165%2C169%2C170%2C171'&format=json&diagnostics=true&callback=");
 		
 		this.ctaUrl.push("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'http%3A%2F%2Fwww.ctabustracker.com%2Fbustime%2Fapi%2Fv1%2Fgetvehicles%3Fkey%3DHJN3hHSdDr3HRiJ5AirDZaScN%26rt%3D172%2C192%2C201%2C205%2C206'&format=json&diagnostics=true&callback=");
-	},
-	
-	dateBefore: function(date1,date2) { 
-		return (date1-date2) < 0; 
-	},
-	
-	dateAfter: function(date1,date2) { 
-		return (date1-date2) > 0; 
-	},
-	
-	dateEqual: function(date1,date2) { 
-		return (date1-date2) === 0; 
-	},
-	
-	init: function(chicagoMap){
-		this.layers.push(new L.LayerGroup());
-		this.layers.push(new L.LayerGroup());
-		this.layers.push(new L.LayerGroup());
-		this.layers.push(new L.LayerGroup());
-		this.layers.push(new L.LayerGroup());
-		this.layers.push(new L.LayerGroup());
-
-		var statusColors = this.statusColors;
+		
 		var ctaUrl = this.ctaUrl;
 		
 		var POTHOLES = this.POTHOLES;
@@ -119,34 +109,34 @@ var MapApp = Class.extend({
 		
 		this.layersInfo[DIVVY] = 		
 		{
-				sourceLink : "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D%22http%3A%2F%2Fdivvybikes.com%2Fstations%2Fjson%3F_out%3Djson%22&format=json&diagnostics=true&callback=", 
-				type : "Divvy",
-				fill : "blue",
-				color : statusColors,
-				id : 3,
-				refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
+			sourceLink : "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D%22http%3A%2F%2Fdivvybikes.com%2Fstations%2Fjson%3F_out%3Djson%22&format=json&diagnostics=true&callback=", 
+			type : "Divvy",
+			fill : "blue",
+			color : statusColors,
+			id : 3,
+			refresh : new Date("January 1, 1901 00:00:00"), //hack: fix later
 		};
 		DataCircles.addDivvyData(this.layersInfo[DIVVY], this.layers[DIVVY]);
 		
 		this.layersInfo[CRIME] = 		
 		{
-				sourceLink : "http://data.cityofchicago.org/resource/ijzp-q8t2.json?$order=date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
-				type : "Crime",
-				fill : "green",
-				color : "yellow",
-				id : 4,
-				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
+			sourceLink : "http://data.cityofchicago.org/resource/ijzp-q8t2.json?$order=date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
+			type : "Crime",
+			fill : "green",
+			color : "yellow",
+			id : 4,
+			refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
 		};
 		DataCircles.addCrimeData(this.layersInfo[CRIME], this.layers[CRIME]);
 		
 		this.layersInfo[CTA] = 		
 		{
-				sourceLink : ctaUrl, 
-				type : "CTA",
-				fill : "orange",
-				color : "gray",
-				id : 5,
-				refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
+			sourceLink : ctaUrl, 
+			type : "CTA",
+			fill : "orange",
+			color : "gray",
+			id : 5,
+			refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
 		};
 		DataCircles.addCTAData(this.layersInfo[CTA], this.layers[CTA]);
 
@@ -252,12 +242,14 @@ var MapApp = Class.extend({
         return coordinates;
     },
 	
+	/*dateBefore: function(date1,date2) { return (date1-date2) < 0; },	
+	dateAfter: function(date1,date2) { return (date1-date2) > 0; },	
+	dateEqual: function(date1,date2) { return (date1-date2) === 0; },*/	
+	
 	refreshPotholes: function() { this.DataCircles.refreshPotholesData(this.layersInfo[this.POTHOLES], this.layers[this.POTHOLES]); },	
 	refreshAbandonedVehicles: function() { this.DataCircles.refreshAbandonedVehiclesData(this.layersInfo[this.ABANDONED_VEHICLES], this.layers[this.ABANDONED_VEHICLES]); },
 	refreshStreetLights: function() { this.DataCircles.refreshStreetLightsData(this.layersInfo[this.STREET_LIGHTS], this.layers[this.STREET_LIGHTS]); },
 	refreshDivvy: function() { this.DataCircles.refreshDivvyData(this.layersInfo[this.DIVVY], this.layers[this.DIVVY]); },
 	refreshCrime: function() { this.DataCircles.refreshCrimeData(this.layersInfo[this.CRIME], this.layers[this.CRIME]); },
-	refreshCTA: function() { 
-		this.DataCircles.refreshCTAData(this.layersInfo[this.CTA], this.layers[this.CTA]); 
-	}
+	refreshCTA: function() { this.DataCircles.refreshCTAData(this.layersInfo[this.CTA], this.layers[this.CTA]); }
 });
