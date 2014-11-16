@@ -86,11 +86,12 @@ function DataCircles() {
 	function addPotholesData(layerInfo, layer){
 		layerContainers[POTHOLES] = 
 		{
-			link    : layerInfo.sourceLink,
-			type    : layerInfo.type,
-			circles : [],
-			refresh : layerInfo.refresh,
-			id      : layerInfo.id
+			link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
 		};
 		
         var sourceLink = layerInfo.sourceLink;
@@ -154,8 +155,10 @@ function DataCircles() {
             data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))//because time at end is always uselessly zeroed
         );//end .push
         //TODO change icon based on value of "status"
-        if(refresh) layer.clearLayers();
-        L.layerGroup(layerContainer.circles).addTo(layer);
+        
+        // we should only show the data on the map when a polygon is drawn
+        // if(refresh) layer.clearLayers();
+        // L.layerGroup(layerContainer.circles).addTo(layer);
         return null;
     };
 /************End Potholes Data Handling************/
@@ -164,11 +167,12 @@ function DataCircles() {
 	function addAbandonedVehiclesData(layerInfo, layer){
 		layerContainers[ABANDONED_VEHICLES] = 
 		{
-			link    : layerInfo.sourceLink,
-			type    : layerInfo.type,
-			circles : [],
-			refresh : layerInfo.refresh,
-			id      : layerInfo.id
+			link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
 		};
 		
         var sourceLink = layerInfo.sourceLink;
@@ -230,8 +234,10 @@ function DataCircles() {
         );//end .push
         //TODO change icon based on value of "status"
         //TODO do we want to put extra data like color, licenese plate, make/model? maybe under a "show more" tab/button, etc?
-        if(refresh) layer.clearLayers();
-        L.layerGroup(layerContainer.circles).addTo(layer);
+        
+        // we should only show the data on the map when a polygon is drawn
+        // if(refresh) layer.clearLayers();
+        // L.layerGroup(layerContainer.circles).addTo(layer);
         return null;
     };	
 /************End Abandoned Vehicles Data Handling************/
@@ -240,11 +246,12 @@ function DataCircles() {
 	function addStreetLightsData(layerInfo, layer){
 		layerContainers[STREET_LIGHTS] = 
 		{
-			link    : layerInfo.sourceLink,
-			type    : layerInfo.type,
-			circles : [],
-			refresh : layerInfo.refresh,
-			id      : layerInfo.id
+			link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
 		};
 		
         var sourceLink = layerInfo.sourceLink;
@@ -307,8 +314,10 @@ function DataCircles() {
             data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))
         );//end .push
         //TODO change icon based on value of "status"
-        if(refresh) layer.clearLayers();
-        L.layerGroup(layerContainer.circles).addTo(layer);
+        
+        // we should only show the data on the map when a polygon is drawn
+        // if(refresh) layer.clearLayers();
+        // L.layerGroup(layerContainer.circles).addTo(layer);
         return null;
     };
 	
@@ -324,11 +333,12 @@ function DataCircles() {
 	function addDivvyData(layerInfo, layer){
 		layerContainers[DIVVY] = 
 		{
-			link    : layerInfo.sourceLink,
-			type    : layerInfo.type,
-			circles : [],
-			refresh : layerInfo.refresh,
-			id      : layerInfo.id
+			link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
 		};
 		
 		var sourceLink = layerInfo.sourceLink;
@@ -387,8 +397,10 @@ function DataCircles() {
                 "/" + data[dataIndex]["totalDocks"])
         );//end .push
         //TODO change icon based on value of "statusValue"
-        if(refresh) layer.clearLayers();
-        L.layerGroup(layerContainer.circles).addTo(layer);
+        
+        // we should only show the data on the map when a polygon is drawn
+        // if(refresh) layer.clearLayers();
+        // L.layerGroup(layerContainer.circles).addTo(layer);
         return null;
     };
 	
@@ -416,11 +428,12 @@ function DataCircles() {
 	function addCrimeData(layerInfo, layer){
 		layerContainers[CRIME] = 
 		{
-			link    : layerInfo.sourceLink,
-			type    : layerInfo.type,
-			circles : [],
-			refresh : layerInfo.refresh,
-			id      : layerInfo.id
+			link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
 		};
 		
        var sourceLink = layerInfo.sourceLink;
@@ -476,8 +489,10 @@ function DataCircles() {
         );//end .push
         //TODO maybe add details like the description and if it was domestic or not, case number, iucr, etc? either
         //in the popup or some sort of "show more"? or maybe we show some basic info on hover, and that+more on click/popup?
-        if(refresh) layer.clearLayers();
-        L.layerGroup(layerContainer.circles).addTo(layer);
+        
+        // we should only show the data on the map when a polygon is drawn
+        // if(refresh) layer.clearLayers();
+        // L.layerGroup(layerContainer.circles).addTo(layer);
         return null;
     };
 	
@@ -494,11 +509,12 @@ function DataCircles() {
 	function addCTAData(layerInfo, layer){
 		layerContainers[CTA] = 
 		{
-			link    : layerInfo.sourceLink,
-			type    : layerInfo.type,
-			circles : [],
-			refresh : layerInfo.refresh,
-			id      : layerInfo.id
+			link         : layerInfo.sourceLink,
+			type         : layerInfo.type,
+			circles      : [],
+			refresh      : layerInfo.refresh,
+			id           : layerInfo.id,
+            controlLayer : layer
 		};
 		
         var sourceLink = layerInfo.sourceLink;
@@ -560,8 +576,10 @@ function DataCircles() {
 		);//end .push
 		//TODO change icon based on value of "status"
 		//TODO do we want to put extra data like color, licenese plate, make/model? maybe under a "show more" tab/button, etc?
-		if(refresh) layer.clearLayers();
-		L.layerGroup(layerContainer.circles).addTo(layer);
+		
+        // we should only show the data points when the polygon is drawn
+        // if(refresh) layer.clearLayers();
+		// L.layerGroup(layerContainer.circles).addTo(layer);
 		return null;
 	};
 	
@@ -589,11 +607,12 @@ function DataCircles() {
         for (var q = 0; q < layerContainers.length; q++) {
 
             selectedDataPoints.push({
-                link : layerContainers[q].sourceLink,
-                type : layerContainers[q].type,
-                circles : [],
-                refresh : layerContainers[q].refresh,
-                id : layerContainers[q].id
+                link            : layerContainers[q].sourceLink,
+                type            : layerContainers[q].type,
+                circles         : [],
+                refresh         : layerContainers[q].refresh,
+                id              : layerContainers[q].id,
+                controlLayer    : layerContainers[q].controlLayer
             });
 
             for (var i = 0; i < layerContainers[q].circles.length; i++) {
@@ -602,19 +621,22 @@ function DataCircles() {
                     "coordinates": [layerContainers[q].circles[i]._latlng.lng, layerContainers[q].circles[i]._latlng.lat]
                 };
 
-                if (!gju.pointInPolygon(point, poly)){
-                    // this needs to be changed later!
-                    layerContainers[q].circles[i].setOpacity(0);
-                    //layerContainers[q].circles[i].setStyle({opacity: 0, fillOpacity:0});
-                }
-                else{
+                if (gju.pointInPolygon(point, poly)){
                     // create subset of the total circles to be later shown on map and sent to graphs
                     selectedDataPoints[q].circles.push(layerContainers[q].circles[i]);
                 };
             };
         };
 
+        addSelectedToControl();
         cleanAndMakeGraphs();
+    };
+
+    function addSelectedToControl(){
+        for (var i = 0; i < selectedDataPoints.length; i++) {
+            var layer = selectedDataPoints[i].controlLayer;
+            L.layerGroup(selectedDataPoints[i].circles).addTo(layer);
+        };
     };
 
     // clean data of selectedDataPoints so that d3 can make graphs using D3Graphs object
