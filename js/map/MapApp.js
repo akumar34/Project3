@@ -277,11 +277,8 @@ var MapApp = Class.extend({
 		divs = $('.leaflet-bottom');
 		for (var i = 0; i < divs.length; i++) {
 			if ($(divs[i]).attr('class') == "leaflet-bottom leaflet-left") {
-				console.log("WTF");
 				padding = $(divs[i]).height() + $('#sidebar').height() + 20;
 			};
-
-			console.log("really WTF!");
 		};
 		$('#sidebar').css({'margin-top' : (height - padding) + 'px'});
 	},
