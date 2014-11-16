@@ -50,8 +50,6 @@ function D3Graphs(){
         var max = 0;
         var min = 0;
         for (var i = 0; i < dataObject.length; i++) {
-            console.log(dataObject[i]);
-
             if(dataObject[i][value] > max)
                 max = dataObject[i][value];
         };

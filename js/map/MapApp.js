@@ -19,6 +19,9 @@ var MapApp = Class.extend({
 		this.layersInfo = [];
 		
 		this.ctaUrl = [];
+
+		// array used to keep track of shapes and their ids that are drawn
+		this.shapes = {};
 	},
 	
 	init: function(chicagoMap){
@@ -194,7 +197,7 @@ var MapApp = Class.extend({
 
 		//LEAFLET.DRAW STUF
 		//FeatureGroup to store editabble layers
-		var drawnItems = new L.FeatureGroup();
+		drawnItems = new L.FeatureGroup();
 		//drawnItems.addTo(map);
 		this.map.addLayer(drawnItems); 
 		//draw control, passed the FeatureGroup from above
@@ -221,19 +224,30 @@ var MapApp = Class.extend({
 			var type = e.layerType,
 			layer = e.layer;
 
+			// todo: check if its ok to draw if needed
+			drawnItems.addLayer(layer);
+
 			// very simple test right now
 			if (type == 'rectangle') {
 				//do marker stuff
-				// console.log(layer._latlngs);
-				// console.log(context.extractLngLatFromShape(layer._latlngs));
-				var coorArray = context.extractLngLatFromShape(layer._latlngs);
-				context.DataCircles.filterByShape(coorArray);	
+				// var coorArray = context.extractLngLatFromShape(layer._latlngs);
+				// context.DataCircles.filterByShape(coorArray);
+				context.shapes[layer._leaflet_id] = 
+					{
+						type 	: "rectangle",
+						id  	: layer._leaflet_id,
+						latlngs : layer._latlngs
+					};
 
+				context.filterByShapes();
 			};
 
 			//this.map.addLayer(layer);
-			drawnItems.addLayer(layer);
 		});//ennd this.map.on('draw:created
+
+		this.map.on('draw:deleted', function(e){
+			console.log(e);
+		});
 		//END LEAFLET.DRAW STUFF
 
 		//leaflet locate control stuff
@@ -241,8 +255,23 @@ var MapApp = Class.extend({
 		//end leaflet locate control stuff
 	},
 
+	filterByShapes: function (){
+		var pointsArray = [];
+		for(var x in this.shapes){
+			shape = this.shapes[x];
+			if (shape.type === "rectangle") {
+				console.log(shape.latlngs)
+				pointsArray.push(this.extractLngLatFromShape(shape.latlngs));
+			};
+		};
+
+		console.log(pointsArray);
+	},
+
 	extractLngLatFromShape: function (coordinatesArray) {
         coordinates = [];
+        console.log(coordinatesArray);
+
         for (var i = 0; i < coordinatesArray.length; i++) {
             coordinates.push([coordinatesArray[i].lng, coordinatesArray[i].lat]);
         };

@@ -12,7 +12,8 @@ function DataCircles() {
     // make this private after testing
     var selectedDataPoints = [];
 
-	var layerContainers = [];
+    // make this private after testing
+	layerContainers = [];
 	layerContainers[POTHOLES] = {};
 	layerContainers[ABANDONED_VEHICLES] = {};
 	layerContainers[STREET_LIGHTS] = {};
