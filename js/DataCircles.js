@@ -674,21 +674,20 @@ function DataCircles() {
 
                 // if the point is in the polygon add it or remove it
                 if (gju.pointInPolygon(point, poly)){
-                    var index = containsCircle(selectedDataPoints[q].circles,layerContainers[q].circles[i]);
+                    var index = containsCircle(selectedDataPoints[q].circles, layerContainers[q].circles[i]);
                     // create subset of the total circles to be later shown on map and sent to graphs
                     if (add && index < 0) 
                         selectedDataPoints[q].circles.push(layerContainers[q].circles[i]);
                     // remove subset of circles
                     else if (!add && index >= 0){
-                        selectedDataPoints[q].splice(index, 1);
+                        selectedDataPoints[q].circles.splice(index, 1);
                     }
                 };
-            };
-
-            if (!add) {
-                L.layerGroup(selectedDataPoints[q].circles).removeFrom(selectedDataPoints[q].controlLayer);
-            };
+            };     
         };
+
+        if (!add)
+            revomeSelectedFromControl();
 
         addSelectedToControl();
         cleanAndMakeGraphs();
@@ -697,10 +696,8 @@ function DataCircles() {
     // helper function
     function containsCircle(circleArray,circle) {
         for (var c = 0; c < circleArray.length; c++) {
-            if (circleArray[c] === circle) {
-                console.log("I already have that circle");
+            if (circleArray[c] === circle)
                 return c
-            }
         };
 
         return -1;
@@ -710,6 +707,13 @@ function DataCircles() {
         for (var i = 0; i < selectedDataPoints.length; i++) {
             var layer = selectedDataPoints[i].controlLayer;
             L.layerGroup(selectedDataPoints[i].circles).addTo(layer);
+        };
+    };
+
+    function revomeSelectedFromControl(){
+        for (var i = 0; i < selectedDataPoints.length; i++) {
+            var layer = selectedDataPoints[i].controlLayer;
+            layer.clearLayers();
         };
     };
 

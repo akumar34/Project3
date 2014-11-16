@@ -221,9 +221,9 @@ var MapApp = Class.extend({
 		//drawControl.addTo(map);
 		var context = this;
 		this.map.on('draw:created', function(e) {
-			var type = e.layerType,
-			layer = e.layer;
-
+			var type = e.layerType;
+			var layer = e.layer;
+			
 			// todo: check if its ok to draw if needed
 			drawnItems.addLayer(layer);
 
@@ -237,14 +237,27 @@ var MapApp = Class.extend({
 					};
 
 				// extract lat lngs and add datapoints inside shape to the layers
-				context.filterByShapes(true);
+				context.filterByShapes(context.shapes, true);
 			};
 
 		});
-		//end this.map.on('draw:created
 
 		this.map.on('draw:deleted', function(e){
-			console.log(e);
+			var layers = e.layers._layers;
+			var shapesToRemove = {};
+			for(var x in layers){
+				layer = layers[x];
+				shapesToRemove[layer._leaflet_id] = 
+					{
+						type 	: context.shapes[layer._leaflet_id].type,
+						id  	: layer._leaflet_id,
+						latlngs : layer._latlngs
+					};
+
+				delete context.shapes[layer._leaflet_id];
+			};
+			
+			context.filterByShapes(shapesToRemove, false);			
 		});
 		//END LEAFLET.DRAW STUFF
 
@@ -253,12 +266,11 @@ var MapApp = Class.extend({
 		//end leaflet locate control stuff
 	},
 
-	filterByShapes: function (add){
+	filterByShapes: function (shapes, add){
 		var pointsArray = [];
-		for(var x in this.shapes){
-			shape = this.shapes[x];
+		for(var x in shapes){
+			shape = shapes[x];
 			if (shape.type === "rectangle") {
-				console.log(shape.latlngs)
 				pointsArray.push(this.extractLngLatFromShape(shape.latlngs));
 			};
 		};
@@ -270,8 +282,6 @@ var MapApp = Class.extend({
 
 	extractLngLatFromShape: function (coordinatesArray) {
         coordinates = [];
-        console.log(coordinatesArray);
-
         for (var i = 0; i < coordinatesArray.length; i++) {
             coordinates.push([coordinatesArray[i].lng, coordinatesArray[i].lat]);
         };
