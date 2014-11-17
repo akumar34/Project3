@@ -243,6 +243,19 @@ function DataCircles() {
 	//helper function for adding abandoned vehicle data to map
     function addAbandonedVehiclesMarkers(layerContainer, dataIndex, data, layer, refresh) {
         layerContainer.circles.push(
+            L.MapMarker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]],
+                {
+                    imageCircleURL: 'icons/svg/exclamation3.svg'
+                }
+            )/*.bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
+            "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
+            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10) + 
+            "<br><strong>Days Reported Parked:</strong> " + data[dataIndex]["how_many_days_has_the_vehicle_been_reported_as_parked_"])
+        */);
+        return null;
+    };
+    /*function addAbandonedVehiclesMarkers(layerContainer, dataIndex, data, layer, refresh) {
+        layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
                 icon: abandonedVehicleIcon,
@@ -260,7 +273,7 @@ function DataCircles() {
         // if(refresh) layer.clearLayers();
         // L.layerGroup(layerContainer.circles).addTo(layer);
         return null;
-    };	
+    };*/	
 /************End Abandoned Vehicles Data Handling************/
 
 /************Street Lights Data Handling************/	
