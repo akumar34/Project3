@@ -74,7 +74,7 @@ function DataCircles() {
 
     //CTA
     var ctaIcon = L.icon({
-    iconUrl: 'icons/svg/pins17.svg',
+    iconUrl: 'icons/svg/bus.svg',
     iconSize:     [38, 95],
     shadowSize:   [50, 64],
     iconAnchor:   [22, 94],
@@ -623,14 +623,47 @@ function DataCircles() {
 	
     //helper function for adding CTA data to map
     function addCTAMarkers(layerContainer, dataIndex, data, layer, refresh) {
-		layerContainer.circles.push(
+		//parse heading into N, NE, E, SE, S, SW, W, NW directions
+        var busHeading = "SOMEWHERE ON EARTH...?";
+        if((data[dataIndex].hdg >= 337.5) || (data[dataIndex].hdg <= 22.5)) {
+            busHeading = "N";
+        } else if((data[dataIndex].hdg > 22.5) && (data[dataIndex].hdg < 67.5)) {
+            busHeading = "NE";
+        } else if((data[dataIndex].hdg >= 67.5) && (data[dataIndex].hdg <= 112.5)) {
+            busHeading = "E";
+        } else if((data[dataIndex].hdg > 112.5) && (data[dataIndex].hdg < 157.5)) {
+            busHeading = "SE";
+        } else if((data[dataIndex].hdg >= 157.5) && (data[dataIndex].hdg <= 202.5)) {
+            busHeading = "S";
+        } else if((data[dataIndex].hdg > 202.5) && (data[dataIndex].hdg < 247.5)) {
+            busHeading = "SW";
+        } else if((data[dataIndex].hdg >= 247.5) && (data[dataIndex].hdg <= 292.5)) {
+            busHeading = "W";
+        } else if((data[dataIndex].hdg > 292.5) && (data[dataIndex].hdg < 337.5)) {
+            busHeading = "NW";
+        }//end parsing heading into 8 basic compass directions
+
+        //delayed might or might not be undefined, handle accordingly
+        var busDelayed = "(probably, it's Chicago)";
+        if(data[dataIndex].dly == "true") {
+            busDelayed = "YES";
+        }
+
+        //actually create the marker
+        layerContainer.circles.push(
 			L.marker([data[dataIndex]["lat"], data[dataIndex]["lon"]], 
 			{
 				icon: ctaIcon,
 				lat : data[dataIndex].lat,
 				lon : data[dataIndex].lon
 			}
-		)/*.bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
+		).bindPopup("<strong>Route: </strong>" + data[dataIndex].rt + "<br><strong>Destination: </strong>" + data[dataIndex].des +
+            "<br><strong>Heading: </strong>" + busHeading + " (" + data[dataIndex].hdg + "&deg)" + "<br><strong>Lat, Lon: </strong>" +
+            data[dataIndex].lat + ", " + data[dataIndex].lon + "<br><strong>Delayed: </strong>" + busDelayed +
+            "<br><strong>Vehicle ID: </strong>" + data[dataIndex].vid + "<br><strong>Last Update: </strong>" +
+            data[dataIndex].tmstmp.substring(0,4) + "-" + data[dataIndex].tmstmp.substring(4,6) + "-" + data[dataIndex].tmstmp.substring(6,8) +
+            " " + data[dataIndex].tmstmp.substring(9,14))
+        /*.bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
 			"<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
 			data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10) + 
 			"<br><strong>Days Reported Parked:</strong> " + data[dataIndex]["how_many_days_has_the_vehicle_been_reported_as_parked_"])*/
