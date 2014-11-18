@@ -102,7 +102,9 @@ function DataCircles() {
             circles      : [],
             refresh      : layerInfo.refresh,
             id           : layerInfo.id,
-            controlLayer : layer
+            controlLayer : layer,
+			recentData	 : 0,
+			oldData		 : 0
         };
 		
         var sourceLink = layerInfo.sourceLink;
@@ -117,11 +119,11 @@ function DataCircles() {
                 if (creation_date == null) continue;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
                 var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                if (daysAgo >= 31) break;
+                if (daysAgo > 31) break;
                 
                 // add the circles
                 var outLine = "black";
-                if (daysAgo >= 7) outLine = layerInfo.color;
+                if (daysAgo > 7) outLine = layerInfo.color;
                 if (data[index].status.indexOf("completed") > -1) outLine = "white";
 				addPotholesMarkers(layerContainers[POTHOLES], index, data, layer, false);
             };
@@ -140,13 +142,13 @@ function DataCircles() {
                 if (data[index].creation_date == null) continue;
 				var creation_date = parseDate(data[index].creation_date);
                 var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                if (daysAgo >= 31) return;
+                if (daysAgo > 31) return;
                 if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) return;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
                 // add the circles
                 var outLine = "black";
-                if (daysAgo >= 7) outLine = layerInfo.color;
+                if (daysAgo > 7) outLine = layerInfo.color;
                 if (data[index].status.indexOf("completed") > -1) outLine = "white";
                 addPotholesMarkers(layerContainers[POTHOLES], index, data, layer, true);
             };
@@ -206,11 +208,11 @@ function DataCircles() {
                 if (creation_date == null) continue;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
                 var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                if (daysAgo >= 31) break;
+                if (daysAgo > 31) break;
                 
                 // add the circles
                 var outLine = "black";
-                if (daysAgo >= 7) outLine = layerInfo.color;
+                if (daysAgo > 7) outLine = layerInfo.color;
                 if (data[index].status.indexOf("completed") > -1) outLine = "white";
 				addAbandonedVehiclesMarkers(layerContainers[ABANDONED_VEHICLES], index, data, layer, false);
             };
@@ -227,13 +229,13 @@ function DataCircles() {
                 if (data[index].creation_date == null) continue;
 				var creation_date = parseDate(data[index].creation_date);
                 var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                if (daysAgo >= 31) return;
+                if (daysAgo > 31) return;
                 if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) return;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
                 // add the circles
                 var outLine = "black";
-                if (daysAgo >= 7) outLine = layerInfo.color;
+                if (daysAgo > 7) outLine = layerInfo.color;
                 if (data[index].status.indexOf("completed") > -1) outLine = "white";
                 addAbandonedVehiclesMarkers(layerContainers[ABANDONED_VEHICLES], index, data, layer, true);
             };
@@ -297,11 +299,11 @@ function DataCircles() {
                 if (creation_date == null) continue;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
                 var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                if (daysAgo >= 31) break;
+                if (daysAgo > 31) break;
                 
                 // add the circles
                 var outLine = "black";
-                if (daysAgo >= 7) outLine = layerInfo.color;
+                if (daysAgo > 7) outLine = layerInfo.color;
                 if (data[index].status.indexOf("completed") > -1) outLine = "white";
 				addStreetLightsMarkers(layerContainers[STREET_LIGHTS], index, data, layer, false);
             };
@@ -320,13 +322,13 @@ function DataCircles() {
                 if (data[index].creation_date == null) continue;
 				var creation_date = parseDate(data[index].creation_date);
                 var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                if (daysAgo >= 31) return;
+                if (daysAgo > 31) return;
                 if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) return;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
                 // add the circles
                 var outLine = "black";
-                if (daysAgo >= 7) outLine = layerInfo.color;
+                if (daysAgo > 7) outLine = layerInfo.color;
                 if (data[index].status.indexOf("completed") > -1) outLine = "white";
                 addStreetLightsMarkers(layerContainers[STREET_LIGHTS], index, data, layer, true);
             };
@@ -497,11 +499,11 @@ function DataCircles() {
                 if (date == null) continue;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
                 var daysAgo = (new Date() - date) / 1000 / 60 / 60 / 24;
-                if (daysAgo >= 31) break;
+                if (daysAgo > 31) break;
                 
                 // add the circles
                 var outLine = "black";
-                if (daysAgo >= 14) outLine = layerInfo.color;
+                if (daysAgo > 14) outLine = layerInfo.color;
                 addCrimeMarkers(layerContainers[CRIME], index, data, layer, false);
 			};
         });
