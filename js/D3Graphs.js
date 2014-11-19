@@ -43,11 +43,148 @@ function D3Graphs(){
     function clearAll(){
         selectedSVG.selectAll("*").remove();
         overallSVG.selectAll("*").remove();
-    }
+    };
+	
+	function makeBarGraph(drawSection, width, height, dx, dy, data, type, recentTotal, olderTotal, total, color, makeTitle, title, ticks, upright){
+		// Set our margins
+		/*var margin = {
+			top: 20,
+			right: 20,
+			bottom: 30,
+			left: 60
+		},
+		width = 700 - margin.left - margin.right,
+			height = 350 - margin.top - margin.bottom;*/
+
+		// Our X scale
+		var x = d3.scale.ordinal()
+			.rangeRoundBands([0, dx], .1);
+
+		// Our Y scale
+		var y = d3.scale.linear()
+			.rangeRound([dy, 0]);
+
+		// Our color bands
+		var color = d3.scale.ordinal()
+			.range(["green", "red"]);
+
+		// Use our X scale to set a bottom axis
+		var xAxis = d3.svg.axis()
+			.scale(x)
+			.orient("bottom");
+
+		// Same for our left axis
+		var yAxis = d3.svg.axis()
+			.scale(y)
+			.orient("left")
+			.tickFormat(d3.format(".2s"));	
+
+		data.forEach(function(d){
+			d.type = d.type;
+			d.total = +d.total;
+			d.recentTotal = +d.recentTotal;
+			d.olderTotal = +d.olderTotal;
+		});
+		
+		// Map our columns to our colors
+		color.domain(d3.keys(data[0]).filter(function (key) {
+			return key === "recentTotal" || key === "olderTotal";
+		}));
+
+		data.forEach(function (d) {
+			var y0 = 0;
+			d.types = color.domain().map(function (name) {
+				return {
+					name: name,
+					y0: y0,
+					y1: y0 += +d[name]
+				};
+			});
+			d.total = d.types[d.types.length - 1].y1;
+		});
+		
+		// Our X domain is our set of years
+		x.domain(data.map(function (d) {
+			return d.type;
+		}));
+
+		// Our Y domain is from zero to our highest total
+		y.domain([0, d3.max(data, function (d) {
+			return d.total;
+		})]);
+
+		drawSection.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate(0," + dy + ")")
+			.call(xAxis);
+
+		drawSection.append("g")
+			.attr("class", "y axis")
+			.call(yAxis);
+		
+		var type = drawSection.selectAll(".type")
+			.data(data)
+			.enter().append("g")
+			.attr("class", "g")
+			.attr("transform", function (d) {
+			return "translate(" + x(d.type) + ",0)";
+		});
+
+		type.selectAll("rect")
+			.data(function (d) {
+			return d.types;
+		})
+			.enter().append("rect")
+			.attr("width", x.rangeBand())
+			.attr("y", function (d) {
+			return y(d.y1);
+		})
+			.attr("height", function (d) {
+			return y(d.y0) - y(d.y1);
+		})
+			.style("fill", function (d) {
+			return color(d.name);
+		});
+
+		var legend = drawSection.selectAll(".legend")
+			.data(color.domain().slice().reverse())
+			.enter().append("g")
+			.attr("class", "legend")
+			.attr("transform", function (d, i) {
+			return "translate(0," + i * 20 + ")";
+		});
+
+		legend.append("rect")
+			.attr("x", width - 12)
+			.attr("width", 8)
+			.attr("height", 8)
+			.style("fill", color);
+
+		legend.append("text")
+			.attr("x", width - 24)
+			.attr("y", 9)
+			.attr("dy", ".35em")
+			.style("text-anchor", "end")
+			.text(function (d) {
+			return d;
+		});
+		
+        if(makeTitle){
+            drawSection.append("g")
+                .attr("transform", "translate(" +  dx +"," + (dy - 40) + ")")
+                .append("text")
+                .text(function(){
+                    return title.toUpperCase();
+                })
+                .style("font-size", "80%")
+                .style("font-family", "sans-serif");
+
+		};
+	};
 
     // Makes graph given data and svg to draw on
     // Im not proud of this function, but it works...
-    function makeBarGraph(drawSection, width, height, dx, dy, dataObject, type, recentTotal, olderTotal, total, color, makeTitle, title, ticks, upright){        
+ /*   function makeBarGraph(drawSection, width, height, dx, dy, dataObject, type, recentTotal, olderTotal, total, color, makeTitle, title, ticks, upright){        
         var max = 0;
         var min = 0;
         for (var i = 0; i < dataObject.length; i++) {
@@ -149,7 +286,7 @@ function D3Graphs(){
             //     });
             // };
         }
-    };
+    };*/
 
     D3GraphsObj.init = init;
     D3GraphsObj.makeOverallGraph = makeOverallGraph;
