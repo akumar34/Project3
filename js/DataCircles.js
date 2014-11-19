@@ -835,8 +835,8 @@ function DataCircles() {
 		var overallData = extractGraphData(refreshableOverallDataPoints);
 		
         D3Graphs.clearAll();
-        D3Graphs.makeOverallGraph(overallData, "type", "total", "recentTotal", "olderTotal");
-        D3Graphs.makeSelectedGraph(selectedData, "type", "total", "recentTotal", "olderTotal");
+        D3Graphs.makeOverallGraph(overallData, "type", "recentTotal", "olderTotal", "total");
+        D3Graphs.makeSelectedGraph(selectedData, "type", "recentTotal", "olderTotal", "total");
     };
 
     // function that checks is a data point that was added is inside a shape
