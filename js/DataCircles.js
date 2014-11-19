@@ -834,9 +834,22 @@ function DataCircles() {
 		var selectedData = extractGraphData(refreshableSelectedDataPoints);
 		var overallData = extractGraphData(refreshableOverallDataPoints);
 		
+		var selectedAndOverallData = [];
+		
+		for(var index = 0; index < selectedData.length; index++){	
+			selectedAndOverallData.push({
+				overallRecentTotal	: overallData[index].recentTotal,
+				overallOlderTotal	: overallData[index].olderTotal,
+				selectedRecentTotal	: selectedData[index].recentTotal,
+				selectedOlderTotal	: selectedData[index].olderTotal,
+				type				: selectedData[index].type
+			});
+		}
+		
         D3Graphs.clearAll();
-        D3Graphs.makeOverallGraph(overallData, "type", "recentTotal", "olderTotal", "total");
-        D3Graphs.makeSelectedGraph(selectedData, "type", "recentTotal", "olderTotal", "total");
+        //D3Graphs.makeOverallGraph(overallData, "type", "recentTotal", "olderTotal", "total");
+        //D3Graphs.makeSelectedGraph(selectedData, "type", "recentTotal", "olderTotal", "total");
+		D3Graphs.makeBarGraph(selectedAndOverallData);
     };
 
     // function that checks is a data point that was added is inside a shape
