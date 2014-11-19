@@ -1,52 +1,42 @@
 // obj that creates graphs given input
 function D3Graphs(){
     var container;
-    var overallSVG;
-    var selectedSVG;
+
     var D3GraphsObj = new Object();
     var graphPadding = 100;
+	
+	var svgs = [];
+	var REFRESHABLE_SVG = 0;
+	var CRIME_SVG = 1;
 
     function init(div){
         var height = $("#sidebar").height();
         var width = $(div).width();
         container = div;
 
-        overallSVG = d3.select(container)
+        svgs[REFRESHABLE_SVG] = 
+			d3.select(container)
             .append("svg")
             .attr("viewBox", "0 0 " + width + " " + height/2)
             .attr("preserveAspectRatio", "xMidYMid meet")
             .append("g");
 
-        selectedSVG = d3.select(container)
+        svgs[CRIME_SVG] = 
+			d3.select(container)
             .append("svg")
             .attr("viewBox", "0 0 " + width + " " + height/2)
             .attr("preserveAspectRatio", "xMidYMid meet")
-            .attr("transform", "translate(" + 0 + "," + height/2 +")")
-            .append("g"); 
+            .append("g");
     };
 
-   function makeOverallGraph(overallData, type, recentTotal, olderTotal, total){
-        var height = ($("#sidebar").height()/2) - graphPadding;
+	function makeStackedAndGroupedBarGraph(data, columns, title){
+		var height = ($("#sidebar").height()/2) - graphPadding;
         var width = $(container).width() - graphPadding;
-        makeStackedAndGroupedBarGraph(overallSVG, width, height, graphPadding/2, graphPadding/2, 
-            overallData, true, "Chicago", 5);
-    };
-
-    function makeSelectedGraph(selectedData, type, recentTotal, olderTotal, total){
-        var height = ($("#sidebar").height()/2) - graphPadding;
-        var width = $(container).width() - graphPadding;
-        makeStackedAndGroupedBarGraph(selectedSVG, width, height, graphPadding/2, graphPadding/2, 
-            overallData, true, "Chicago", 5);
-    };
-
-	function makeBarGraph(data){
-        var height = ($("#sidebar").height()/2) - graphPadding;
-        var width = $(container).width() - graphPadding;
-        makeStackedAndGroupedBarGraph(selectedSVG, width, height, graphPadding/2, graphPadding/2, 
-            data, true, "Chicago", 5);
-	};
-
-	function makeStackedAndGroupedBarGraph(drawSection, width, height, dx, dy, data, makeTitle, title, ticks){
+		var dx = graphPadding/2;
+		var dy = graphPadding/2;
+		
+		var svg = svgs[REFRESHABLE_SVG];
+		
 		var x0 = d3.scale.ordinal()
 			.rangeRoundBands([0, width], 0.1);
 		 
@@ -68,11 +58,8 @@ function D3Graphs(){
 			.range(["red","green"]);
 		 
 		var yBegin;
-		 
-		var innerColumns = {
-		  "column1" : ["overallRecentTotal","overallOlderTotal"],
-		  "column2" : ["selectedRecentTotal","selectedOlderTotal"]
-		}
+		
+		var innerColumns = columns;
 		 
 		var columnHeaders = d3.keys(data[0]).filter(function(key) { return key !== "type"; });
 		color.domain(d3.keys(data[0]).filter(function(key) { return key !== "type"; }));
@@ -102,12 +89,12 @@ function D3Graphs(){
 		return d.total; 
 		})]);
 
-		drawSection.append("g")
+		svg.append("g")
 		  .attr("class", "x axis")
 		  .attr("transform", "translate(0," + height + ")")
 		  .call(xAxis);
 
-		drawSection.append("g")
+		svg.append("g")
 		  .attr("class", "y axis")
 		  .call(yAxis)
 		.append("text")
@@ -117,7 +104,7 @@ function D3Graphs(){
 		  .style("text-anchor", "end")
 		  .text("");
 
-		var project_stackedbar = drawSection.selectAll(".project_stackedbar")
+		var project_stackedbar = svg.selectAll(".project_stackedbar")
 		  .data(data)
 		.enter().append("g")
 		  .attr("class", "g")
@@ -138,7 +125,7 @@ function D3Graphs(){
 		  })
 		  .style("fill", function(d) { return color(d.name); });
 
-		var legend = drawSection.selectAll(".legend")
+		var legend = svg.selectAll(".legend")
 		  .data(columnHeaders.slice().reverse())
 		.enter().append("g")
 		  .attr("class", "legend")
@@ -159,8 +146,8 @@ function D3Graphs(){
 	};
 	
     function clearAll(){
-        selectedSVG.selectAll("*").remove();
-        overallSVG.selectAll("*").remove();
+        svgs[REFRESHABLE_SVG].selectAll("*").remove();
+        svgs[CRIME_SVG].selectAll("*").remove();
     };
 	
 	function makeStackedBarGraph(drawSection, width, height, dx, dy, data, makeTitle, title, ticks){
@@ -221,16 +208,16 @@ function D3Graphs(){
 			return d.total;
 		})]);
 
-		drawSection.append("g")
+		refreshableDataSVG.append("g")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + dy + ")")
 			.call(xAxis);
 
-		drawSection.append("g")
+		refreshableDataSVG.append("g")
 			.attr("class", "y axis")
 			.call(yAxis);
 		
-		var type = drawSection.selectAll(".type")
+		var type = refreshableDataSVG.selectAll(".type")
 			.data(data)
 			.enter().append("g")
 			.attr("class", "g")
@@ -254,7 +241,7 @@ function D3Graphs(){
 			return color(d.name);
 		});
 
-		var legend = drawSection.selectAll(".legend")
+		var legend = refreshableDataSVG.selectAll(".legend")
 			.data(color.domain().slice().reverse())
 			.enter().append("g")
 			.attr("class", "legend")
@@ -276,130 +263,19 @@ function D3Graphs(){
 			.text(function (d) {
 			return d;
 		});
-		
-        if(makeTitle){
-            drawSection.append("g")
-                .attr("transform", "translate(" +  dx +"," + (dy - 40) + ")")
-                .append("text")
-                .text(function(){
-                    return title.toUpperCase();
-                })
-                .style("font-size", "80%")
-                .style("font-family", "sans-serif");
 
-		};
+		refreshableDataSVG.append("g")
+			.attr("transform", "translate(" +  dx +"," + (dy - 40) + ")")
+			.append("text")
+			.text(function(){
+				return title.toUpperCase();
+			})
+			.style("font-size", "80%")
+			.style("font-family", "sans-serif");
 	};
 
-    // Makes graph given data and svg to draw on
-    // Im not proud of this function, but it works...
- /*   function makeBarGraph(drawSection, width, height, dx, dy, dataObject, type, recentTotal, olderTotal, total, color, makeTitle, title, ticks, upright){        
-        var max = 0;
-        var min = 0;
-        for (var i = 0; i < dataObject.length; i++) {
-            if(dataObject[i][total] > max)
-                max = dataObject[i][total];
-        };
-
-        var graph = drawSection.append("g")
-            .attr("transform", "translate("+ dx + "," + dy + ")");
-
-        if(makeTitle){
-            drawSection.append("g")
-                .attr("transform", "translate(" +  dx +"," + (dy - 10) + ")")
-                .append("text")
-                .text(function(){
-                    return title.toUpperCase();
-                })
-                .style("font-size", "16px")
-                .style("font-family", "sans-serif");
-        };
-
-        if(upright){
-            // make axis
-            var yscale = d3.scale.linear()
-            .domain([min, max])
-            .range([0, height]);
-
-            var axisScale = d3.scale.linear()
-            .domain([min, max])
-            .range([height, 0]);
-
-            var yaxis = d3.svg.axis().scale(axisScale).ticks(ticks).orient("left");
-
-            drawSection.append("g")
-                .call(yaxis)
-                .attr("transform", "translate("+ dx + "," + dy + ")");
-
-            // make bars
-            graph.selectAll("rect")
-                .data(dataObject)
-                .enter()
-                    .append("rect")
-                    .attr("height", function(d){
-                        return yscale(d[total]);
-                    })
-                    .attr("width",(width/dataObject.length) - 5)
-                    .attr("fill", color)
-                    .attr("x", function(d,i){ 
-                        return i*(width/dataObject.length)
-                        // return height - yscale(d[total]);
-                    })
-                    .attr("y", function(d){
-                        // return i*(width/dataObject.length)
-                        return height - yscale(d[total]);
-                    });
-
-            // make labels
-            graph.selectAll("text")
-                .data(dataObject)
-                .enter()
-                    .append("text")
-                    .attr("fill", "black")
-                    .attr("x", function(d,i){ 
-                        return i*(width/dataObject.length)
-                        // return height - yscale(d[value]);
-                    })
-                    .attr("y", function(d){
-                        // return i*(width/dataObject.length)
-                        return height;
-                    })
-                    .text(function(d){
-                    return d[type].toUpperCase();
-                    })
-                    .style("font-size", "8px")
-                    .style("font-family", "sans-serif");
-            
-            // well fuck that didn't work
-            // // hacky way to get the text to align right
-            // 
-            // for (var i = 0; i < dataObject.length; i++) {
-            //     graph.append("text")
-            //     .attr("fill", "black")
-            //     .attr("x", function(d,i){ 
-            //         return i*(width/dataObject.length)
-            //         // return height - yscale(d[value]);
-            //     })
-            //     .attr("y", function(d){
-            //         // return i*(width/dataObject.length)
-            //         return height;
-            //     })
-            //     .text(dataObject[i][label].toUpperCase())
-            //     .style("font-size", "8px")
-            //     .style("font-family", "sans-serif")
-            //     .style("text-anchor", "middle")
-            //     .attr("dx", "-.8em")
-            //     .attr("dy", ".15em")
-            //     .attr("transform", function(d) {
-            //         return "rotate(-65)" 
-            //     });
-            // };
-        }
-    };*/
-
     D3GraphsObj.init = init;
-    D3GraphsObj.makeOverallGraph = makeOverallGraph;
-    D3GraphsObj.makeSelectedGraph = makeSelectedGraph;
-	D3GraphsObj.makeBarGraph = makeBarGraph;
+	D3GraphsObj.makeStackedAndGroupedBarGraph = makeStackedAndGroupedBarGraph;	
     D3GraphsObj.clearAll = clearAll;
     return D3GraphsObj;
 };

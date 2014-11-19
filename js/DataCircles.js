@@ -562,7 +562,8 @@ function DataCircles() {
             {
                 icon: crimeIcon,
 				id : data[dataIndex].id,
-				date: data[dataIndex].date
+				date: data[dataIndex].date,
+				crimeType: data[dataIndex].primary_type
             }
         ).bindPopup("<strong>Type:</strong> " + data[dataIndex]["primary_type"] + "<br><strong>Arrest:</strong> " +
                 data[dataIndex]["arrest"] +"<br><strong>Location Description:</strong> " + data[dataIndex]["location_description"] + 
@@ -816,7 +817,7 @@ function DataCircles() {
 	};
 
     // clean data of selectedDataPoints so that d3 can make graphs using D3Graphs object
-    function cleanAndMakeGraphs(){
+    function formatAllRefreshableDataForGraphs(){
 		var refreshableSelectedDataPoints = [
 			selectedDataPoints[POTHOLES],
 			selectedDataPoints[ABANDONED_VEHICLES],
@@ -831,26 +832,40 @@ function DataCircles() {
 			layerContainers[CRIME]
 		];
 		
-		var selectedData = extractGraphData(refreshableSelectedDataPoints);
-		var overallData = extractGraphData(refreshableOverallDataPoints);
+		var data = [
+			extractGraphData(refreshableOverallDataPoints),
+			extractGraphData(refreshableSelectedDataPoints)
+		];
 		
+		return data;
+    };
+	
+	function makeStackedAndGroupedBarGraphForAllRefreshableData(data){
 		var selectedAndOverallData = [];
 		
-		for(var index = 0; index < selectedData.length; index++){	
+		for(var index = 0; index < data[0].length; index++){	
 			selectedAndOverallData.push({
-				overallRecentTotal	: overallData[index].recentTotal,
-				overallOlderTotal	: overallData[index].olderTotal,
-				selectedRecentTotal	: selectedData[index].recentTotal,
-				selectedOlderTotal	: selectedData[index].olderTotal,
-				type				: selectedData[index].type
+				overallRecentTotal	: data[0][index].recentTotal,
+				overallOlderTotal	: data[0][index].olderTotal,
+				selectedRecentTotal	: data[1][index].recentTotal,
+				selectedOlderTotal	: data[1][index].olderTotal,
+				type				: data[1][index].type
 			});
 		}
 		
-        D3Graphs.clearAll();
-        //D3Graphs.makeOverallGraph(overallData, "type", "recentTotal", "olderTotal", "total");
-        //D3Graphs.makeSelectedGraph(selectedData, "type", "recentTotal", "olderTotal", "total");
-		D3Graphs.makeBarGraph(selectedAndOverallData);
-    };
+		var columns = {
+		  "column1" : ["overallRecentTotal","overallOlderTotal"],
+		  "column2" : ["selectedRecentTotal","selectedOlderTotal"]
+		};
+		
+		D3Graphs.makeStackedAndGroupedBarGraph(selectedAndOverallData, columns, 'Dataset Bar Chart');
+	};
+	
+	function cleanAndMakeGraphs(){
+		D3Graphs.clearAll();
+		var data = formatAllRefreshableDataForGraphs();
+		makeStackedAndGroupedBarGraphForAllRefreshableData(data);
+	};
 
     // function that checks is a data point that was added is inside a shape
     // data point in our case is a circle object marker thing
