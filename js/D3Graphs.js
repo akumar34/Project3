@@ -25,19 +25,20 @@ function D3Graphs(){
             .append("g"); 
     };
 
-    function makeOverallGraph(overallData, label, value){
+   function makeOverallGraph(overallData, type, recentTotal, olderTotal, total){
         var height = ($("#sidebar").height()/2) - graphPadding;
         var width = $(container).width() - graphPadding;
         makeBarGraph(overallSVG, width, height, graphPadding/2, graphPadding/2, 
-            overallData, label, value, "green", true, "Chicago", 5, true);
+            overallData, type, recentTotal, olderTotal, total, "green", true, "Chicago", 5, true);
     };
 
-    function makeSelectedGraph(selectedData, label, value){
+    function makeSelectedGraph(selectedData, type, recentTotal, olderTotal, total){
         var height = ($("#sidebar").height()/2) - graphPadding;
         var width = $(container).width() - graphPadding;
         makeBarGraph(selectedSVG, width, height, graphPadding/2, graphPadding/2, 
-            selectedData, label, value, "red", true, "Selected Area", 5, true);
+            selectedData, type, recentTotal, olderTotal, total, "red", true, "Selected Area", 5, true);
     };
+
 
     function clearAll(){
         selectedSVG.selectAll("*").remove();
@@ -46,12 +47,12 @@ function D3Graphs(){
 
     // Makes graph given data and svg to draw on
     // Im not proud of this function, but it works...
-    function makeBarGraph(drawSection, width, height, dx, dy, dataObject, label, value, color, makeTitle, title, ticks, upright){        
+    function makeBarGraph(drawSection, width, height, dx, dy, dataObject, type, recentTotal, olderTotal, total, color, makeTitle, title, ticks, upright){        
         var max = 0;
         var min = 0;
         for (var i = 0; i < dataObject.length; i++) {
-            if(dataObject[i][value] > max)
-                max = dataObject[i][value];
+            if(dataObject[i][total] > max)
+                max = dataObject[i][total];
         };
 
         var graph = drawSection.append("g")
@@ -90,17 +91,17 @@ function D3Graphs(){
                 .enter()
                     .append("rect")
                     .attr("height", function(d){
-                        return yscale(d[value]);
+                        return yscale(d[total]);
                     })
                     .attr("width",(width/dataObject.length) - 5)
                     .attr("fill", color)
                     .attr("x", function(d,i){ 
                         return i*(width/dataObject.length)
-                        // return height - yscale(d[value]);
+                        // return height - yscale(d[total]);
                     })
                     .attr("y", function(d){
                         // return i*(width/dataObject.length)
-                        return height - yscale(d[value]);
+                        return height - yscale(d[total]);
                     });
 
             // make labels
@@ -118,7 +119,7 @@ function D3Graphs(){
                         return height;
                     })
                     .text(function(d){
-                    return d[label].toUpperCase();
+                    return d[type].toUpperCase();
                     })
                     .style("font-size", "8px")
                     .style("font-family", "sans-serif");

@@ -115,10 +115,9 @@ function DataCircles() {
 				if(data[index].status === "STATUS") continue;
 				
                 // filters
-				var creation_date = parseDate(data[index].creation_date);
-                if (creation_date == null) continue;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
+                var daysAgo = getDaysAgo(data[index].creation_date);
+				if(daysAgo === null) continue;
                 if (daysAgo > 31) break;
                 
                 // add the circles
@@ -139,13 +138,11 @@ function DataCircles() {
 				if(data[index].status === "STATUS") continue;
 				
                 // filters
-                if (data[index].creation_date == null) continue;
-				var creation_date = parseDate(data[index].creation_date);
-                var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                if (daysAgo > 31) break;
-                if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) break;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-
+				var daysAgo = getDaysAgo(data[index].creation_date);
+				if(daysAgo === null) continue;
+                if (daysAgo > 31) break;                
+				if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) break;
                 // add the circles
                 var outLine = "black";
                 if (daysAgo > 7) outLine = layerInfo.color;
@@ -166,7 +163,8 @@ function DataCircles() {
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
                 icon: potholeIcon,
-                service_request_number : data[dataIndex].service_request_number
+                service_request_number : data[dataIndex].service_request_number,
+				date: data[dataIndex].creation_date
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -212,10 +210,9 @@ function DataCircles() {
 
             for (var index = 0; index < data.length; index++) {
                 // filters
-				var creation_date = parseDate(data[index].creation_date);
-                if (creation_date == null) continue;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
+                var daysAgo = getDaysAgo(data[index].creation_date);
+				if(daysAgo === null) continue;
                 if (daysAgo > 31) break;
                 
                 // add the circles
@@ -235,13 +232,13 @@ function DataCircles() {
 
             for (var index = 0; index < data.length; index++) {
                 // filters
-                if (data[index].creation_date == null) continue;
-				var creation_date = parseDate(data[index].creation_date);
-                var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
+
+                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+                var daysAgo = getDaysAgo(data[index].creation_date);
+				if(daysAgo === null) continue;
                 if (daysAgo > 31) break;
                 if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) break;
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-
+				
                 // add the circles
                 var outLine = "black";
                 if (daysAgo > 7) outLine = layerInfo.color;
@@ -262,7 +259,8 @@ function DataCircles() {
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
                 icon: abandonedVehicleIcon,
-                service_request_number : data[dataIndex].service_request_number
+                service_request_number : data[dataIndex].service_request_number,
+				date: data[dataIndex].creation_date
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -312,10 +310,9 @@ function DataCircles() {
 				if(data[index].status === "STATUS") continue;
 				
                 // filters
-				var creation_date = parseDate(data[index].creation_date);
-                if (creation_date == null) continue;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
+                var daysAgo = getDaysAgo(data[index].creation_date);
+				if(daysAgo === null) continue;
                 if (daysAgo > 31) break;
                 
                 // add the circles
@@ -336,13 +333,13 @@ function DataCircles() {
 				if(data[index].status === "STATUS") continue;
 				
                 // filters
-                if (data[index].creation_date == null) continue;
-				var creation_date = parseDate(data[index].creation_date);
-                var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
+
+                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+                var daysAgo = getDaysAgo(data[index].creation_date);
+				if(daysAgo === null) continue;
                 if (daysAgo > 31) break;
                 if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) break;
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-
+				
                 // add the circles
                 var outLine = "black";
                 if (daysAgo > 7) outLine = layerInfo.color;
@@ -361,7 +358,8 @@ function DataCircles() {
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
                 icon: streetLightIcon,
-                service_request_number : data[dataIndex].service_request_number
+                service_request_number : data[dataIndex].service_request_number,
+				date: data[dataIndex].creation_date
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -519,10 +517,9 @@ function DataCircles() {
 
             for (var index = 0; index < data.length; index++) {
                 // filters
-				var date = parseDate(data[index].date);
-                if (date == null) continue;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                var daysAgo = (new Date() - date) / 1000 / 60 / 60 / 24;
+                var daysAgo = getDaysAgo(data[index].date);
+				if(daysAgo === null) continue;
                 if (daysAgo > 31) break;
                 
                 // add the circles
@@ -540,10 +537,13 @@ function DataCircles() {
 			
             for (var index = 0; index < data.length; index++) {
 				// filters
+
+                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
                 if (data[index].id == null) continue;
 				var id = data[index].id;
+				var daysAgo = getDaysAgo(data[index].date);
+				if(daysAgo === null) continue;
                 if ( getById(layerContainers[CRIME], data[index].id) != null ) break;
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
                 // add the circles
                 addCrimeMarkers(layerContainers[CRIME], index, data, layer, true);
@@ -561,7 +561,8 @@ function DataCircles() {
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
                 icon: crimeIcon,
-				id : data[dataIndex].id
+				id : data[dataIndex].id,
+				date: data[dataIndex].date
             }
         ).bindPopup("<strong>Type:</strong> " + data[dataIndex]["primary_type"] + "<br><strong>Arrest:</strong> " +
                 data[dataIndex]["arrest"] +"<br><strong>Location Description:</strong> " + data[dataIndex]["location_description"] + 
@@ -586,6 +587,11 @@ function DataCircles() {
             if(layer.circles[index].options.id == number) return layer.circles[index];
         return null;
     };
+	function getDaysAgo(date) { 
+		if(date === null) return null;
+		var dateObj = parseDate(date);
+		return ( (new Date() - dateObj) / 1000 / 60 / 60 / 24 ); 
+	};
 
 /************End Crime Data Handling************/
 
@@ -783,30 +789,54 @@ function DataCircles() {
         };
     };
 
+	function extractGraphData(data){
+		var graphData = [];
+        for (var i = 0; i < data.length; i++) {
+			var point = data[i];
+			point.recentData = 0;
+			point.olderData = 0;
+			var totalCircles = point.circles.length;
+			
+			for(var circleIndex = 0; circleIndex < totalCircles; circleIndex++){
+				var circle = point.circles[circleIndex];
+				
+                var daysAgo = getDaysAgo(circle.options.date);
+				if(daysAgo > 7) point.olderData++;
+				else point.recentData++;
+			}
+			
+			graphData.push({
+				type		: point.type,
+				total		: totalCircles,
+				recentTotal	: point.recentData,
+				olderTotal 	: point.olderData
+			});
+        };
+		return graphData;
+	};
+
     // clean data of selectedDataPoints so that d3 can make graphs using D3Graphs object
     function cleanAndMakeGraphs(){
-        var selectedData = [];
-        var overallData = [];
-
-        for (var i = 0; i < selectedDataPoints.length; i++) {
-            selectedData.push(
-            {
-                label : selectedDataPoints[i].type,
-                value : selectedDataPoints[i].circles.length
-            });
-        };
-
-        for (var i = 0; i < layerContainers.length; i++) {
-            overallData.push(
-            {
-                label : layerContainers[i].type,
-                value : layerContainers[i].circles.length
-            });
-        };
-
+		var refreshableSelectedDataPoints = [
+			selectedDataPoints[POTHOLES],
+			selectedDataPoints[ABANDONED_VEHICLES],
+			selectedDataPoints[STREET_LIGHTS],
+			selectedDataPoints[CRIME]
+		];
+		
+		var refreshableOverallDataPoints = [
+			layerContainers[POTHOLES],
+			layerContainers[ABANDONED_VEHICLES],
+			layerContainers[STREET_LIGHTS],
+			layerContainers[CRIME]
+		];
+		
+		var selectedData = extractGraphData(refreshableSelectedDataPoints);
+		var overallData = extractGraphData(refreshableOverallDataPoints);
+		
         D3Graphs.clearAll();
-        D3Graphs.makeOverallGraph(overallData, "label", "value");
-        D3Graphs.makeSelectedGraph(selectedData, "label", "value");
+        D3Graphs.makeOverallGraph(overallData, "type", "total", "recentTotal", "olderTotal");
+        D3Graphs.makeSelectedGraph(selectedData, "type", "total", "recentTotal", "olderTotal");
     };
 
     // function that checks is a data point that was added is inside a shape
