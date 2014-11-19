@@ -10,7 +10,7 @@ function DataCircles() {
     var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;	
     var DataCirclesObj = new Object();
     // make this private after testing
-    var selectedDataPoints = [];
+    selectedDataPoints = [];
 
     // make this private after testing
 	layerContainers = [];
@@ -142,8 +142,8 @@ function DataCircles() {
                 if (data[index].creation_date == null) continue;
 				var creation_date = parseDate(data[index].creation_date);
                 var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                if (daysAgo > 31) return;
-                if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) return;
+                if (daysAgo > 31) break;
+                if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) break;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
                 // add the circles
@@ -151,7 +151,12 @@ function DataCircles() {
                 if (daysAgo > 7) outLine = layerInfo.color;
                 if (data[index].status.indexOf("completed") > -1) outLine = "white";
                 addPotholesMarkers(layerContainers[POTHOLES], index, data, layer, true);
+
             };
+
+            var selectedLayer = selectedDataPoints[POTHOLES].controlLayer;
+            selectedLayer.clearLayers();
+            L.layerGroup(selectedDataPoints[POTHOLES].circles).addTo(selectedLayer);
         });	
 	}
 
@@ -169,10 +174,13 @@ function DataCircles() {
         );//end .push
         //TODO change icon based on value of "status"
         
-        // we should only show the data on the map when a polygon is drawn
-        // if(refresh) layer.clearLayers();
-        // L.layerGroup(layerContainer.circles).addTo(layer);
-        return null;
+        // check to see if the new marker is inside the drawn shapes, if any
+        var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
+        if (isInShapes(newMarker)) {
+            selectedDataPoints[POTHOLES].circles.push(newMarker);
+            // debug
+            console.log("Marker was added to the section");
+        };
     };
 /************End Potholes Data Handling************/
 
@@ -220,6 +228,7 @@ function DataCircles() {
 	};
 
 	function refreshAbandonedVehiclesData(layerInfo, layer){
+        console.log("refresh");
         var sourceLink = layerInfo.sourceLink;
         d3.json(sourceLink, function(error, data){
             if (error) console.error(error);
@@ -229,8 +238,8 @@ function DataCircles() {
                 if (data[index].creation_date == null) continue;
 				var creation_date = parseDate(data[index].creation_date);
                 var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                if (daysAgo > 31) return;
-                if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) return;
+                if (daysAgo > 31) break;
+                if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) break;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
                 // add the circles
@@ -239,8 +248,13 @@ function DataCircles() {
                 if (data[index].status.indexOf("completed") > -1) outLine = "white";
                 addAbandonedVehiclesMarkers(layerContainers[ABANDONED_VEHICLES], index, data, layer, true);
             };
+
+            // temp way to refresh when updating
+            var selectedLayer = selectedDataPoints[ABANDONED_VEHICLES].controlLayer;
+            selectedLayer.clearLayers();
+            L.layerGroup(selectedDataPoints[ABANDONED_VEHICLES].circles).addTo(selectedLayer);
         });	
-	}
+	};
 	
 	//helper function for adding abandoned vehicle data to map
     function addAbandonedVehiclesMarkers(layerContainer, dataIndex, data, layer, refresh) {
@@ -257,11 +271,14 @@ function DataCircles() {
         );//end .push
         //TODO change icon based on value of "status"
         //TODO do we want to put extra data like color, licenese plate, make/model? maybe under a "show more" tab/button, etc?
-        
-        // we should only show the data on the map when a polygon is drawn
-        // if(refresh) layer.clearLayers();
-        // L.layerGroup(layerContainer.circles).addTo(layer);
-        return null;
+
+        // check to see if the new marker is inside the drawn shapes, if any
+        var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
+        if (isInShapes(newMarker)) {
+            selectedDataPoints[ABANDONED_VEHICLES].circles.push(newMarker);
+            // debug
+            console.log("Marker was added to the section");
+        };
     };	
 /************End Abandoned Vehicles Data Handling************/
 
@@ -322,8 +339,8 @@ function DataCircles() {
                 if (data[index].creation_date == null) continue;
 				var creation_date = parseDate(data[index].creation_date);
                 var daysAgo = (new Date() - creation_date) / 1000 / 60 / 60 / 24;
-                if (daysAgo > 31) return;
-                if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) return;
+                if (daysAgo > 31) break;
+                if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) break;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
                 // add the circles
@@ -332,6 +349,10 @@ function DataCircles() {
                 if (data[index].status.indexOf("completed") > -1) outLine = "white";
                 addStreetLightsMarkers(layerContainers[STREET_LIGHTS], index, data, layer, true);
             };
+
+            var selectedLayer = selectedDataPoints[STREET_LIGHTS].controlLayer;
+            selectedLayer.clearLayers();
+            L.layerGroup(selectedDataPoints[STREET_LIGHTS].circles).addTo(selectedLayer);
         });	
 	}
 	
@@ -348,10 +369,13 @@ function DataCircles() {
         );//end .push
         //TODO change icon based on value of "status"
         
-        // we should only show the data on the map when a polygon is drawn
-        // if(refresh) layer.clearLayers();
-        // L.layerGroup(layerContainer.circles).addTo(layer);
-        return null;
+        // check to see if the new marker is inside the drawn shapes, if any
+        var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
+        if (isInShapes(newMarker)) {
+            selectedDataPoints[STREET_LIGHTS].circles.push(newMarker);
+            // debug
+            console.log("Marker was added to the section");
+        };
     };
 	
 	//helper functions
@@ -518,12 +542,16 @@ function DataCircles() {
 				// filters
                 if (data[index].id == null) continue;
 				var id = data[index].id;
-                if ( getById(layerContainers[CRIME], data[index].id) != null ) return;
+                if ( getById(layerContainers[CRIME], data[index].id) != null ) break;
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
                 // add the circles
                 addCrimeMarkers(layerContainers[CRIME], index, data, layer, true);
             };
+
+            var selectedLayer = selectedDataPoints[CRIME].controlLayer;
+            selectedLayer.clearLayers();
+            L.layerGroup(selectedDataPoints[CRIME].circles).addTo(selectedLayer);
         });	
 	};
 	
@@ -543,10 +571,13 @@ function DataCircles() {
         //TODO maybe add details like the description and if it was domestic or not, case number, iucr, etc? either
         //in the popup or some sort of "show more"? or maybe we show some basic info on hover, and that+more on click/popup?
         
-        // we should only show the data on the map when a polygon is drawn
-        // if(refresh) layer.clearLayers();
-        // L.layerGroup(layerContainer.circles).addTo(layer);
-        return null;
+        // check to see if the new marker is inside the drawn shapes, if any
+        var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
+        if (isInShapes(newMarker)) {
+            selectedDataPoints[CRIME].circles.push(newMarker);
+            // debug
+            console.log("Marker was added to the section");
+        };
     };
 	
 	//helper functions
@@ -695,7 +726,7 @@ function DataCircles() {
 
     // function that filters by a simple rectangle
     function filterByShape(coordinates, add){
-         var poly = {
+        var poly = {
             "type": "Polygon",
             "coordinates": coordinates
         };
@@ -776,6 +807,34 @@ function DataCircles() {
         D3Graphs.clearAll();
         D3Graphs.makeOverallGraph(overallData, "label", "value");
         D3Graphs.makeSelectedGraph(selectedData, "label", "value");
+    };
+
+    // function that checks is a data point that was added is inside a shape
+    // data point in our case is a circle object marker thing
+    function isInShapes (dataPoint){
+        var point = {
+            "type": "Point", 
+            "coordinates": [dataPoint._latlng.lng, dataPoint._latlng.lat]
+        };
+
+        for (var x in shapes) {
+            var coordinatesArray = shapes[x].latlngs;
+            var coordinates = [];
+
+            for (var i = 0; i < coordinatesArray.length; i++) {
+                coordinates.push([coordinatesArray[i].lng, coordinatesArray[i].lat]);
+            };
+
+            var poly = {
+            "type": "Polygon",
+            "coordinates": coordinates
+            };
+
+            if (gju.pointInPolygon(point, poly))
+                return true;
+        };
+
+        return false;
     };
 
     DataCirclesObj.filterByShape = filterByShape;

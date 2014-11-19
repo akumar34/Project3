@@ -42,6 +42,10 @@
 			var usWeatherApp;
 			var D3Graphs;
 			function init(){
+				// array used to keep track of shapes and their ids that are drawn
+				// This is a bad way to do this but we are running out of time... Sorry
+				shapes = {};
+
 				mapApp = new MapApp;
 				d3.json("data/chicagoDist.json", function(data){
 					mapApp.init(data);
@@ -52,12 +56,13 @@
 
 				// update regularly
 				//setInterval(function() {mapApp.refresh() }, 60000); 
-				setInterval(function() {mapApp.refreshPotholes() }, 			60000);
-				setInterval(function() {mapApp.refreshAbandonedVehicles() }, 	70000);
-				setInterval(function() {mapApp.refreshStreetLights() }, 		80000);
-				setInterval(function() {mapApp.refreshDivvy() }, 				90000);
-				setInterval(function() {mapApp.refreshCrime() }, 			   100000);
-				setInterval(function() {mapApp.refreshCTA() }, 				   110000);
+				// changed to test stuff out
+				setInterval(function() {mapApp.refreshPotholes() }, 			10000);
+				setInterval(function() {mapApp.refreshAbandonedVehicles() }, 	15000);
+				setInterval(function() {mapApp.refreshStreetLights() }, 		20000);
+				setInterval(function() {mapApp.refreshDivvy() }, 				50000);
+				setInterval(function() {mapApp.refreshCrime() }, 			    25000);
+				setInterval(function() {mapApp.refreshCTA() }, 				    50000);
 				
 				usWeatherApp = new USWeatherApp;
 				usWeatherApp.init(1,"#viz");

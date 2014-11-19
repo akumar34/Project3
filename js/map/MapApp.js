@@ -19,9 +19,6 @@ var MapApp = Class.extend({
 		this.layersInfo = [];
 		
 		this.ctaUrl = [];
-
-		// array used to keep track of shapes and their ids that are drawn
-		this.shapes = {};
 	},
 	
 	init: function(chicagoMap){
@@ -234,7 +231,7 @@ var MapApp = Class.extend({
 
 			if (type == 'rectangle') {
 
-				context.shapes[layer._leaflet_id] = 
+				shapes[layer._leaflet_id] = 
 					{
 						type 	: "rectangle",
 						id  	: layer._leaflet_id,
@@ -242,7 +239,7 @@ var MapApp = Class.extend({
 					};
 
 				// extract lat lngs and add datapoints inside shape to the layers
-				context.filterByShapes(context.shapes, true);
+				context.filterByShapes(shapes, true);
 			};
 
 		});
@@ -254,12 +251,12 @@ var MapApp = Class.extend({
 				layer = layers[x];
 				shapesToRemove[layer._leaflet_id] = 
 					{
-						type 	: context.shapes[layer._leaflet_id].type,
+						type 	: shapes[layer._leaflet_id].type,
 						id  	: layer._leaflet_id,
 						latlngs : layer._latlngs
 					};
 
-				delete context.shapes[layer._leaflet_id];
+				delete shapes[layer._leaflet_id];
 			};
 			
 			context.filterByShapes(shapesToRemove, false);			
@@ -283,10 +280,10 @@ var MapApp = Class.extend({
 		$('#sidebar').css({'margin-top' : (height - padding) + 'px'});
 	},
 
-	filterByShapes: function (shapes, add){
+	filterByShapes: function (selectedShapes, add){
 		var pointsArray = [];
-		for(var x in shapes){
-			shape = shapes[x];
+		for(var x in selectedShapes){
+			var shape = selectedShapes[x];
 			if (shape.type === "rectangle") {
 				pointsArray.push(this.extractLngLatFromShape(shape.latlngs));
 			};
@@ -298,7 +295,7 @@ var MapApp = Class.extend({
 	},
 
 	extractLngLatFromShape: function (coordinatesArray) {
-        coordinates = [];
+        var coordinates = [];
         for (var i = 0; i < coordinatesArray.length; i++) {
             coordinates.push([coordinatesArray[i].lng, coordinatesArray[i].lat]);
         };
