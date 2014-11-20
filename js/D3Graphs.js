@@ -6,7 +6,7 @@ function D3Graphs(){
 	var container;
 
     var D3GraphsObj = new Object();
-    var graphPadding = 110;
+    var graphPadding = 35;
 	
 	var svgs = [];
 
@@ -17,13 +17,13 @@ function D3Graphs(){
 		
 		svgs[REFRESHABLE_DATA_SVG] = d3.select(container)
             .append("svg")
-            .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2 - 5))
+            .attr("viewBox", "-55 -40 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2 + 150))
             .attr("preserveAspectRatio", "xMidYMid meet")
             .append("g");
 			
 		svgs[CRIME_DATA_SVG] = d3.select(container)
             .append("svg")
-            .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2 - 5))
+            .attr("viewBox", "-55 -40 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2 + 150))
             .attr("preserveAspectRatio", "xMidYMid meet")
             .append("g");
     };
@@ -37,16 +37,6 @@ function D3Graphs(){
 		var svg;
 		if(data[0].type.search("Potholes") != -1) svg = svgs[REFRESHABLE_DATA_SVG];
 		else svg = svgs[CRIME_DATA_SVG]; 
-		
-		//var margin = {top: 100, right: 20, bottom: 200, left: 110};
-		
-		/*var svg = d3.select(container)
-            .append("svg")
-            .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2+180))
-            .attr("preserveAspectRatio", "xMidYMid meet")
-            .append("g");*/
-			
-		//svgs.push(svg);
 		
 		var x0 = d3.scale.ordinal()
 			.rangeRoundBands([0, width], 0.1);
@@ -63,7 +53,8 @@ function D3Graphs(){
 		var yAxis = d3.svg.axis()
 			.scale(y)
 			.orient("left")
-			.tickFormat(d3.format(".2s"));
+			.tickFormat(d3.format(".2s"))
+			.ticks(5);
 		 
 		//var color = d3.scale.ordinal()
 		//	.range(["red","green"]);
@@ -102,7 +93,7 @@ function D3Graphs(){
 		x1.domain(d3.keys(innerColumns)).rangeRoundBands([0, x0.rangeBand()]);
 
 		y.domain([0, d3.max(data, function(d) { 
-			return d.total + 270; 
+			return d.total; 
 		})]);
 
 		svg.append("g")
@@ -189,10 +180,10 @@ function D3Graphs(){
 		   .enter()
 		   .append("text")
 		   .attr("x", width/2)
-		   .attr("y", height-125)
+		   .attr("y", height-165)
 		   .attr("text-anchor","middle")
 		   .attr("font-family", "sans-serif")
-		   .attr("font-size","100%")
+		   .attr("font-size","90%")
 		   .text(title);
 	};
 	
