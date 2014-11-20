@@ -24,7 +24,7 @@ function DataCircles() {
     //custom markers
     //pothole
     var potholeIcon = L.icon({
-        iconUrl: 'icons/svg/exclamation3.svg',
+        iconUrl: 'icons/svg/marker_pothole.svg',
         iconSize:     [38, 95],
         shadowSize:   [50, 64],
         iconAnchor:   [22, 94],
@@ -34,7 +34,7 @@ function DataCircles() {
 
     //abandoned vehicles
     var abandonedVehicleIcon = L.icon({
-        iconUrl: 'icons/svg/car168.svg',
+        iconUrl: 'icons/svg/marker_car.svg',
         iconSize:     [38, 95],
         shadowSize:   [50, 64],
         iconAnchor:   [22, 94],
@@ -44,7 +44,7 @@ function DataCircles() {
 
     //divvy stations
     var divvyStationIcon = L.icon({
-        iconUrl: 'icons/svg/pins6.svg',
+        iconUrl: 'icons/svg/marker_divvy2.svg',
         iconSize:     [38, 95],
         shadowSize:   [50, 64],
         iconAnchor:   [22, 94],
@@ -54,7 +54,7 @@ function DataCircles() {
 
     //street lights
     var streetLightIcon = L.icon({
-        iconUrl: 'icons/svg/street9.svg',
+        iconUrl: 'icons/svg/marker_light.svg',
         iconSize:     [38, 95],
         shadowSize:   [50, 64],
         iconAnchor:   [22, 94],
@@ -64,7 +64,7 @@ function DataCircles() {
 
     //crimes
     var crimeIcon = L.icon({
-        iconUrl: 'icons/svg/handcuffs.svg',
+        iconUrl: 'icons/svg/marker_crime.svg',
         iconSize:     [38, 95],
         shadowSize:   [50, 64],
         iconAnchor:   [22, 94],
@@ -74,7 +74,7 @@ function DataCircles() {
 
     //CTA
     var ctaIcon = L.icon({
-    iconUrl: 'icons/svg/bus.svg',
+    iconUrl: 'icons/svg/marker_cta.svg',
     iconSize:     [38, 95],
     shadowSize:   [50, 64],
     iconAnchor:   [22, 94],
