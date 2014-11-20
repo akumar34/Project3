@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- The icon can be used freely in both personal and commercial projects with no attribution required, but always appreciated. 
+You may NOT sub-license, resell, rent, redistribute or otherwise transfer the icon without express written permission from iconmonstr.com -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   x="0px"
+   y="0px"
+   width="200"
+   height="302.25"
+   viewBox="0 0 200 302.25"
+   enable-background="new 0 0 512 512"
+   xml:space="preserve"
+   id="svg5058"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="marker_crime_sized.svg"><metadata
+   id="metadata5065"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs5063" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1058"
+   id="namedview5061"
+   showgrid="true"
+   inkscape:zoom="1.3037281"
+   inkscape:cx="84.297888"
+   inkscape:cy="253.47064"
+   inkscape:window-x="-8"
+   inkscape:window-y="-8"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="svg5058"
+   fit-margin-top="0"
+   fit-margin-left="0"
+   fit-margin-right="0"
+   fit-margin-bottom="0"><inkscape:grid
+     type="xygrid"
+     id="grid5067"
+     empspacing="5"
+     visible="true"
+     enabled="true"
+     snapvisiblegridlinesonly="true"
+     originx="-123px"
+     originy="-45.25px" /></sodipodi:namedview>
+<path
+   id="location-4-icon"
+   d="M 100,2.4489544 C 46.124921,2.4489544 2.4489588,44.298306 2.4489588,95.921822 2.4489588,147.54535 45.142679,207.5399 100,297.55104 154.85882,207.5406 197.55104,147.54535 197.55104,95.921822 197.55104,44.298306 153.87658,2.4489544 100,2.4489544 z M 99.998,160.50048 c -37.0963,0 -67.168184,-28.8147 -67.168184,-64.360203 0,-35.544752 30.071884,-64.359464 67.168184,-64.359464 37.09706,0 67.16968,28.814712 67.16968,64.359464 0,35.546213 -30.07262,64.360203 -67.16968,64.360203 z"
+   inkscape:connector-curvature="0"
+   style="fill:#9b0000;fill-opacity:1;stroke:#000000;stroke-width:4.89791727;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+<path
+   d="m 100.13737,154.37705 c -6.425256,-4.98671 -8.322478,-6.29351 -20.871746,-9.35193 -17.453949,-4.25376 -27.464404,-15.28808 -27.464404,-30.27197 0,-8.37898 3.514881,-16.09426 7.585745,-26.691805 4.586382,-11.93803 1.984794,-15.72538 -2.844549,-20.543954 L 52.433624,63.418403 75.975851,44.330678 c 2.330437,2.28352 5.609039,6.474747 11.612808,6.474747 5.910042,0 9.912825,-4.074426 12.605901,-6.33174 2.43281,2.103625 6.40296,6.33174 12.49209,6.33174 5.92231,0 9.08795,-4.000384 11.69622,-6.554404 5.16018,4.380731 0.4533,0.515621 23.45824,19.167637 l -4.10879,4.099008 c -4.82934,4.818574 -7.43119,8.605915 -2.84453,20.543945 4.07226,10.600759 7.58575,18.314969 7.58575,26.691799 0,14.9839 -10.00991,26.0182 -27.46384,30.27197 -12.55153,3.05843 -14.44705,4.36496 -20.87233,9.35167 z M 68.394282,64.458983 c 4.94457,6.614535 6.426956,14.32394 1.446135,27.289466 -3.85271,10.028741 -6.90035,16.756351 -6.90035,23.004701 0,12.62847 10.371158,17.80735 19.071072,19.92834 8.490414,2.06916 13.696918,3.33802 18.126501,5.94285 4.42961,-2.60483 9.63612,-3.87343 18.1268,-5.94285 8.69964,-2.12099 19.07052,-7.2996 19.07052,-19.92834 0,-6.24621 -3.04457,-12.97009 -6.8998,-23.004435 -4.98136,-12.965792 -3.49842,-20.675197 1.44614,-27.289732 l -7.50456,-6.084495 c -2.77176,1.543651 -6.78655,3.103589 -11.68954,3.103589 -5.24249,0 -9.6481,-1.790896 -12.54926,-3.400294 -2.900634,1.609398 -7.30679,3.400294 -12.548716,3.400294 -4.904114,0 -8.918067,-1.559938 -11.690087,-3.103589 l -7.504855,6.084495 z m 45.540158,52.605477 -13.59648,-6.84923 -13.597625,6.84923 2.597395,-14.50783 -11.00048,-10.274912 15.201613,-2.116472 6.799097,-13.199946 6.79907,13.199946 15.20217,2.116472 -11.00104,10.274912 2.59628,14.50783 z"
+   id="police-badge-4-icon"
+   inkscape:connector-curvature="0"
+   style="fill:#9b0000;fill-opacity:1;stroke:#000000;stroke-width:4.89791727;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" /></svg>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- The icon can be used freely in both personal and commercial projects with no attribution required, but always appreciated. 
+You may NOT sub-license, resell, rent, redistribute or otherwise transfer the icon without express written permission from iconmonstr.com -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   x="0px"
+   y="0px"
+   width="200"
+   height="302.25"
+   viewBox="0 0 200 302.25"
+   enable-background="new 0 0 512 512"
+   xml:space="preserve"
+   id="svg5058"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="marker_pothole_sized.svg"><metadata
+   id="metadata5065"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs5063" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1058"
+   id="namedview5061"
+   showgrid="true"
+   inkscape:zoom="1.3037281"
+   inkscape:cx="84.297888"
+   inkscape:cy="253.47064"
+   inkscape:window-x="-8"
+   inkscape:window-y="-8"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="svg5058"
+   fit-margin-top="0"
+   fit-margin-left="0"
+   fit-margin-right="0"
+   fit-margin-bottom="0"><inkscape:grid
+     type="xygrid"
+     id="grid5067"
+     empspacing="5"
+     visible="true"
+     enabled="true"
+     snapvisiblegridlinesonly="true"
+     originx="-123px"
+     originy="-45.25px" /></sodipodi:namedview>
+<path
+   id="location-4-icon"
+   d="M 100,2.4489544 C 46.124911,2.4489544 2.4489588,44.298297 2.4489588,95.921822 2.4489588,147.54535 45.142679,207.53989 100,297.55104 154.85882,207.5406 197.55104,147.54535 197.55104,95.921822 197.55104,44.298297 153.87658,2.4489544 100,2.4489544 z M 99.998,160.50048 c -37.09631,0 -67.168194,-28.81471 -67.168194,-64.360193 0,-35.544762 30.071884,-64.359474 67.168194,-64.359474 37.09706,0 67.16968,28.814712 67.16968,64.359474 0,35.546193 -30.07262,64.360193 -67.16968,64.360193 z"
+   inkscape:connector-curvature="0"
+   style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.89791727;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+<g
+   id="g5286"
+   transform="matrix(1.1354463,0,0,1.0879783,47.669388,43.331385)"
+   style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"><path
+     id="path5248"
+     d="m 47.999,55.393 c 11.951,0 21.955,-4.061 22.561,-9.362 C 68.783,41.046 66.845,35.61 64.941,30.267 63.619,34.078 56.318,36.765 48,36.765 c -8.316,0 -15.617,-2.688 -16.941,-6.497 -1.904,5.342 -3.84,10.777 -5.617,15.763 0.604,5.301 10.606,9.362 22.557,9.362 z m 0,-33.526 c 5.617,0 10.836,-1.739 12.363,-4.439 C 58.257,11.515 56.448,6.442 55.305,3.241 54.546,1.108 51.104,0 47.999,0 c -3.105,0 -6.547,1.108 -7.307,3.241 -1.141,3.201 -2.949,8.274 -5.057,14.187 1.528,2.7 6.749,4.439 12.364,4.439 z m 43.904,38.465 -18.777,-7.563 2.162,6.033 c -0.109,6.394 -12.521,11.489 -27.289,11.489 -14.766,0 -27.18,-5.095 -27.287,-11.489 l 2.16,-6.033 -18.775,7.563 c -5.264,2.121 -5.484,6.049 -0.49,8.726 l 35.312,18.935 c 4.994,2.677 13.168,2.677 18.162,0 L 92.393,69.058 c 4.995,-2.677 4.774,-6.605 -0.49,-8.726 z"
+     inkscape:connector-curvature="0"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" /><g
+     id="g5250"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5252"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5254"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5256"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5258"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5260"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5262"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5264"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5266"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5268"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5270"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5272"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5274"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5276"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g><g
+     id="g5278"
+     style="fill:#9b6700;fill-opacity:1;stroke:#000000;stroke-width:4.40674639;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none">
+</g></g></svg>

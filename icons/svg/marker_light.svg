@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- The icon can be used freely in both personal and commercial projects with no attribution required, but always appreciated. 
+You may NOT sub-license, resell, rent, redistribute or otherwise transfer the icon without express written permission from iconmonstr.com -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   x="0px"
+   y="0px"
+   width="512px"
+   height="512px"
+   viewBox="0 0 512 512"
+   enable-background="new 0 0 512 512"
+   xml:space="preserve"
+   id="svg5058"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="marker_car.svg"><metadata
+   id="metadata5065"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs5063" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1058"
+   id="namedview5061"
+   showgrid="true"
+   inkscape:zoom="1.3037281"
+   inkscape:cx="326.95474"
+   inkscape:cy="298.72064"
+   inkscape:window-x="-8"
+   inkscape:window-y="-8"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="svg5058"><inkscape:grid
+     type="xygrid"
+     id="grid5067" /></sodipodi:namedview>
+<path
+   id="location-4-icon"
+   d="M256,50c-72.072,0-130.5,58.427-130.5,130.5c0,72.073,57.114,155.833,130.5,281.5  c73.388-125.666,130.5-209.427,130.5-281.5C386.5,108.427,328.074,50,256,50z M255.998,270.66  c-49.626,0-89.855-40.229-89.855-89.855c0-49.625,40.229-89.854,89.855-89.854c49.627,0,89.857,40.229,89.857,89.854  C345.855,230.432,305.625,270.66,255.998,270.66z" />
+<path
+   d="m 313.01853,122 -17.09482,12.25813 c -20.68838,-35.166132 -87.89565,-27.31165 -87.89565,23.45965 0,12.66372 4.9401,22.80195 10.33806,32.15683 l -22.81383,16.35964 8.64972,12.06238 117.46697,-84.235 L 313.01853,122 z m -93.85829,35.71816 c 0,-38.6863 52.3221,-44.25147 67.52429,-16.83418 l -59.19378,42.44821 c -4.55379,-7.91531 -8.33051,-15.92254 -8.33051,-25.61403 z m 23.93458,65.60086 h -11.05473 c 0,-3.55871 -0.62913,-6.95026 -1.6798,-10.25427 l 9.38748,-6.7356 c 1.92784,5.13065 3.22432,10.69805 3.34705,16.98987 z m -3.41563,33.20493 h 30.58638 c -8.44842,7.53119 -9.2203,8.91257 -12.35266,8.91257 h -6.17319 c -3.20579,0 -4.03179,-1.49074 -12.06053,-8.91257 z m 34.92182,-9.41457 c 0,2.27707 -1.8459,4.12336 -4.12301,4.12336 h -31.01088 c -2.27744,0 -4.12408,-1.84629 -4.12408,-4.12336 0,-2.27783 1.84664,-4.1241 4.12408,-4.1241 h 31.01052 c 2.27747,0 4.12337,1.84665 4.12337,4.1241 z m 0.74221,-13.72996 c 0,2.27744 -1.84591,4.12336 -4.12299,4.12336 h -32.49532 c -2.27746,0 -4.12412,-1.84592 -4.12412,-4.12336 0,-2.27785 1.84666,-4.12374 4.12412,-4.12374 h 32.49458 c 2.27782,0 4.12373,1.84629 4.12373,4.12374 z m 12.82276,-61.79042 13.57055,-9.73712 c -2.18549,25.38049 -23.8315,40.54557 -23.8315,61.46714 h -10.93458 c 0.006,-21.55923 15.01011,-35.0182 21.19553,-51.73002 z"
+   id="light-bulb-14-icon"
+   inkscape:connector-curvature="0" /></svg>
