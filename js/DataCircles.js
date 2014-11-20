@@ -24,50 +24,50 @@ function DataCircles() {
     //custom markers
     //pothole
     var potholeIcon = L.icon({
-        iconUrl: 'icons/svg/marker_pothole_sized.svg',
-        iconSize:     [50, 75],//must be of ratio 1:1.5 because our icons
-        iconAnchor:   [25, 75],
-        popupAnchor:  [0, -80]
+        iconUrl: 'icons/svg/marker_pothole_sized_new.svg',//pothole_sized.svg',
+        iconSize:     [60, 90],//must be of ratio 1:1.5 because our icons
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90]
     });//end pothole
 
     //abandoned vehicles
     var abandonedVehicleIcon = L.icon({
-        iconUrl: 'icons/svg/marker_car_sized.svg',
-        iconSize:     [50, 75],
-        iconAnchor:   [25, 75],
-        popupAnchor:  [0, -80] 
+        iconUrl: 'icons/svg/marker_car_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90] 
     });//end abandoned vehicles
 
     //divvy stations
     var divvyStationIcon = L.icon({
-        iconUrl: 'icons/svg/marker_divvy2_sized.svg',
-        iconSize:     [50, 75],
-        iconAnchor:   [25, 75],
-        popupAnchor:  [0, -80]
+        iconUrl: 'icons/svg/marker_divvy2_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90]
     });//end divvy station
 
     //street lights
     var streetLightIcon = L.icon({
-        iconUrl: 'icons/svg/marker_light_sized.svg',
-        iconSize:     [50, 75],
-        iconAnchor:   [25, 75],
-        popupAnchor:  [0, -80] 
+        iconUrl: 'icons/svg/marker_light_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90] 
     });//end street lights
 
     //crimes
     var crimeIcon = L.icon({
-        iconUrl: 'icons/svg/marker_crime_sized.svg',
-        iconSize:     [50, 75],
-        iconAnchor:   [25, 75],
-        popupAnchor:  [0, -80] 
+        iconUrl: 'icons/svg/marker_crime_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90] 
     });//end crimes
 
     //CTA
     var ctaIcon = L.icon({
-        iconUrl: 'icons/svg/marker_cta_sized.svg',
-        iconSize:     [50, 75],
-        iconAnchor:   [25, 75],
-        popupAnchor:  [0, -80]
+        iconUrl: 'icons/svg/marker_cta_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90]
     });//end CTA
     //end custom markers
 
