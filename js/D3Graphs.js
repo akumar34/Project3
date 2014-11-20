@@ -3,7 +3,7 @@ function D3Graphs(){
     var container;
 
     var D3GraphsObj = new Object();
-    var graphPadding = 130;
+    var graphPadding = 150;
 	
 	var svgs = [];
 	//var REFRESHABLE_SVG = 0;
@@ -90,14 +90,15 @@ function D3Graphs(){
 		  .attr("class", "x axis")
 		  .attr("transform", "translate(0," + height + ")")
 		  .call(xAxis)
-			.selectAll("g.text")  
-			.style("text-anchor", "end")
-			.attr("dx", "-.8em")
-			.attr("dy", ".15em")
-			.attr("transform", function(d) {
-				return "rotate(-65)" 
-			});
-
+			  .selectAll("text")
+				.attr("y", 0)
+				.attr("x", 9)
+				.attr("dy", ".35em")
+				.attr("transform", "rotate(65)")
+				.style("text-anchor", "start")
+			    .attr("font-family", "sans-serif")
+			    .attr("font-size","50%");
+			   
 		svg.append("g")
 		  .attr("class", "y axis")
 		  .call(yAxis)
@@ -170,10 +171,10 @@ function D3Graphs(){
 		   .enter()
 		   .append("text")
 		   .attr("x", width/2)
-		   .attr("y", height-20)
+		   .attr("y", height-80)
 		   .attr("text-anchor","middle")
 		   .attr("font-family", "sans-serif")
-		   .attr("font-size","14pt")
+		   .attr("font-size","12pt")
 		   .text(title);
 	};
 	
