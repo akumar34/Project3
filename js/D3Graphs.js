@@ -3,11 +3,11 @@ function D3Graphs(){
     var container;
 
     var D3GraphsObj = new Object();
-    var graphPadding = 100;
+    var graphPadding = 125;
 	
 	var svgs = [];
-	var REFRESHABLE_SVG = 0;
-	var CRIME_SVG = 1;
+	//var REFRESHABLE_SVG = 0;
+	//var CRIME_SVG = 1;
 
     function init(div){
         var height = $("#sidebar").height();
@@ -48,6 +48,11 @@ function D3Graphs(){
 		 
 		var color = d3.scale.ordinal()
 			.range(["red","green"]);
+			
+			
+		//var palette = d3.scale.category20c();
+		//var colorRange = palette.range();
+		//var color = d3.scale.ordinal().range(colorRange);
 		 
 		var yBegin;
 		
@@ -78,7 +83,7 @@ function D3Graphs(){
 		x1.domain(d3.keys(innerColumns)).rangeRoundBands([0, x0.rangeBand()]);
 
 		y.domain([0, d3.max(data, function(d) { 
-		return d.total; 
+			return d.total; 
 		})]);
 
 		svg.append("g")
@@ -89,26 +94,26 @@ function D3Graphs(){
 		svg.append("g")
 		  .attr("class", "y axis")
 		  .call(yAxis)
-		.append("text")
+		  .append("text")
 		  .attr("transform", "rotate(-90)")
 		  .attr("y", 6)
 		  .attr("dy", ".7em")
 		  .style("text-anchor", "end")
-		  .text("");
+		  .text("Total");
 
 		var project_stackedbar = svg.selectAll(".project_stackedbar")
 		  .data(data)
-		.enter().append("g")
+		  .enter().append("g")
 		  .attr("class", "g")
 		  .attr("transform", function(d) { return "translate(" + x0(d.type) + ",0)"; });
 
 		project_stackedbar.selectAll("rect")
 		  .data(function(d) { return d.columnDetails; })
-		.enter().append("rect")
+		  .enter().append("rect")
 		  .attr("width", x1.rangeBand())
 		  .attr("x", function(d) { 
-			return x1(d.column);
-			 })
+		    return x1(d.column);
+		  })
 		  .attr("y", function(d) { 
 			return y(d.yEnd); 
 		  })
@@ -119,20 +124,20 @@ function D3Graphs(){
 
 		var legend = svg.selectAll(".legend")
 		  .data(columnHeaders.slice().reverse())
-		.enter().append("g")
+		  .enter().append("g")
 		  .attr("class", "legend")
 		  .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 		legend.append("rect")
-		  .attr("x", width - 18)
-		  .attr("width", 18)
-		  .attr("height", 18)
+		  .attr("x", width - 9)
+		  .attr("width", 9)
+		  .attr("height", 9)
 		  .style("fill", color);
 
 		legend.append("text")
-		  .attr("x", width - 24)
+		  .attr("x", width - 15)
 		  .attr("y", 9)
-		  .attr("dy", ".35em")
+		  .attr("dy", ".15em")
 		  .style("text-anchor", "end")
 		  .text(function(d) { return d; });
 	};

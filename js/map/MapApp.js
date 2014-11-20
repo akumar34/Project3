@@ -149,7 +149,7 @@ var MapApp = Class.extend({
 			type : "Food Inspection",
 			fill : "green",
 			color : "yellow",
-			id : 4,
+			id : 6,
 			refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
 		};
 		DataCircles.addFoodInspectionData(this.layersInfo[FOOD_INSPECTION], this.layers[FOOD_INSPECTION]);
