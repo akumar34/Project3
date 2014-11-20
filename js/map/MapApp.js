@@ -293,7 +293,7 @@ var MapApp = Class.extend({
 			};
 		};
 		$('#sidebar').css({'margin-top' : (height - padding) + 'px'});
-	},
+	},//end init()
 
 	filterByShapes: function (selectedShapes, add){
 		var pointsArray = [];
