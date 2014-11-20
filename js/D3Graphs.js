@@ -129,13 +129,13 @@ function D3Graphs(){
 		  .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 		legend.append("rect")
-		  .attr("x", width - 9)
+		  .attr("x", width + 130)
 		  .attr("width", 9)
 		  .attr("height", 9)
 		  .style("fill", color);
 
 		legend.append("text")
-		  .attr("x", width - 15)
+		  .attr("x", width + 120)
 		  .attr("y", 9)
 		  .attr("dy", ".15em")
 		  .style("text-anchor", "end")
