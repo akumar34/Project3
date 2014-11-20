@@ -17,13 +17,13 @@ function D3Graphs(){
 		
 		svgs[REFRESHABLE_DATA_SVG] = d3.select(container)
             .append("svg")
-            .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2+180))
+            .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2-3))
             .attr("preserveAspectRatio", "xMidYMid meet")
             .append("g");
 			
 		svgs[CRIME_DATA_SVG] = d3.select(container)
             .append("svg")
-            .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2+180))
+            .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2-3))
             .attr("preserveAspectRatio", "xMidYMid meet")
             .append("g");
     };
