@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- The icon can be used freely in both personal and commercial projects with no attribution required, but always appreciated. 
+You may NOT sub-license, resell, rent, redistribute or otherwise transfer the icon without express written permission from iconmonstr.com -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   x="0px"
+   y="0px"
+   width="200"
+   height="300"
+   viewBox="0 0 200 300"
+   enable-background="new 0 0 512 512"
+   xml:space="preserve"
+   id="svg5058"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="marker_pothole.svg"><metadata
+   id="metadata5065"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs5063" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1058"
+   id="namedview5061"
+   showgrid="true"
+   inkscape:zoom="1.3037281"
+   inkscape:cx="201.45474"
+   inkscape:cy="248.72064"
+   inkscape:window-x="-8"
+   inkscape:window-y="-8"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="svg5058"
+   fit-margin-top="0"
+   fit-margin-left="0"
+   fit-margin-right="0"
+   fit-margin-bottom="0"><inkscape:grid
+     type="xygrid"
+     id="grid5067"
+     empspacing="5"
+     visible="true"
+     enabled="true"
+     snapvisiblegridlinesonly="true"
+     originx="-125.5px"
+     originy="-50px" /></sodipodi:namedview>
+<path
+   id="location-4-icon"
+   d="M 100,0 C 44.77241,0 0,42.54393 0,95.02427 0,147.50461 43.76552,208.4949 100,300 156.23602,208.49563 200,147.50461 200,95.02427 200,42.54393 155.22912,0 100,0 z m -0.002,160.67476 c -38.02759,0 -68.85441,-29.29296 -68.85441,-65.4284 0,-36.13471 30.82682,-65.42767 68.85441,-65.42767 38.02835,0 68.85594,29.29296 68.85594,65.42767 0,36.13616 -30.82759,65.4284 -68.85594,65.4284 z"
+   inkscape:connector-curvature="0" />
+<g
+   id="g5286"
+   transform="matrix(1.163951,0,0,1.1060359,46.35566,41.56097)"><path
+     id="path5248"
+     d="m 47.999,55.393 c 11.951,0 21.955,-4.061 22.561,-9.362 C 68.783,41.046 66.845,35.61 64.941,30.267 63.619,34.078 56.318,36.765 48,36.765 c -8.316,0 -15.617,-2.688 -16.941,-6.497 -1.904,5.342 -3.84,10.777 -5.617,15.763 0.604,5.301 10.606,9.362 22.557,9.362 z m 0,-33.526 c 5.617,0 10.836,-1.739 12.363,-4.439 C 58.257,11.515 56.448,6.442 55.305,3.241 54.546,1.108 51.104,0 47.999,0 c -3.105,0 -6.547,1.108 -7.307,3.241 -1.141,3.201 -2.949,8.274 -5.057,14.187 1.528,2.7 6.749,4.439 12.364,4.439 z m 43.904,38.465 -18.777,-7.563 2.162,6.033 c -0.109,6.394 -12.521,11.489 -27.289,11.489 -14.766,0 -27.18,-5.095 -27.287,-11.489 l 2.16,-6.033 -18.775,7.563 c -5.264,2.121 -5.484,6.049 -0.49,8.726 l 35.312,18.935 c 4.994,2.677 13.168,2.677 18.162,0 L 92.393,69.058 c 4.995,-2.677 4.774,-6.605 -0.49,-8.726 z"
+     inkscape:connector-curvature="0" /><g
+     id="g5250">
+</g><g
+     id="g5252">
+</g><g
+     id="g5254">
+</g><g
+     id="g5256">
+</g><g
+     id="g5258">
+</g><g
+     id="g5260">
+</g><g
+     id="g5262">
+</g><g
+     id="g5264">
+</g><g
+     id="g5266">
+</g><g
+     id="g5268">
+</g><g
+     id="g5270">
+</g><g
+     id="g5272">
+</g><g
+     id="g5274">
+</g><g
+     id="g5276">
+</g><g
+     id="g5278">
+</g></g></svg>
