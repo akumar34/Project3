@@ -152,7 +152,8 @@ function DataCircles() {
             {
                 icon: potholeIcon,
                 service_request_number : data[dataIndex].service_request_number,
-				date: data[dataIndex].creation_date
+				date: data[dataIndex].creation_date,
+                riseOnHover: true
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
