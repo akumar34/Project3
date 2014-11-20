@@ -617,10 +617,10 @@ function DataCircles() {
 		
         var sourceLink = layerInfo.sourceLink;
 		sourceLink.forEach(function(link){
-			d3.json(link, function(error, json){
-				if (error) console.error(error);
-				
-				var data = json.query.results['bustime-response'].vehicle;
+			d3.json(link, function(error, json){	
+				var results = json.query.results['bustime-response'];		
+				if (results.error) console.error(results.error);
+				var data = results.vehicle;
 				if(data){		
 					for (var index = 0; index < data.length; index++){
 						// filters
@@ -639,9 +639,9 @@ function DataCircles() {
 	    var sourceLink = layerInfo.sourceLink;
 		sourceLink.forEach(function(link){
 			d3.json(link, function(error, json){
-				if (error) console.error(error);
-				
-				var data = json.query.results['bustime-response'].vehicle;
+				var results = json.query.results['bustime-response'];		
+				if (results.error) console.error(results.error);
+				var data = results.vehicle;
 				if(data){		
 					for (var index = 0; index < data.length; index++) {
 						// filters

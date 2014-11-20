@@ -13,29 +13,7 @@ function D3Graphs(){
         var height = $("#sidebar").height();
         var width = $(div).width();
         container = div;
-
-        /*svgs[REFRESHABLE_SVG] = 
-			d3.select(container)
-            .append("svg")
-            .attr("viewBox", "0 0 " + width + " " + height/2)
-            .attr("preserveAspectRatio", "xMidYMid meet")
-            .append("g");
-
-        svgs[CRIME_SVG] = 
-			d3.select(container)
-            .append("svg")
-            .attr("viewBox", "0 0 " + width + " " + height/2)
-            .attr("preserveAspectRatio", "xMidYMid meet")
-            .append("g");*/
     };
-
-	//function makeStackedAndGroupedBarGraphWithRefreshData(data, columns, title){
-	//	makeStackedAndGroupedBarGraph(svgs[REFRESHABLE_SVG], data, columns, title);
-	//};
-	
-	//function makeStackedAndGroupedBarGraphWithCrimeData(data, columns, title){
-	//	makeStackedAndGroupedBarGraph(svgs[CRIME_SVG], data, columns, title);
-	//};
 	
 	function makeStackedAndGroupedBarGraph(data, columns, title){
 		var height = ($("#sidebar").height()/2) - graphPadding;
@@ -78,22 +56,22 @@ function D3Graphs(){
 		var columnHeaders = d3.keys(data[0]).filter(function(key) { return key !== "type"; });
 		color.domain(d3.keys(data[0]).filter(function(key) { return key !== "type"; }));
 		data.forEach(function(d) {
-		var yColumn = new Array();
-		d.columnDetails = columnHeaders.map(function(name) {
-		  for (ic in innerColumns) {
-			if($.inArray(name, innerColumns[ic]) >= 0){
-			  if (!yColumn[ic]){
-				yColumn[ic] = 0;
+			var yColumn = new Array();
+			d.columnDetails = columnHeaders.map(function(name) {
+			  for (ic in innerColumns) {
+				if($.inArray(name, innerColumns[ic]) >= 0){
+				  if (!yColumn[ic]){
+					yColumn[ic] = 0;
+				  }
+				  yBegin = yColumn[ic];
+				  yColumn[ic] += +d[name];
+				  return {name: name, column: ic, yBegin: yBegin, yEnd: +d[name] + yBegin,};
+				}
 			  }
-			  yBegin = yColumn[ic];
-			  yColumn[ic] += +d[name];
-			  return {name: name, column: ic, yBegin: yBegin, yEnd: +d[name] + yBegin,};
-			}
-		  }
-		});
-		d.total = d3.max(d.columnDetails, function(d) { 
-		  return d.yEnd; 
-		});
+			});
+			d.total = d3.max(d.columnDetails, function(d) { 
+			  return d.yEnd; 
+			});
 		});
 
 		x0.domain(data.map(function(d) { return d.type; }));
@@ -160,10 +138,7 @@ function D3Graphs(){
 	};
 	
     function clearAll(){
-        //svgs[REFRESHABLE_SVG].selectAll("*").remove();
-        //svgs[CRIME_SVG].selectAll("*").remove();
-		for(var svg in svgs)
-			svgs[svg].selectAll("*").remove();
+		for(var svg in svgs) svgs[svg].selectAll("*").remove();
     };
 	
 	function makeStackedBarGraph(drawSection, width, height, dx, dy, data, makeTitle, title, ticks){
