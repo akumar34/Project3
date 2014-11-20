@@ -99,7 +99,7 @@ var MapApp = Class.extend({
 		this.layersInfo[STREET_LIGHTS] = 		
 		{
 			sourceLink : "http://data.cityofchicago.org/resource/zuxi-7xem.json?$order=creation_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
-			type : "Lights",
+			type : "Street Lights",
 			fill : "red",
 			color : "orange",
 			id : 2,

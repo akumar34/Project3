@@ -29,13 +29,19 @@ function D3Graphs(){
             .append("g");
     };
 
-	function makeStackedAndGroupedBarGraph(data, columns, title){
+	function makeStackedAndGroupedBarGraphWithRefreshData(data, columns, title){
+		makeStackedAndGroupedBarGraph(svgs[REFRESHABLE_SVG], data, columns, title);
+	};
+	
+	function makeStackedAndGroupedBarGraphWithCrimeData(data, columns, title){
+		makeStackedAndGroupedBarGraph(svgs[CRIME_SVG], data, columns, title);
+	};
+	
+	function makeStackedAndGroupedBarGraph(svg, data, columns, title){
 		var height = ($("#sidebar").height()/2) - graphPadding;
         var width = $(container).width() - graphPadding;
 		var dx = graphPadding/2;
 		var dy = graphPadding/2;
-		
-		var svg = svgs[REFRESHABLE_SVG];
 		
 		var x0 = d3.scale.ordinal()
 			.rangeRoundBands([0, width], 0.1);

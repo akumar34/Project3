@@ -103,8 +103,6 @@ function DataCircles() {
             refresh      : layerInfo.refresh,
             id           : layerInfo.id,
             controlLayer : layer,
-			recentData	 : 0,
-			oldData		 : 0
         };
 		
         var sourceLink = layerInfo.sourceLink;
@@ -333,7 +331,6 @@ function DataCircles() {
 				if(data[index].status === "STATUS") continue;
 				
                 // filters
-
                 if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
                 var daysAgo = getDaysAgo(data[index].creation_date);
 				if(daysAgo === null) continue;
@@ -790,19 +787,28 @@ function DataCircles() {
         };
     };
 
-	function extractGraphData(data){
+	/*function extractRefreshableGraphData(data){
 		var graphData = [];
         for (var i = 0; i < data.length; i++) {
 			var point = data[i];
 			point.recentData = 0;
 			point.olderData = 0;
 			var totalCircles = point.circles.length;
+			var daysAgoThreshold = 0;
+			switch(point.type){
+				case "Crime":
+					daysAgoThreshold = 14;
+					break;
+				default:
+					daysAgoThreshold = 7;
+					break;
+			}
 			
 			for(var circleIndex = 0; circleIndex < totalCircles; circleIndex++){
 				var circle = point.circles[circleIndex];
 				
                 var daysAgo = getDaysAgo(circle.options.date);
-				if(daysAgo > 7) point.olderData++;
+				if(daysAgo > daysAgoThreshold) point.olderData++;
 				else point.recentData++;
 			}
 			
@@ -814,42 +820,144 @@ function DataCircles() {
 			});
         };
 		return graphData;
-	};
+	};*/
 
-    // clean data of selectedDataPoints so that d3 can make graphs using D3Graphs object
-    function formatAllRefreshableDataForGraphs(){
-		var refreshableSelectedDataPoints = [
-			selectedDataPoints[POTHOLES],
-			selectedDataPoints[ABANDONED_VEHICLES],
-			selectedDataPoints[STREET_LIGHTS],
-			selectedDataPoints[CRIME]
-		];
+	function formatData(data, daysAgoThresholds, target, source){
+		var graphData = [];
 		
-		var refreshableOverallDataPoints = [
-			layerContainers[POTHOLES],
-			layerContainers[ABANDONED_VEHICLES],
-			layerContainers[STREET_LIGHTS],
-			layerContainers[CRIME]
-		];
+		var totals = {};
+		totals.recentTotal = [];
+		totals.olderTotal = [];
 		
+		for(var index = 0; index < data.length; index++){
+			var point = data[index];
+			var totalCircles = point.circles.length;
+
+			for(var circleIndex = 0; circleIndex < totalCircles; circleIndex++){
+				var circle = point.circles[circleIndex];
+				var targetObject;
+				if(source === "data") targetObject = data[index][target];
+				else targetObject = circle.options[target];
+                var daysAgo = getDaysAgo(circle.options.date);
+				if(daysAgo > daysAgoThresholds[point.type]){
+					if(totals.olderTotal[targetObject] === undefined || totals.olderTotal[targetObject] === null) 
+						totals.olderTotal[targetObject] = 0;
+					totals.olderTotal[targetObject]++;
+					continue
+				} 
+				if(totals.recentTotal[targetObject] === undefined || totals.recentTotal[targetObject] === null) 
+					totals.recentTotal[targetObject] = 0;
+				totals.recentTotal[targetObject]++;
+			}			
+		}
+		
+		var candidateTotals = [];
+		for(var recent in totals.recentTotal) candidateTotals.push(recent);
+		for(var older in totals.olderTotal){
+			if(totals.recentTotal[older] != undefined) continue;
+			if(totals.recentTotal[older] != null) continue;
+			candidateTotals.push(older);
+		}
+		
+		for(var candidate in candidateTotals){
+			var older = totals.olderTotal[candidateTotals[candidate]];
+			var recent = totals.recentTotal[candidateTotals[candidate]];
+			
+			if(older === undefined || older === null) older = 0;
+			if(recent === undefined || recent === null) recent = 0;
+			
+			graphData.push({
+				type		: candidateTotals[candidate],
+				total		: (older + recent),
+				recentTotal	: recent,
+				olderTotal 	: older
+			});		
+		}
+		
+		return graphData;
+	};
+	
+	/*function extractCrimeGraphData(data){
+		var graphData = [];
+		var crimeTypeTotals = {};
+		crimeTypeTotals.recentTotal = [];
+		crimeTypeTotals.olderTotal = [];
+        for (var i = 0; i < data.length; i++) {
+			var point = data[i];
+			var totalCircles = point.circles.length;
+			var daysAgoThreshold = 14;
+			
+			for(var circleIndex = 0; circleIndex < totalCircles; circleIndex++){
+				var circle = point.circles[circleIndex];
+				var crimeType = circle.options.crimeType;
+				
+				var daysAgo = getDaysAgo(circle.options.date);
+				
+				if(daysAgo > daysAgoThreshold){
+					if(crimeTypeTotals.olderTotal[crimeType] === undefined) crimeTypeTotals.olderTotal[crimeType] = 1;
+					else crimeTypeTotals.olderTotal[crimeType]++;
+					
+					if(crimeTypeTotals.olderTotal[crimeType] === null) crimeTypeTotals.olderTotal[crimeType] = 1;
+					else crimeTypeTotals.olderTotal[crimeType]++;
+					
+					continue;
+				} 
+				
+				if(crimeTypeTotals.recentTotal[crimeType] === undefined) crimeTypeTotals.recentTotal[crimeType] = 1;
+				else crimeTypeTotals.recentTotal[crimeType]++;
+				
+				if(crimeTypeTotals.recentTotal[crimeType] === null) crimeTypeTotals.recentTotal[crimeType] = 1;
+				else crimeTypeTotals.recentTotal[crimeType]++;
+			}
+        };
+		
+		for(var crimeType in crimeTypeTotals.recentTotal){
+			var olderTotal = crimeTypeTotals.olderTotal[crimeType];
+			var recentTotal = crimeTypeTotals.recentTotal[crimeType];
+			
+			if(olderTotal === undefined) olderTotal = 0;
+			if(olderTotal === null) olderTotal = 0;
+			if(recentTotal === undefined) recentTotal = 0;
+			if(recentTotal === null) recentTotal = 0;
+
+			graphData.push({
+				type		: crimeType,
+				total		: (olderTotal + recentTotal),
+				recentTotal	: recentTotal,
+				olderTotal 	: olderTotal
+			});
+		}
+
+		return graphData;
+	};*/
+
+    function extractData(datasets, daysAgoThresholds, target, source){
+		var selected = [];
+		var overall = [];
+		
+		for(var dataset in datasets){
+			selected.push(selectedDataPoints[datasets[dataset]]);
+			overall.push(layerContainers[datasets[dataset]]);
+		}
 		var data = [
-			extractGraphData(refreshableOverallDataPoints),
-			extractGraphData(refreshableSelectedDataPoints)
+			formatData(selected, daysAgoThresholds, target, source),
+			formatData(overall, daysAgoThresholds, target, source)
 		];
-		
 		return data;
     };
 	
-	function makeStackedAndGroupedBarGraphForAllRefreshableData(data){
+	function makeStackedAndGroupedBarGraph(data){
 		var selectedAndOverallData = [];
+		var SELECTED = 0;
+		var OVERALL = 1;
 		
 		for(var index = 0; index < data[0].length; index++){	
 			selectedAndOverallData.push({
-				overallRecentTotal	: data[0][index].recentTotal,
-				overallOlderTotal	: data[0][index].olderTotal,
-				selectedRecentTotal	: data[1][index].recentTotal,
-				selectedOlderTotal	: data[1][index].olderTotal,
-				type				: data[1][index].type
+				selectedRecentTotal	: data[SELECTED][index].recentTotal,
+				selectedOlderTotal	: data[SELECTED][index].olderTotal,
+				overallRecentTotal	: data[OVERALL][index].recentTotal,
+				overallOlderTotal	: data[OVERALL][index].olderTotal,
+				type				: data[OVERALL][index].type
 			});
 		}
 		
@@ -858,13 +966,30 @@ function DataCircles() {
 		  "column2" : ["selectedRecentTotal","selectedOlderTotal"]
 		};
 		
-		D3Graphs.makeStackedAndGroupedBarGraph(selectedAndOverallData, columns, 'Dataset Bar Chart');
+		//D3Graphs.makeStackedAndGroupedBarGraph(selectedAndOverallData, columns, 'Dataset Bar Chart');
 	};
 	
 	function cleanAndMakeGraphs(){
+		var datasets;
+		var data;
+		var daysAgoThresholds = [];
+		
 		D3Graphs.clearAll();
-		var data = formatAllRefreshableDataForGraphs();
-		makeStackedAndGroupedBarGraphForAllRefreshableData(data);
+		
+		datasets = [POTHOLES,ABANDONED_VEHICLES,STREET_LIGHTS,CRIME];
+		daysAgoThresholds['Potholes'] = 7;
+		daysAgoThresholds['Abandoned Vehicles'] = 7;
+		daysAgoThresholds['Street Lights'] = 7;
+		daysAgoThresholds['Crime'] = 14;
+		
+		data = extractData(datasets, daysAgoThresholds, "type", "data");
+		makeStackedAndGroupedBarGraph(data);
+		
+		datasets = [CRIME];
+		daysAgoThresholds = [];
+		daysAgoThresholds['Crime'] = 14;
+		data = extractData(datasets, daysAgoThresholds, "crimeType", "circle");
+		makeStackedAndGroupedBarGraph(data);
 	};
 
     // function that checks is a data point that was added is inside a shape
