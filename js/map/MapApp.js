@@ -227,7 +227,6 @@ var MapApp = Class.extend({
 			draw: 
 			{
 		        marker	: false,
-		        circle 	: false,
 		        polyline 	: false
 		    }
 		});
@@ -244,18 +243,26 @@ var MapApp = Class.extend({
 			// todo: check if its ok to draw if needed
 			drawnItems.addLayer(layer);
 
-			if (type == 'rectangle') {
-
+			if (type == 'rectangle' || type == 'polygon') {
 				shapes[layer._leaflet_id] = 
 					{
-						type 	: "rectangle",
+						type 	: type,
 						id  	: layer._leaflet_id,
 						latlngs : layer._latlngs
 					};
-
-				// extract lat lngs and add datapoints inside shape to the layers
-				context.filterByShapes(shapes, true);
+			}
+			else if (type == 'circle') {
+				shapes[layer._leaflet_id] = 
+					{
+						type 	: type,
+						id  	: layer._leaflet_id,
+						center 	: {lat : layer.getLatLng().lat, lng : layer.getLatLng().lng},
+						radius	: layer.getRadius()
+					};
 			};
+
+			// extract lat lngs and add datapoints inside shape to the layers
+			context.filterByShapes(shapes, true);
 
 		});
 
@@ -296,16 +303,16 @@ var MapApp = Class.extend({
 	},
 
 	filterByShapes: function (selectedShapes, add){
-		var pointsArray = [];
+		var point;
 		for(var x in selectedShapes){
 			var shape = selectedShapes[x];
-			if (shape.type === "rectangle") {
-				pointsArray.push(this.extractLngLatFromShape(shape.latlngs));
+			if (shape.type == 'rectangle' || shape.type == 'polygon') {
+				point = this.extractLngLatFromShape(shape.latlngs);
+				this.DataCircles.filterByShape(point, add);
+			}
+			else if (shape.type == 'circle'){
+				this.DataCircles.filterByCircle(shape, add);
 			};
-		};
-
-		for (var i = 0; i < pointsArray.length; i++) {
-			this.DataCircles.filterByShape(pointsArray[i], add);
 		};
 	},
 
