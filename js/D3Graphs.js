@@ -163,13 +163,13 @@ function D3Graphs(){
 		  .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 		legend.append("rect")
-		  .attr("x", width + 110)
+		  .attr("x", width + 100)
 		  .attr("width", 9)
 		  .attr("height", 9)
 		  .style("fill", color);
 
 		legend.append("text")
-		  .attr("x", width + 100)
+		  .attr("x", width + 90)
 		  .attr("y", 9)
 		  .attr("dy", ".15em")
 		  .style("text-anchor", "end")
