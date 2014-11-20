@@ -852,11 +852,14 @@ function DataCircles() {
             };     
         };
 
-        if (!add)
+        if (!add){
             revomeSelectedFromControl();
-
-        addSelectedToControl();
-        cleanAndMakeGraphs();
+            D3Graphs.clearAll();
+        }
+        else{
+            addSelectedToControl();
+            cleanAndMakeGraphs();
+        };
     };
 
     // functions that checks if a marker is inside a circle
@@ -882,11 +885,14 @@ function DataCircles() {
             };
         };
 
-        if (!add)
+        if (!add){
             revomeSelectedFromControl();
-
-        addSelectedToControl();
-        cleanAndMakeGraphs();
+            D3Graphs.clearAll();
+        }
+        else{
+            addSelectedToControl();
+            cleanAndMakeGraphs();
+        };
     };
 
     // helper function
