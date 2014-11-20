@@ -3,11 +3,9 @@ function D3Graphs(){
     var container;
 
     var D3GraphsObj = new Object();
-    var graphPadding = 150;
+    var graphPadding = 110;
 	
 	var svgs = [];
-	//var REFRESHABLE_SVG = 0;
-	//var CRIME_SVG = 1;
 
     function init(div){
         var height = $("#sidebar").height();
@@ -20,10 +18,11 @@ function D3Graphs(){
         var width = $(container).width() - graphPadding;
 		var dx = graphPadding/2;
 		var dy = graphPadding/2;
+		//var margin = {top: 100, right: 20, bottom: 200, left: 110};
 		
 		var svg = d3.select(container)
             .append("svg")
-            .attr("viewBox", "0 0 " + (width + graphPadding) + " " + (height + graphPadding)/2)
+            .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2+180))
             .attr("preserveAspectRatio", "xMidYMid meet")
             .append("g");
 			
@@ -83,7 +82,7 @@ function D3Graphs(){
 		x1.domain(d3.keys(innerColumns)).rangeRoundBands([0, x0.rangeBand()]);
 
 		y.domain([0, d3.max(data, function(d) { 
-			return d.total; 
+			return d.total + 270; 
 		})]);
 
 		svg.append("g")
@@ -97,14 +96,14 @@ function D3Graphs(){
 				.attr("transform", "rotate(65)")
 				.style("text-anchor", "start")
 			    .attr("font-family", "sans-serif")
-			    .attr("font-size","50%");
+			    .attr("font-size","65%");
 			   
 		svg.append("g")
 		  .attr("class", "y axis")
 		  .call(yAxis)
 			  .append("text")
 			  .attr("transform", "rotate(-90)")
-			  .attr("y", 6)
+			  .attr("y", -55)
 			  .attr("dy", ".71em")
 			  .style("text-anchor", "end")
 			  .text("Total");
@@ -130,7 +129,6 @@ function D3Graphs(){
 		  })
 		  .style("fill", function(d) { return color(d.name); });
 
-
         svg.selectAll("text.label")
             .data(data)
             .enter()
@@ -145,7 +143,7 @@ function D3Graphs(){
             .attr("y", function(d) {
                 return y(d.total + 10);
             })
-            .style("font-size","60%");
+            .style("font-size","75%");
 			
 		var legend = svg.selectAll(".legend")
 		  .data(columnHeaders.slice().reverse())
@@ -171,10 +169,10 @@ function D3Graphs(){
 		   .enter()
 		   .append("text")
 		   .attr("x", width/2)
-		   .attr("y", height-80)
+		   .attr("y", height-125)
 		   .attr("text-anchor","middle")
 		   .attr("font-family", "sans-serif")
-		   .attr("font-size","12pt")
+		   .attr("font-size","100%")
 		   .text(title);
 	};
 	
