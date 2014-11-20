@@ -1,18 +1,31 @@
 // obj that creates graphs given input
 function D3Graphs(){
-    var container;
+    var REFRESHABLE_DATA_SVG = 0;
+	var CRIME_DATA_SVG = 1;
+	
+	var container;
 
     var D3GraphsObj = new Object();
-    var graphPadding = 100;
+    var graphPadding = 35;
 	
 	var svgs = [];
-	var REFRESHABLE_SVG = 0;
-	var CRIME_SVG = 1;
 
     function init(div){
         var height = $("#sidebar").height();
         var width = $(div).width();
         container = div;
+		
+		svgs[REFRESHABLE_DATA_SVG] = d3.select(container)
+            .append("svg")
+            .attr("viewBox", "-55 -40 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2 + 150))
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .append("g");
+			
+		svgs[CRIME_DATA_SVG] = d3.select(container)
+            .append("svg")
+            .attr("viewBox", "-55 -40 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2 + 150))
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .append("g");
     };
 	
 	function makeStackedAndGroupedBarGraph(data, columns, title){
@@ -21,13 +34,9 @@ function D3Graphs(){
 		var dx = graphPadding/2;
 		var dy = graphPadding/2;
 		
-		var svg = d3.select(container)
-            .append("svg")
-            .attr("viewBox", "0 0 " + (width + graphPadding) + " " + (height + graphPadding)/2)
-            .attr("preserveAspectRatio", "xMidYMid meet")
-            .append("g");
-			
-		svgs.push(svg);
+		var svg;
+		if(data[0].type.search("Potholes") != -1) svg = svgs[REFRESHABLE_DATA_SVG];
+		else svg = svgs[CRIME_DATA_SVG]; 
 		
 		var x0 = d3.scale.ordinal()
 			.rangeRoundBands([0, width], 0.1);
@@ -44,10 +53,16 @@ function D3Graphs(){
 		var yAxis = d3.svg.axis()
 			.scale(y)
 			.orient("left")
-			.tickFormat(d3.format(".2s"));
+			.tickFormat(d3.format(".2s"))
+			.ticks(5);
 		 
-		var color = d3.scale.ordinal()
-			.range(["red","green"]);
+		//var color = d3.scale.ordinal()
+		//	.range(["red","green"]);
+			
+			
+		var palette = d3.scale.category20c();
+		var colorRange = palette.range();
+		var color = d3.scale.ordinal().range(colorRange);
 		 
 		var yBegin;
 		
@@ -78,37 +93,45 @@ function D3Graphs(){
 		x1.domain(d3.keys(innerColumns)).rangeRoundBands([0, x0.rangeBand()]);
 
 		y.domain([0, d3.max(data, function(d) { 
-		return d.total; 
+			return d.total; 
 		})]);
 
 		svg.append("g")
 		  .attr("class", "x axis")
 		  .attr("transform", "translate(0," + height + ")")
-		  .call(xAxis);
-
+		  .call(xAxis)
+			  .selectAll("text")
+				.attr("y", 0)
+				.attr("x", 9)
+				.attr("dy", ".35em")
+				.attr("transform", "rotate(65)")
+				.style("text-anchor", "start")
+			    .attr("font-family", "sans-serif")
+			    .attr("font-size","65%");
+			   
 		svg.append("g")
 		  .attr("class", "y axis")
 		  .call(yAxis)
-		.append("text")
-		  .attr("transform", "rotate(-90)")
-		  .attr("y", 6)
-		  .attr("dy", ".7em")
-		  .style("text-anchor", "end")
-		  .text("");
-
+			  .append("text")
+			  .attr("transform", "rotate(-90)")
+			  .attr("y", -55)
+			  .attr("dy", ".71em")
+			  .style("text-anchor", "end")
+			  .text("Total");
+			
 		var project_stackedbar = svg.selectAll(".project_stackedbar")
 		  .data(data)
-		.enter().append("g")
+		  .enter().append("g")
 		  .attr("class", "g")
 		  .attr("transform", function(d) { return "translate(" + x0(d.type) + ",0)"; });
 
 		project_stackedbar.selectAll("rect")
 		  .data(function(d) { return d.columnDetails; })
-		.enter().append("rect")
+		  .enter().append("rect")
 		  .attr("width", x1.rangeBand())
 		  .attr("x", function(d) { 
-			return x1(d.column);
-			 })
+		    return x1(d.column);
+		  })
 		  .attr("y", function(d) { 
 			return y(d.yEnd); 
 		  })
@@ -117,31 +140,59 @@ function D3Graphs(){
 		  })
 		  .style("fill", function(d) { return color(d.name); });
 
+        svg.selectAll("text.label")
+            .data(data)
+            .enter()
+            .append("text")
+            .text(function(d) {
+                return d.total;
+            })
+            .attr("text-anchor", "middle")
+            .attr("x", function(d, index) {
+                return (x0(d.type) + (x0.rangeBand()/2));
+            })
+            .attr("y", function(d) {
+                return y(d.total + 10);
+            })
+            .style("font-size","75%");
+			
 		var legend = svg.selectAll(".legend")
 		  .data(columnHeaders.slice().reverse())
-		.enter().append("g")
+		  .enter().append("g")
 		  .attr("class", "legend")
 		  .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 		legend.append("rect")
-		  .attr("x", width - 18)
-		  .attr("width", 18)
-		  .attr("height", 18)
+		  .attr("x", width + 110)
+		  .attr("width", 9)
+		  .attr("height", 9)
 		  .style("fill", color);
 
 		legend.append("text")
-		  .attr("x", width - 24)
+		  .attr("x", width + 100)
 		  .attr("y", 9)
-		  .attr("dy", ".35em")
+		  .attr("dy", ".15em")
 		  .style("text-anchor", "end")
 		  .text(function(d) { return d; });
+		  
+		svg.selectAll(".chart-title")
+		   .data(data)
+		   .enter()
+		   .append("text")
+		   .attr("x", width/2)
+		   .attr("y", height-165)
+		   .attr("text-anchor","middle")
+		   .attr("font-family", "sans-serif")
+		   .attr("font-size","90%")
+		   .text(title);
 	};
 	
-    function clearAll(){
-		for(var svg in svgs) svgs[svg].selectAll("*").remove();
-    };
+    function clearAll() { 
+		svgs[REFRESHABLE_DATA_SVG].selectAll("*").remove();
+		svgs[CRIME_DATA_SVG].selectAll("*").remove();
+	};
 	
-	function makeStackedBarGraph(drawSection, width, height, dx, dy, data, makeTitle, title, ticks){
+	/*function makeStackedBarGraph(drawSection, width, height, dx, dy, data, makeTitle, title, ticks){
 		// Our X scale
 		var x = d3.scale.ordinal()
 			.rangeRoundBands([0, dx], .1);
@@ -263,7 +314,7 @@ function D3Graphs(){
 			})
 			.style("font-size", "80%")
 			.style("font-family", "sans-serif");
-	};
+	};*/
 
     D3GraphsObj.init = init;
 	D3GraphsObj.makeStackedAndGroupedBarGraph = makeStackedAndGroupedBarGraph;	

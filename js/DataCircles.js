@@ -26,73 +26,51 @@ function DataCircles() {
     //custom markers
     //pothole
     var potholeIcon = L.icon({
-        iconUrl: 'icons/svg/exclamation3.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76]
+        iconUrl: 'icons/svg/marker_pothole_sized_new.svg',//pothole_sized.svg',
+        iconSize:     [60, 90],//must be of ratio 1:1.5 because our icons
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90]
     });//end pothole
 
     //abandoned vehicles
     var abandonedVehicleIcon = L.icon({
-        iconUrl: 'icons/svg/car168.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76] 
+        iconUrl: 'icons/svg/marker_car_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90] 
     });//end abandoned vehicles
 
     //divvy stations
     var divvyStationIcon = L.icon({
-        iconUrl: 'icons/svg/pins6.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76]
+        iconUrl: 'icons/svg/marker_divvy2_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90]
     });//end divvy station
 
     //street lights
     var streetLightIcon = L.icon({
-        iconUrl: 'icons/svg/street9.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76] 
+        iconUrl: 'icons/svg/marker_light_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90] 
     });//end street lights
 
     //crimes
     var crimeIcon = L.icon({
-        iconUrl: 'icons/svg/handcuffs.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76] 
+        iconUrl: 'icons/svg/marker_crime_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90] 
     });//end crimes
 
     //CTA
     var ctaIcon = L.icon({
-    iconUrl: 'icons/svg/bus.svg',
-    iconSize:     [38, 95],
-    shadowSize:   [50, 64],
-    iconAnchor:   [22, 94],
-    shadowAnchor: [4, 62],
-    popupAnchor:  [-3, -76]
+        iconUrl: 'icons/svg/marker_cta_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90]
     });//end CTA
-	
-    //food inspection
-    var foodInspectionIcon = L.icon({
-        iconUrl: 'icons/svg/handcuffs.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76] 
-    });//end food inspection
     //end custom markers
 
 /************Potholes Data Handling************/
@@ -552,9 +530,11 @@ function DataCircles() {
 				var id = data[index].id;
 				var daysAgo = getDaysAgo(data[index].date);
 				if(daysAgo === null) continue;
+                if (daysAgo > 31) break;
                 if ( getById(layerContainers[CRIME], data[index].id) != null ) break;
 
                 // add the circles
+                if (daysAgo > 14) outLine = layerInfo.color;
                 addCrimeMarkers(layerContainers[CRIME], index, data, layer, true);
             };
 
@@ -796,7 +776,7 @@ function DataCircles() {
 				var daysAgo = getDaysAgo(data[index].inspection_date);
 				if(daysAgo === null) continue;
                 if (daysAgo > 31) break;                
-				if (getByInspectionId(layerContainers[FOOD_INSPECTION], data[index].inspection_date) != null) break;
+				if (getByInspectionId(layerContainers[FOOD_INSPECTION], data[index].inspection_id) != null) break;
                 // add the circles
                 var outLine = "black";
                 if (daysAgo > 7) outLine = layerInfo.color;
@@ -937,8 +917,8 @@ function DataCircles() {
 		var graphData = [];
 		
 		var totals = {};
-		totals.recentTotal = [];
-		totals.olderTotal = [];
+		totals.recent = [];
+		totals.old = [];
 		
 		for(var index = 0; index < data.length; index++){
 			var point = data[index];
@@ -951,37 +931,37 @@ function DataCircles() {
 				else targetObject = circle.options[target];
                 var daysAgo = getDaysAgo(circle.options.date);
 				if(daysAgo > daysAgoThresholds[point.type]){
-					if(totals.olderTotal[targetObject] === undefined || totals.olderTotal[targetObject] === null) 
-						totals.olderTotal[targetObject] = 0;
-					totals.olderTotal[targetObject]++;
+					if(totals.old[targetObject] === undefined || totals.old[targetObject] === null) 
+						totals.old[targetObject] = 0;
+					totals.old[targetObject]++;
 					continue
 				} 
-				if(totals.recentTotal[targetObject] === undefined || totals.recentTotal[targetObject] === null) 
-					totals.recentTotal[targetObject] = 0;
-				totals.recentTotal[targetObject]++;
+				if(totals.recent[targetObject] === undefined || totals.recent[targetObject] === null) 
+					totals.recent[targetObject] = 0;
+				totals.recent[targetObject]++;
 			}			
 		}
 		
 		var candidateTotals = [];
-		for(var recent in totals.recentTotal) candidateTotals.push(recent);
-		for(var older in totals.olderTotal){
-			if(totals.recentTotal[older] != undefined) continue;
-			if(totals.recentTotal[older] != null) continue;
-			candidateTotals.push(older);
+		for(var recent in totals.recent) candidateTotals.push(recent);
+		for(var old in totals.old){
+			if(totals.recent[old] != undefined) continue;
+			if(totals.recent[old] != null) continue;
+			candidateTotals.push(old);
 		}
 		
 		for(var candidate in candidateTotals){
-			var older = totals.olderTotal[candidateTotals[candidate]];
-			var recent = totals.recentTotal[candidateTotals[candidate]];
+			var old = totals.old[candidateTotals[candidate]];
+			var recent = totals.recent[candidateTotals[candidate]];
 			
-			if(older === undefined || older === null) older = 0;
+			if(old === undefined || old === null) old = 0;
 			if(recent === undefined || recent === null) recent = 0;
 			
 			graphData.push({
 				type		: candidateTotals[candidate],
-				total		: (older + recent),
-				recentTotal	: recent,
-				olderTotal 	: older
+				total		: (old + recent),
+				recent	: recent,
+				old 	: old
 			});		
 		}
 		
@@ -1003,27 +983,27 @@ function DataCircles() {
 		return data;
     };
 	
-	function makeStackedAndGroupedBarGraph(data){
+	function makeStackedAndGroupedBarGraph(data, title){
 		var selectedAndOverallData = [];
 		var SELECTED = 0;
 		var OVERALL = 1;
 		
 		for(var index = 0; index < data[0].length; index++){	
 			selectedAndOverallData.push({
-				selectedRecentTotal	: data[SELECTED][index].recentTotal,
-				selectedOlderTotal	: data[SELECTED][index].olderTotal,
-				overallRecentTotal	: data[OVERALL][index].recentTotal,
-				overallOlderTotal	: data[OVERALL][index].olderTotal,
-				type				: data[OVERALL][index].type
+				selectedRecent	: data[SELECTED][index].recent,
+				selectedOld		: data[SELECTED][index].old,
+				overallRecent	: data[OVERALL][index].recent,
+				overallOld		: data[OVERALL][index].old,
+				type			: data[OVERALL][index].type
 			});
 		}
 		
 		var columns = {
-		  "column1" : ["overallRecentTotal","overallOlderTotal"],
-		  "column2" : ["selectedRecentTotal","selectedOlderTotal"]
+		  "column1" : ["overallRecent","overallOld"],
+		  "column2" : ["selectedRecent","selectedOld"]
 		};
 		
-		D3Graphs.makeStackedAndGroupedBarGraph(selectedAndOverallData, columns, 'Dataset Bar Chart');
+		D3Graphs.makeStackedAndGroupedBarGraph(selectedAndOverallData, columns, title);
 	};
 	
 	function cleanAndMakeGraphs(){
@@ -1040,13 +1020,13 @@ function DataCircles() {
 		daysAgoThresholds['Crime'] = 14;
 		
 		data = extractData(datasets, daysAgoThresholds, "type", "data");
-		makeStackedAndGroupedBarGraph(data);
+		makeStackedAndGroupedBarGraph(data, '311 Bar Chart');
 		
 		datasets = [CRIME];
 		daysAgoThresholds = [];
 		daysAgoThresholds['Crime'] = 14;
 		data = extractData(datasets, daysAgoThresholds, "crimeType", "circle");
-		makeStackedAndGroupedBarGraph(data);
+		makeStackedAndGroupedBarGraph(data, 'Crime Dist. Bar Chart');
 	};
 
     // function that checks is a data point that was added is inside a shape
