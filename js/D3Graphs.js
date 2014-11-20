@@ -3,7 +3,7 @@ function D3Graphs(){
     var container;
 
     var D3GraphsObj = new Object();
-    var graphPadding = 125;
+    var graphPadding = 130;
 	
 	var svgs = [];
 	//var REFRESHABLE_SVG = 0;
@@ -46,13 +46,13 @@ function D3Graphs(){
 			.orient("left")
 			.tickFormat(d3.format(".2s"));
 		 
-		var color = d3.scale.ordinal()
-			.range(["red","green"]);
+		//var color = d3.scale.ordinal()
+		//	.range(["red","green"]);
 			
 			
-		//var palette = d3.scale.category20c();
-		//var colorRange = palette.range();
-		//var color = d3.scale.ordinal().range(colorRange);
+		var palette = d3.scale.category20c();
+		var colorRange = palette.range();
+		var color = d3.scale.ordinal().range(colorRange);
 		 
 		var yBegin;
 		
@@ -89,18 +89,25 @@ function D3Graphs(){
 		svg.append("g")
 		  .attr("class", "x axis")
 		  .attr("transform", "translate(0," + height + ")")
-		  .call(xAxis);
+		  .call(xAxis)
+			.selectAll("g.text")  
+			.style("text-anchor", "end")
+			.attr("dx", "-.8em")
+			.attr("dy", ".15em")
+			.attr("transform", function(d) {
+				return "rotate(-65)" 
+			});
 
 		svg.append("g")
 		  .attr("class", "y axis")
 		  .call(yAxis)
-		  .append("text")
-		  .attr("transform", "rotate(-90)")
-		  .attr("y", 6)
-		  .attr("dy", ".7em")
-		  .style("text-anchor", "end")
-		  .text("Total");
-
+			  .append("text")
+			  .attr("transform", "rotate(-90)")
+			  .attr("y", 6)
+			  .attr("dy", ".71em")
+			  .style("text-anchor", "end")
+			  .text("Total");
+			
 		var project_stackedbar = svg.selectAll(".project_stackedbar")
 		  .data(data)
 		  .enter().append("g")
@@ -122,6 +129,23 @@ function D3Graphs(){
 		  })
 		  .style("fill", function(d) { return color(d.name); });
 
+
+        svg.selectAll("text.label")
+            .data(data)
+            .enter()
+            .append("text")
+            .text(function(d) {
+                return d.total;
+            })
+            .attr("text-anchor", "middle")
+            .attr("x", function(d, index) {
+                return (x0(d.type) + (x0.rangeBand()/2));
+            })
+            .attr("y", function(d) {
+                return y(d.total + 10);
+            })
+            .style("font-size","60%");
+			
 		var legend = svg.selectAll(".legend")
 		  .data(columnHeaders.slice().reverse())
 		  .enter().append("g")
@@ -129,24 +153,33 @@ function D3Graphs(){
 		  .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
 		legend.append("rect")
-		  .attr("x", width + 130)
+		  .attr("x", width + 110)
 		  .attr("width", 9)
 		  .attr("height", 9)
 		  .style("fill", color);
 
 		legend.append("text")
-		  .attr("x", width + 120)
+		  .attr("x", width + 100)
 		  .attr("y", 9)
 		  .attr("dy", ".15em")
 		  .style("text-anchor", "end")
 		  .text(function(d) { return d; });
+		  
+		svg.selectAll(".chart-title")
+		   .data(data)
+		   .enter()
+		   .append("text")
+		   .attr("x", width/2)
+		   .attr("y", height-20)
+		   .attr("text-anchor","middle")
+		   .attr("font-family", "sans-serif")
+		   .attr("font-size","14pt")
+		   .text(title);
 	};
 	
-    function clearAll(){
-		for(var svg in svgs) svgs[svg].selectAll("*").remove();
-    };
+    function clearAll() { for(var svg in svgs) svgs[svg].selectAll("*").remove(); };
 	
-	function makeStackedBarGraph(drawSection, width, height, dx, dy, data, makeTitle, title, ticks){
+	/*function makeStackedBarGraph(drawSection, width, height, dx, dy, data, makeTitle, title, ticks){
 		// Our X scale
 		var x = d3.scale.ordinal()
 			.rangeRoundBands([0, dx], .1);
@@ -268,7 +301,7 @@ function D3Graphs(){
 			})
 			.style("font-size", "80%")
 			.style("font-family", "sans-serif");
-	};
+	};*/
 
     D3GraphsObj.init = init;
 	D3GraphsObj.makeStackedAndGroupedBarGraph = makeStackedAndGroupedBarGraph;	
