@@ -227,7 +227,6 @@ var MapApp = Class.extend({
 			draw: 
 			{
 		        marker	: false,
-		        polyline 	: false
 		    }
 		});
 
@@ -259,6 +258,9 @@ var MapApp = Class.extend({
 						center 	: {lat : layer.getLatLng().lat, lng : layer.getLatLng().lng},
 						radius	: layer.getRadius()
 					};
+			}
+			else if (type == 'polyline') {
+				foo = layer;
 			};
 
 			// extract lat lngs and add datapoints inside shape to the layers
@@ -271,14 +273,7 @@ var MapApp = Class.extend({
 			var shapesToRemove = {};
 			for(var x in layers){
 				layer = layers[x];
-				shapesToRemove[layer._leaflet_id] = 
-					{
-						type 	: shapes[layer._leaflet_id].type,
-						id  	: layer._leaflet_id,
-						latlngs : layer._latlngs
-					};
-
-				delete shapes[layer._leaflet_id];
+				shapesToRemove[layer._leaflet_id] = shapes[layer._leaflet_id];
 			};
 			
 			context.filterByShapes(shapesToRemove, false);			
@@ -312,6 +307,10 @@ var MapApp = Class.extend({
 			}
 			else if (shape.type == 'circle'){
 				this.DataCircles.filterByCircle(shape, add);
+			};
+
+			if (!add) {
+				delete shapes[shape];
 			};
 		};
 	},

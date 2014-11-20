@@ -800,7 +800,9 @@ function DataCircles() {
                 // add the circles
                 var outLine = "black";
                 if (daysAgo > 7) outLine = layerInfo.color;
-                addFoodInspectionMarkers(layerContainers[FOOD_INSPECTION], index, data, layer, true);
+                
+                // needs rework we are always adding markers, filters are not working
+                // addFoodInspectionMarkers(layerContainers[FOOD_INSPECTION], index, data, layer, true);
             };
 
             var selectedLayer = selectedDataPoints[FOOD_INSPECTION].controlLayer;
@@ -811,6 +813,7 @@ function DataCircles() {
 
     //helper function for adding food inspection to map
     function addFoodInspectionMarkers(layerContainer, dataIndex, data, layer, refresh) {
+        console.log("Added inspection data");
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -829,7 +832,7 @@ function DataCircles() {
         if (isInShapes(newMarker)) {
             selectedDataPoints[FOOD_INSPECTION].circles.push(newMarker);
             // debug
-            console.log("Marker was added to the section");
+            // console.log("Marker was added to the section");
         };
     };
 	
@@ -1082,6 +1085,7 @@ function DataCircles() {
     };
 
     // check to see if point is in circle
+    // redo this using latlng distance to method!
     function pointInCircle(circleCenter, circleRadius, point) {
         var lat1 = circleCenter.lat;
         var lng1 = circleCenter.lng;
