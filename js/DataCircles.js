@@ -787,41 +787,6 @@ function DataCircles() {
         };
     };
 
-	/*function extractRefreshableGraphData(data){
-		var graphData = [];
-        for (var i = 0; i < data.length; i++) {
-			var point = data[i];
-			point.recentData = 0;
-			point.olderData = 0;
-			var totalCircles = point.circles.length;
-			var daysAgoThreshold = 0;
-			switch(point.type){
-				case "Crime":
-					daysAgoThreshold = 14;
-					break;
-				default:
-					daysAgoThreshold = 7;
-					break;
-			}
-			
-			for(var circleIndex = 0; circleIndex < totalCircles; circleIndex++){
-				var circle = point.circles[circleIndex];
-				
-                var daysAgo = getDaysAgo(circle.options.date);
-				if(daysAgo > daysAgoThreshold) point.olderData++;
-				else point.recentData++;
-			}
-			
-			graphData.push({
-				type		: point.type,
-				total		: totalCircles,
-				recentTotal	: point.recentData,
-				olderTotal 	: point.olderData
-			});
-        };
-		return graphData;
-	};*/
-
 	function formatData(data, daysAgoThresholds, target, source){
 		var graphData = [];
 		
@@ -876,60 +841,6 @@ function DataCircles() {
 		
 		return graphData;
 	};
-	
-	/*function extractCrimeGraphData(data){
-		var graphData = [];
-		var crimeTypeTotals = {};
-		crimeTypeTotals.recentTotal = [];
-		crimeTypeTotals.olderTotal = [];
-        for (var i = 0; i < data.length; i++) {
-			var point = data[i];
-			var totalCircles = point.circles.length;
-			var daysAgoThreshold = 14;
-			
-			for(var circleIndex = 0; circleIndex < totalCircles; circleIndex++){
-				var circle = point.circles[circleIndex];
-				var crimeType = circle.options.crimeType;
-				
-				var daysAgo = getDaysAgo(circle.options.date);
-				
-				if(daysAgo > daysAgoThreshold){
-					if(crimeTypeTotals.olderTotal[crimeType] === undefined) crimeTypeTotals.olderTotal[crimeType] = 1;
-					else crimeTypeTotals.olderTotal[crimeType]++;
-					
-					if(crimeTypeTotals.olderTotal[crimeType] === null) crimeTypeTotals.olderTotal[crimeType] = 1;
-					else crimeTypeTotals.olderTotal[crimeType]++;
-					
-					continue;
-				} 
-				
-				if(crimeTypeTotals.recentTotal[crimeType] === undefined) crimeTypeTotals.recentTotal[crimeType] = 1;
-				else crimeTypeTotals.recentTotal[crimeType]++;
-				
-				if(crimeTypeTotals.recentTotal[crimeType] === null) crimeTypeTotals.recentTotal[crimeType] = 1;
-				else crimeTypeTotals.recentTotal[crimeType]++;
-			}
-        };
-		
-		for(var crimeType in crimeTypeTotals.recentTotal){
-			var olderTotal = crimeTypeTotals.olderTotal[crimeType];
-			var recentTotal = crimeTypeTotals.recentTotal[crimeType];
-			
-			if(olderTotal === undefined) olderTotal = 0;
-			if(olderTotal === null) olderTotal = 0;
-			if(recentTotal === undefined) recentTotal = 0;
-			if(recentTotal === null) recentTotal = 0;
-
-			graphData.push({
-				type		: crimeType,
-				total		: (olderTotal + recentTotal),
-				recentTotal	: recentTotal,
-				olderTotal 	: olderTotal
-			});
-		}
-
-		return graphData;
-	};*/
 
     function extractData(datasets, daysAgoThresholds, target, source){
 		var selected = [];
@@ -966,7 +877,7 @@ function DataCircles() {
 		  "column2" : ["selectedRecentTotal","selectedOlderTotal"]
 		};
 		
-		//D3Graphs.makeStackedAndGroupedBarGraph(selectedAndOverallData, columns, 'Dataset Bar Chart');
+		D3Graphs.makeStackedAndGroupedBarGraph(selectedAndOverallData, columns, 'Dataset Bar Chart');
 	};
 	
 	function cleanAndMakeGraphs(){

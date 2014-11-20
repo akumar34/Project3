@@ -14,7 +14,7 @@ function D3Graphs(){
         var width = $(div).width();
         container = div;
 
-        svgs[REFRESHABLE_SVG] = 
+        /*svgs[REFRESHABLE_SVG] = 
 			d3.select(container)
             .append("svg")
             .attr("viewBox", "0 0 " + width + " " + height/2)
@@ -26,22 +26,30 @@ function D3Graphs(){
             .append("svg")
             .attr("viewBox", "0 0 " + width + " " + height/2)
             .attr("preserveAspectRatio", "xMidYMid meet")
-            .append("g");
+            .append("g");*/
     };
 
-	function makeStackedAndGroupedBarGraphWithRefreshData(data, columns, title){
-		makeStackedAndGroupedBarGraph(svgs[REFRESHABLE_SVG], data, columns, title);
-	};
+	//function makeStackedAndGroupedBarGraphWithRefreshData(data, columns, title){
+	//	makeStackedAndGroupedBarGraph(svgs[REFRESHABLE_SVG], data, columns, title);
+	//};
 	
-	function makeStackedAndGroupedBarGraphWithCrimeData(data, columns, title){
-		makeStackedAndGroupedBarGraph(svgs[CRIME_SVG], data, columns, title);
-	};
+	//function makeStackedAndGroupedBarGraphWithCrimeData(data, columns, title){
+	//	makeStackedAndGroupedBarGraph(svgs[CRIME_SVG], data, columns, title);
+	//};
 	
-	function makeStackedAndGroupedBarGraph(svg, data, columns, title){
+	function makeStackedAndGroupedBarGraph(data, columns, title){
 		var height = ($("#sidebar").height()/2) - graphPadding;
         var width = $(container).width() - graphPadding;
 		var dx = graphPadding/2;
 		var dy = graphPadding/2;
+		
+		var svg = d3.select(container)
+            .append("svg")
+            .attr("viewBox", "0 0 " + (width + graphPadding) + " " + (height + graphPadding)/2)
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .append("g");
+			
+		svgs.push(svg);
 		
 		var x0 = d3.scale.ordinal()
 			.rangeRoundBands([0, width], 0.1);
@@ -152,8 +160,10 @@ function D3Graphs(){
 	};
 	
     function clearAll(){
-        svgs[REFRESHABLE_SVG].selectAll("*").remove();
-        svgs[CRIME_SVG].selectAll("*").remove();
+        //svgs[REFRESHABLE_SVG].selectAll("*").remove();
+        //svgs[CRIME_SVG].selectAll("*").remove();
+		for(var svg in svgs)
+			svgs[svg].selectAll("*").remove();
     };
 	
 	function makeStackedBarGraph(drawSection, width, height, dx, dy, data, makeTitle, title, ticks){
