@@ -26,73 +26,51 @@ function DataCircles() {
     //custom markers
     //pothole
     var potholeIcon = L.icon({
-        iconUrl: 'icons/svg/exclamation3.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76]
+        iconUrl: 'icons/svg/marker_pothole_sized_new.svg',//pothole_sized.svg',
+        iconSize:     [60, 90],//must be of ratio 1:1.5 because our icons
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90]
     });//end pothole
 
     //abandoned vehicles
     var abandonedVehicleIcon = L.icon({
-        iconUrl: 'icons/svg/car168.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76] 
+        iconUrl: 'icons/svg/marker_car_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90] 
     });//end abandoned vehicles
 
     //divvy stations
     var divvyStationIcon = L.icon({
-        iconUrl: 'icons/svg/pins6.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76]
+        iconUrl: 'icons/svg/marker_divvy2_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90]
     });//end divvy station
 
     //street lights
     var streetLightIcon = L.icon({
-        iconUrl: 'icons/svg/street9.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76] 
+        iconUrl: 'icons/svg/marker_light_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90] 
     });//end street lights
 
     //crimes
     var crimeIcon = L.icon({
-        iconUrl: 'icons/svg/handcuffs.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76] 
+        iconUrl: 'icons/svg/marker_crime_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90] 
     });//end crimes
 
     //CTA
     var ctaIcon = L.icon({
-    iconUrl: 'icons/svg/bus.svg',
-    iconSize:     [38, 95],
-    shadowSize:   [50, 64],
-    iconAnchor:   [22, 94],
-    shadowAnchor: [4, 62],
-    popupAnchor:  [-3, -76]
+        iconUrl: 'icons/svg/marker_cta_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90]
     });//end CTA
-	
-    //food inspection
-    var foodInspectionIcon = L.icon({
-        iconUrl: 'icons/svg/handcuffs.svg',
-        iconSize:     [38, 95],
-        shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76] 
-    });//end food inspection
     //end custom markers
 
 /************Potholes Data Handling************/
