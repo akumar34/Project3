@@ -301,6 +301,7 @@ var MapApp = Class.extend({
 		var point;
 		for(var x in selectedShapes){
 			var shape = selectedShapes[x];
+			
 			if (shape.type == 'rectangle' || shape.type == 'polygon') {
 				point = this.extractLngLatFromShape(shape.latlngs);
 				this.DataCircles.filterByShape(point, add);
@@ -310,7 +311,7 @@ var MapApp = Class.extend({
 			};
 
 			if (!add) {
-				delete shapes[shape];
+				delete shapes[x];
 			};
 		};
 	},

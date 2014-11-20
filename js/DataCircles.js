@@ -842,24 +842,26 @@ function DataCircles() {
                 if (gju.pointInPolygon(point, poly)){
                     var index = containsCircle(selectedDataPoints[q].circles, layerContainers[q].circles[i]);
                     // create subset of the total circles to be later shown on map and sent to graphs
-                    if (add && index < 0) 
+                    if (add && index < 0) {
                         selectedDataPoints[q].circles.push(layerContainers[q].circles[i]);
+                    }
                     // remove subset of circles
                     else if (!add && index >= 0){
                         selectedDataPoints[q].circles.splice(index, 1);
-                    }
+                    };
                 };
             };     
         };
 
         if (!add){
-            revomeSelectedFromControl();
             D3Graphs.clearAll();
         }
-        else{
-            addSelectedToControl();
+        else{  
             cleanAndMakeGraphs();
         };
+
+        clearLayerControls();
+        addSelectedToControl();
     };
 
     // functions that checks if a marker is inside a circle
@@ -886,13 +888,14 @@ function DataCircles() {
         };
 
         if (!add){
-            revomeSelectedFromControl();
             D3Graphs.clearAll();
         }
-        else{
-            addSelectedToControl();
+        else{  
             cleanAndMakeGraphs();
         };
+
+        clearLayerControls();
+        addSelectedToControl();
     };
 
     // helper function
@@ -912,7 +915,7 @@ function DataCircles() {
         };
     };
 
-    function revomeSelectedFromControl(){
+    function clearLayerControls(){
         for (var i = 0; i < selectedDataPoints.length; i++) {
             var layer = selectedDataPoints[i].controlLayer;
             layer.clearLayers();
