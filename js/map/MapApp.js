@@ -6,6 +6,7 @@ var MapApp = Class.extend({
 		this.DIVVY = 3;
 		this.CRIME = 4;
 		this.CTA = 5;
+		this.FOOD_INSPECTION = 6;
 	
 		this.map = null;
 		this.svg = null;
@@ -22,6 +23,7 @@ var MapApp = Class.extend({
 	},
 	
 	init: function(chicagoMap){
+		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
 		this.layers.push(new L.LayerGroup());
@@ -71,6 +73,7 @@ var MapApp = Class.extend({
 		var DIVVY = this.DIVVY;
 		var CRIME = this.CRIME;
 		var CTA = this.CTA;
+		var FOOD_INSPECTION = this.FOOD_INSPECTION;
 		
 		var DataCircles = this.DataCircles;
 		
@@ -139,6 +142,17 @@ var MapApp = Class.extend({
 			refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
 		};
 		DataCircles.addCTAData(this.layersInfo[CTA], this.layers[CTA]);
+		
+		this.layersInfo[FOOD_INSPECTION] = 		
+		{
+			sourceLink : "http://data.cityofchicago.org/resource/4ijn-s7e5.json?$order=inspection_date DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr", 
+			type : "Food Inspection",
+			fill : "green",
+			color : "yellow",
+			id : 4,
+			refresh : new Date("January 1, 1901 00:00:00") //hack: fix later
+		};
+		DataCircles.addFoodInspectionData(this.layersInfo[FOOD_INSPECTION], this.layers[FOOD_INSPECTION]);
 
 		// create and initialize map
 		this.map = L.map('map', {zoomControl : false}).setView([41.869910, -87.65], 12);
@@ -172,6 +186,7 @@ var MapApp = Class.extend({
 			"Divvy Bikes"			: this.layers[this.DIVVY],
 			"Crime"					: this.layers[this.CRIME],
 			"CTA"					: this.layers[this.CTA],
+			"Food Inspection"		: this.layers[this.FOOD_INSPECTION],
 
 			'Chicago Communities' : L.geoJson(chicagoMap, {
                 style: function (feature){
@@ -312,5 +327,8 @@ var MapApp = Class.extend({
 	refreshStreetLights: function() { this.DataCircles.refreshStreetLightsData(this.layersInfo[this.STREET_LIGHTS], this.layers[this.STREET_LIGHTS]); },
 	refreshDivvy: function() { this.DataCircles.refreshDivvyData(this.layersInfo[this.DIVVY], this.layers[this.DIVVY]); },
 	refreshCrime: function() { this.DataCircles.refreshCrimeData(this.layersInfo[this.CRIME], this.layers[this.CRIME]); },
-	refreshCTA: function() { this.DataCircles.refreshCTAData(this.layersInfo[this.CTA], this.layers[this.CTA]); }
+	refreshCTA: function() { this.DataCircles.refreshCTAData(this.layersInfo[this.CTA], this.layers[this.CTA]); },
+	refreshFoodInspection: function() { 
+		this.DataCircles.refreshFoodInspectionData(this.layersInfo[this.FOOD_INSPECTION], this.layers[this.FOOD_INSPECTION]); 
+	}
 });

@@ -6,6 +6,7 @@ function DataCircles() {
 	var DIVVY = 3;
 	var CRIME = 4;
 	var CTA = 5;
+	var FOOD_INSPECTION = 6;
 
     var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S").parse;	
     var DataCirclesObj = new Object();
@@ -20,6 +21,7 @@ function DataCircles() {
 	layerContainers[DIVVY] = {};
 	layerContainers[CRIME] = {};
 	layerContainers[CTA] = {};
+	layerContainers[FOOD_INSPECTION] = {};
 	
     //custom markers
     //pothole
@@ -81,6 +83,16 @@ function DataCircles() {
     shadowAnchor: [4, 62],
     popupAnchor:  [-3, -76]
     });//end CTA
+	
+    //food inspection
+    var foodInspectionIcon = L.icon({
+        iconUrl: 'icons/svg/handcuffs.svg',
+        iconSize:     [38, 95],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76] 
+    });//end food inspection
     //end custom markers
 
 /************Potholes Data Handling************/
@@ -728,6 +740,107 @@ function DataCircles() {
     };
 /************End CTA Data Handling************/	
 
+/************Food Inspection Data Handling************/
+	function addFoodInspectionData(layerInfo, layer){
+		layerContainers[FOOD_INSPECTION] = 
+		{
+			link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer
+		};
+
+        selectedDataPoints[FOOD_INSPECTION] =
+        {
+            link         : layerInfo.sourceLink,
+            type         : layerInfo.type,
+            circles      : [],
+            refresh      : layerInfo.refresh,
+            id           : layerInfo.id,
+            controlLayer : layer,
+        };
+		
+        var sourceLink = layerInfo.sourceLink;
+        d3.json(sourceLink, function(error, data){
+            if (error) console.error(error);
+
+            for (var index = 0; index < data.length; index++) {
+				if(data[index].status === "STATUS") continue;
+				
+                // filters
+                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+                var daysAgo = getDaysAgo(data[index].inspection_date);
+				if(daysAgo === null) continue;
+                if (daysAgo > 31) break;
+                
+                // add the circles
+                var outLine = "black";
+                if (daysAgo > 7) outLine = layerInfo.color;
+				addFoodInspectionMarkers(layerContainers[FOOD_INSPECTION], index, data, layer, false);
+            };
+        });
+	};
+	
+	function refreshFoodInspectionData(layerInfo, layer){
+        var sourceLink = layerInfo.sourceLink;
+        d3.json(sourceLink, function(error, data){
+            if (error) console.error(error);
+
+            for (var index = 0; index < data.length; index++) {
+				if(data[index].status === "STATUS") continue;
+				
+                // filters
+                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+				var daysAgo = getDaysAgo(data[index].inspection_date);
+				if(daysAgo === null) continue;
+                if (daysAgo > 31) break;                
+				if (getByInspectionId(layerContainers[FOOD_INSPECTION], data[index].inspection_date) != null) break;
+                // add the circles
+                var outLine = "black";
+                if (daysAgo > 7) outLine = layerInfo.color;
+                addFoodInspectionMarkers(layerContainers[FOOD_INSPECTION], index, data, layer, true);
+            };
+
+            var selectedLayer = selectedDataPoints[FOOD_INSPECTION].controlLayer;
+            selectedLayer.clearLayers();
+            L.layerGroup(selectedDataPoints[FOOD_INSPECTION].circles).addTo(selectedLayer);
+        });	
+	}
+
+    //helper function for adding food inspection to map
+    function addFoodInspectionMarkers(layerContainer, dataIndex, data, layer, refresh) {
+        layerContainer.circles.push(
+            L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
+            {
+                icon: foodInspectionIcon,
+                inspection_id : data[dataIndex].inspection_id,
+				date: data[dataIndex].inspection_date
+            }
+        ).bindPopup("<strong>Name:</strong> " + data[dataIndex]["aka_name"] +
+            "<br><strong>Street Address:</strong> " + data[dataIndex]["address"] + "<br><strong>Risk:</strong> " +
+            data[dataIndex]["risk"] + "<br><strong>Results:</strong> " + data[dataIndex]["results"] + "<br><strong>Type:</strong> " + data[dataIndex]["facility_type"] + "<br><strong>Inspection Date:</strong> " + data[dataIndex]["inspection_date"].substring(0,10))//because time at end is always uselessly zeroed
+        );//end .push
+        //TODO change icon based on value of "status"
+        
+        // check to see if the new marker is inside the drawn shapes, if any
+        var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
+        if (isInShapes(newMarker)) {
+            selectedDataPoints[FOOD_INSPECTION].circles.push(newMarker);
+            // debug
+            console.log("Marker was added to the section");
+        };
+    };
+	
+	//helper functions
+	function getByInspectionId(layer, number) {
+        for (var index = 0; index < layer.circles.length; index++)
+            if(layer.circles[index].options.inspection_id == number) return layer.circles[index];
+        return null;
+    };
+/************End Food Inspection Data Handling************/
+
     // function that filters by a simple rectangle
     function filterByShape(coordinates, add){
         var poly = {
@@ -939,6 +1052,7 @@ function DataCircles() {
 	DataCirclesObj.addDivvyData = addDivvyData;
 	DataCirclesObj.addCrimeData = addCrimeData;
 	DataCirclesObj.addCTAData = addCTAData;
+	DataCirclesObj.addFoodInspectionData = addFoodInspectionData;
 	
 	DataCirclesObj.refreshPotholesData = refreshPotholesData;
 	DataCirclesObj.refreshAbandonedVehiclesData = refreshAbandonedVehiclesData;
@@ -946,6 +1060,7 @@ function DataCircles() {
 	DataCirclesObj.refreshDivvyData = refreshDivvyData;
 	DataCirclesObj.refreshCrimeData = refreshCrimeData;
 	DataCirclesObj.refreshCTAData = refreshCTAData;
+	DataCirclesObj.refreshFoodInspectionData = refreshFoodInspectionData;
 	
     return DataCirclesObj;
 };
