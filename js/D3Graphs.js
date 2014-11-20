@@ -1,6 +1,9 @@
 // obj that creates graphs given input
 function D3Graphs(){
-    var container;
+    var REFRESHABLE_DATA_SVG = 0;
+	var CRIME_DATA_SVG = 1;
+	
+	var container;
 
     var D3GraphsObj = new Object();
     var graphPadding = 110;
@@ -11,6 +14,18 @@ function D3Graphs(){
         var height = $("#sidebar").height();
         var width = $(div).width();
         container = div;
+		
+		svgs[REFRESHABLE_DATA_SVG] = d3.select(container)
+            .append("svg")
+            .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2+180))
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .append("g");
+			
+		svgs[CRIME_DATA_SVG] = d3.select(container)
+            .append("svg")
+            .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2+180))
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .append("g");
     };
 	
 	function makeStackedAndGroupedBarGraph(data, columns, title){
@@ -18,15 +33,20 @@ function D3Graphs(){
         var width = $(container).width() - graphPadding;
 		var dx = graphPadding/2;
 		var dy = graphPadding/2;
+		
+		var svg;
+		if(data[0].type.search("Potholes") != -1) svg = svgs[REFRESHABLE_DATA_SVG];
+		else svg = svgs[CRIME_DATA_SVG]; 
+		
 		//var margin = {top: 100, right: 20, bottom: 200, left: 110};
 		
-		var svg = d3.select(container)
+		/*var svg = d3.select(container)
             .append("svg")
             .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2+180))
             .attr("preserveAspectRatio", "xMidYMid meet")
-            .append("g");
+            .append("g");*/
 			
-		svgs.push(svg);
+		//svgs.push(svg);
 		
 		var x0 = d3.scale.ordinal()
 			.rangeRoundBands([0, width], 0.1);
@@ -176,7 +196,10 @@ function D3Graphs(){
 		   .text(title);
 	};
 	
-    function clearAll() { for(var svg in svgs) svgs[svg].selectAll("*").remove(); };
+    function clearAll() { 
+		svgs[REFRESHABLE_DATA_SVG].selectAll("*").remove();
+		svgs[CRIME_DATA_SVG].selectAll("*").remove();
+	};
 	
 	/*function makeStackedBarGraph(drawSection, width, height, dx, dy, data, makeTitle, title, ticks){
 		// Our X scale
