@@ -38,16 +38,6 @@ function D3Graphs(){
 		if(data[0].type.search("Potholes") != -1) svg = svgs[REFRESHABLE_DATA_SVG];
 		else svg = svgs[CRIME_DATA_SVG]; 
 		
-		//var margin = {top: 100, right: 20, bottom: 200, left: 110};
-		
-		/*var svg = d3.select(container)
-            .append("svg")
-            .attr("viewBox", "-55 0 " + (width + graphPadding + 100) + " " + ((height + graphPadding)/2+180))
-            .attr("preserveAspectRatio", "xMidYMid meet")
-            .append("g");*/
-			
-		//svgs.push(svg);
-		
 		var x0 = d3.scale.ordinal()
 			.rangeRoundBands([0, width], 0.1);
 		 
@@ -145,7 +135,7 @@ function D3Graphs(){
 			return y(d.yEnd); 
 		  })
 		  .attr("height", function(d) { 
-			return y(d.yBegin) - y(d.yEnd);
+			return y(d.yEnd) - y(d.yBegin);
 		  })
 		  .style("fill", function(d) { return color(d.name); });
 
