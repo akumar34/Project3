@@ -886,8 +886,13 @@ function DataCircles() {
         );//end .push
         //TODO change icon based on value of "status"
         
-        // check to see if the new marker is inside the drawn shapes, if any
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
+        // add marker to set that contains week old stuff
+        var daysAgo = getDaysAgo(data[dataIndex].inspection_date);
+        if (daysAgo <= 7) {
+            layerContainer.weekOld.push(newMarker); 
+        };
+        // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[FOOD_INSPECTION].circles.push(newMarker);
             // debug
