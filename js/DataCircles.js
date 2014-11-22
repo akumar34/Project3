@@ -142,7 +142,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].creation_date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;      		
-					if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) continue;
+					if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) break;
 					
 					// add the circles
 					var outLine = "black";
@@ -180,8 +180,6 @@ function DataCircles() {
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
         if (isInShapes(newMarker)) {
             selectedDataPoints[POTHOLES].circles.push(newMarker);
-            // debug
-            console.log("Marker was added to the section");
         };
     };
 /************End Potholes Data Handling************/
@@ -243,7 +241,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].creation_date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;
-					if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) continue;
+					if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) break;
 					
 					// add the circles
 					var outLine = "black";
@@ -284,8 +282,6 @@ function DataCircles() {
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
         if (isInShapes(newMarker)) {
             selectedDataPoints[ABANDONED_VEHICLES].circles.push(newMarker);
-            // debug
-            console.log("Marker was added to the section");
         };
     };	
 /************End Abandoned Vehicles Data Handling************/
@@ -350,7 +346,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].creation_date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;
-					if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) continue;
+					if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) break;
 					
 					// add the circles
 					var outLine = "black";
@@ -387,8 +383,6 @@ function DataCircles() {
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
         if (isInShapes(newMarker)) {
             selectedDataPoints[STREET_LIGHTS].circles.push(newMarker);
-            // debug
-            console.log("Marker was added to the section");
         };
     };
 	
@@ -455,10 +449,11 @@ function DataCircles() {
 					// filters
 					if (data[index].statusValue == null) continue;
 					var statusValue = data[index].statusValue;
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+					
 					if ( (getByStatusValue(layerContainers[DIVVY], data[index].statusValue) != null) &&
 						(getByAvailableBikes(layerContainers[DIVVY], data[index].availableBikes) != null) &&
-						(getByTotalDocks(layerContainers[DIVVY], data[index].totalDocks) != null ) ) continue;
-					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+						(getByTotalDocks(layerContainers[DIVVY], data[index].totalDocks) != null ) ) break;
 
 					// add the circles
 					outLine = layerInfo.color[statusValue];
@@ -570,7 +565,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;
-					if ( getById(layerContainers[CRIME], data[index].id) != null ) continue;
+					if ( getById(layerContainers[CRIME], data[index].id) != null ) break;
 
 					// add the circles
 					if (daysAgo > 14) outLine = layerInfo.color;
@@ -609,8 +604,6 @@ function DataCircles() {
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
         if (isInShapes(newMarker)) {
             selectedDataPoints[CRIME].circles.push(newMarker);
-            // debug
-            console.log("Marker was added to the section");
         };
     };
 	
@@ -681,8 +674,6 @@ function DataCircles() {
 					for (var index = 0; index < data.length; index++) {
 						// filters
 						if(data[index].vid === null) continue;
-						//if ( getByLat(layerContainers[CTA], data[index].lat) != null && 
-						//	 getByLon(layerContainers[CTA], data[index].lon) != null ) continue;
 						if ( data[index]["lat"] == undefined || data[index]["lon"] == undefined) continue;
 						
 						// add the circles
@@ -833,7 +824,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].inspection_date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;                
-					if (getByInspectionId(layerContainers[FOOD_INSPECTION], data[index].inspection_id) != null) continue;
+					if (getByInspectionId(layerContainers[FOOD_INSPECTION], data[index].inspection_id) != null) break;
 					// add the circles
 					var outLine = "black";
 					if (daysAgo > 7) outLine = layerInfo.color;

@@ -39,16 +39,16 @@ var MapApp = Class.extend({
 
 		var statusColors = this.statusColors;
 		
-		this.potholeUrl.push("http://data.cityofchicago.org/resource/7as2-ds3y.json?$limit=5000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
-		this.potholeUrl.push("http://data.cityofchicago.org/resource/7as2-ds3y.json?$limit=1000&$offset=5000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
+		this.potholeUrl.push("http://data.cityofchicago.org/resource/7as2-ds3y.json?$where=status!='Completed' AND status!='Completed - Dup'&$limit=5000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
+		this.potholeUrl.push("http://data.cityofchicago.org/resource/7as2-ds3y.json?$where=status!='Completed' AND status!='Completed - Dup'&$limit=1000&$offset=5000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
 		var potholeUrl = this.potholeUrl;
 		
-		this.abandonedVehicleUrl.push("http://data.cityofchicago.org/resource/3c9v-pnva.json?$limit=3000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
+		this.abandonedVehicleUrl.push("http://data.cityofchicago.org/resource/3c9v-pnva.json?$where=status!='Completed' AND status!='Completed - Dup'&$limit=3000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
 		var abandonedVehicleUrl = this.abandonedVehicleUrl;
 		
-		this.streetLightUrl.push("http://data.cityofchicago.org/resource/zuxi-7xem.json?$limit=3000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
-		this.streetLightUrl.push("http://data.cityofchicago.org/resource/3aav-uy2v.json?$limit=5000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
-		this.streetLightUrl.push("http://data.cityofchicago.org/resource/3aav-uy2v.json?$limit=5000&$offset=5000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
+		this.streetLightUrl.push("http://data.cityofchicago.org/resource/zuxi-7xem.json?$where=status!='Completed' AND status!='Completed - Dup'&$limit=3000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
+		this.streetLightUrl.push("http://data.cityofchicago.org/resource/3aav-uy2v.json?$where=status!='Completed' AND status!='Completed - Dup'&$limit=5000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
+		this.streetLightUrl.push("http://data.cityofchicago.org/resource/3aav-uy2v.json?$where=status!='Completed' AND status!='Completed - Dup'&$limit=5000&$offset=5000&$order=creation_date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
 		var streetLightUrl = this.streetLightUrl;
 
 		this.crimeUrl.push("http://data.cityofchicago.org/resource/ijzp-q8t2.json?$limit=5000&$order=date%20DESC&$$app_token=8CrJt3g8pNLmVHdmhQDJCj2yr");
