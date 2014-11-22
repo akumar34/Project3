@@ -737,8 +737,6 @@ function DataCircles() {
 			layerContainer.circles.push(marker);
 
 		} else {
-			console.log("lat: " + latitude);
-			console.log("lon: " + longitude);
 			marker.setLatLng([latitude, longitude]).update();
 		}
 
@@ -862,8 +860,6 @@ function DataCircles() {
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
         if (isInShapes(newMarker)) {
             selectedDataPoints[FOOD_INSPECTION].circles.push(newMarker);
-            // debug
-            // console.log("Marker was added to the section");
         };
     };
 	
