@@ -114,11 +114,7 @@ function DataCircles() {
 					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 					var daysAgo = getDaysAgo(data[index].creation_date);
 					if(daysAgo === null) continue;
-					if (daysAgo > 10){
-						console.log("marker not added " + data[index].service_request_number);
-						break;
-					}
-					
+
 					// add the circles
 					var outLine = "black";
 					if (daysAgo > 7) outLine = layerInfo.color;
@@ -142,9 +138,9 @@ function DataCircles() {
 					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 					var daysAgo = getDaysAgo(data[index].creation_date);
 					if(daysAgo === null) continue;
-					if (daysAgo > 31) break;                
-					if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) break;
-					console.log("REFRESH: marker added " + data[index].service_request_number);
+					if (daysAgo > 31) break;      		
+					if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) continue;
+					
 					// add the circles
 					var outLine = "black";
 					if (daysAgo > 7) outLine = layerInfo.color;
@@ -162,6 +158,8 @@ function DataCircles() {
 
     //helper function for adding potholes to map
     function addPotholesMarkers(layerContainer, dataIndex, data, layer, refresh) {
+		if(refresh) console.log("refreshing pothole");
+		else console.log("adding pothole");
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -242,7 +240,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].creation_date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;
-					if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) break;
+					if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) continue;
 					
 					// add the circles
 					var outLine = "black";
@@ -261,6 +259,9 @@ function DataCircles() {
 	
 	//helper function for adding abandoned vehicle data to map
     function addAbandonedVehiclesMarkers(layerContainer, dataIndex, data, layer, refresh) {
+		if(refresh) console.log("refreshing aband vehicles");
+		else console.log("adding aband vehicles");
+		
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -346,7 +347,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].creation_date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;
-					if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) break;
+					if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) continue;
 					
 					// add the circles
 					var outLine = "black";
@@ -363,6 +364,9 @@ function DataCircles() {
 	}
 	
     function addStreetLightsMarkers(layerContainer, dataIndex, data, layer, refresh) {
+		if(refresh) console.log("refreshing street lights");
+		else console.log("adding street lights");
+		
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -450,7 +454,7 @@ function DataCircles() {
 					var statusValue = data[index].statusValue;
 					if ( (getByStatusValue(layerContainers[DIVVY], data[index].statusValue) != null) &&
 						(getByAvailableBikes(layerContainers[DIVVY], data[index].availableBikes) != null) &&
-						(getByTotalDocks(layerContainers[DIVVY], data[index].totalDocks) != null ) ) return;
+						(getByTotalDocks(layerContainers[DIVVY], data[index].totalDocks) != null ) ) continue;
 					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
 					// add the circles
@@ -462,6 +466,9 @@ function DataCircles() {
 	}
 	
     function addDivvyMarkers(layerContainer, dataIndex, data, layer, refresh) {
+		if(refresh) console.log("refreshing divvy");
+		else console.log("adding divvy");
+		
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -560,7 +567,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;
-					if ( getById(layerContainers[CRIME], data[index].id) != null ) break;
+					if ( getById(layerContainers[CRIME], data[index].id) != null ) continue;
 
 					// add the circles
 					if (daysAgo > 14) outLine = layerInfo.color;
@@ -576,6 +583,9 @@ function DataCircles() {
 	
     //helper function for adding crime data to map
     function addCrimeMarkers(layerContainer, dataIndex, data, layer, refresh) {
+		if(refresh) console.log("refreshing crime");
+		else console.log("adding crime");
+		
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -641,7 +651,7 @@ function DataCircles() {
 		sourceLink.forEach(function(link){
 			d3.json(link, function(error, json){	
 				var results = json.query.results['bustime-response'];		
-				if (results.error) console.error(results.error);
+				//if (results.error) console.error(results.error);
 				var data = results.vehicle;
 				if(data){		
 					for (var index = 0; index < data.length; index++){
@@ -662,14 +672,14 @@ function DataCircles() {
 		sourceLink.forEach(function(link){
 			d3.json(link, function(error, json){
 				var results = json.query.results['bustime-response'];		
-				if (results.error) console.error(results.error);
+				//if (results.error) console.error(results.error);
 				var data = results.vehicle;
 				if(data){		
 					for (var index = 0; index < data.length; index++) {
 						// filters
 						if(data[index].vid === null) continue;
 						if ( getByLat(layerContainers[CTA], data[index].lat) != null && 
-							 getByLon(layerContainers[CTA], data[index].lon) != null ) return;
+							 getByLon(layerContainers[CTA], data[index].lon) != null ) continue;
 						if ( data[index]["lat"] == undefined || data[index]["lon"] == undefined) continue;
 						
 						// add the circles
@@ -682,6 +692,9 @@ function DataCircles() {
 	
     //helper function for adding CTA data to map
     function addCTAMarkers(layerContainer, dataIndex, data, layer, refresh) {
+		if(refresh) console.log("refreshing cta");
+		else console.log("adding cta");
+		
 		//parse heading into N, NE, E, SE, S, SW, W, NW directions
         var busHeading = "SOMEWHERE ON EARTH...?";
         if((data[dataIndex].hdg >= 337.5) || (data[dataIndex].hdg <= 22.5)) {
@@ -809,7 +822,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].inspection_date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;                
-					if (getByInspectionId(layerContainers[FOOD_INSPECTION], data[index].inspection_id) != null) break;
+					if (getByInspectionId(layerContainers[FOOD_INSPECTION], data[index].inspection_id) != null) continue;
 					// add the circles
 					var outLine = "black";
 					if (daysAgo > 7) outLine = layerInfo.color;
@@ -827,7 +840,9 @@ function DataCircles() {
 
     //helper function for adding food inspection to map
     function addFoodInspectionMarkers(layerContainer, dataIndex, data, layer, refresh) {
-        console.log("Added inspection data");
+		if(refresh) console.log("refreshing food inspection");
+		else console.log("adding food inspection");
+		
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
