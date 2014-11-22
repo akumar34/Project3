@@ -600,8 +600,8 @@ function DataCircles() {
             }
         ).bindPopup("<strong>Type:</strong> " + data[dataIndex]["primary_type"] + "<br><strong>Arrest:</strong> " +
                 data[dataIndex]["arrest"] +"<br><strong>Location Description:</strong> " + data[dataIndex]["location_description"] + 
-                "<br><strong>Date:</strong> " + data[dataIndex]["date"].substring(0,10) + "<br><strong>Updated On:</strong> " +
-                data[dataIndex]["updated_on"])
+                "<br><strong>Date Recorded:</strong> " + data[dataIndex]["date"].substring(0,10) + "<br><strong>Updated On:</strong> " +
+                data[dataIndex]["updated_on"].substring(0,10))
         );//end .push
         //TODO maybe add details like the description and if it was domestic or not, case number, iucr, etc? either
         //in the popup or some sort of "show more"? or maybe we show some basic info on hover, and that+more on click/popup?
