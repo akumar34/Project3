@@ -23,6 +23,9 @@ function DataCircles() {
 	layerContainers[CTA] = {};
 	layerContainers[FOOD_INSPECTION] = {};
 	
+	//markers hashmap for cta bus tracking markers
+	var markers = [];
+	
     //custom markers
     //pothole
     var potholeIcon = L.icon({
@@ -678,8 +681,8 @@ function DataCircles() {
 					for (var index = 0; index < data.length; index++) {
 						// filters
 						if(data[index].vid === null) continue;
-						if ( getByLat(layerContainers[CTA], data[index].lat) != null && 
-							 getByLon(layerContainers[CTA], data[index].lon) != null ) continue;
+						//if ( getByLat(layerContainers[CTA], data[index].lat) != null && 
+						//	 getByLon(layerContainers[CTA], data[index].lon) != null ) continue;
 						if ( data[index]["lat"] == undefined || data[index]["lon"] == undefined) continue;
 						
 						// add the circles
@@ -721,8 +724,35 @@ function DataCircles() {
             busDelayed = "YES";
         }
 
+		var latitude = data[dataIndex]["lat"];
+		var longitude = data[dataIndex]["lon"];
+		
+		var marker = markers[data[dataIndex].vid];
+		if(marker === undefined || marker === null){
+            marker = L.marker(
+				[latitude, longitude], 
+				{
+					icon	: ctaIcon,
+					vid 	: data[dataIndex].vid
+				}
+			).bindPopup("<strong>Route: </strong>" + data[dataIndex].rt + "<br><strong>Destination: </strong>" + data[dataIndex].des +
+				"<br><strong>Heading: </strong>" + busHeading + " (" + data[dataIndex].hdg + "&deg)" + "<br><strong>Lat, Lon: </strong>" +
+				data[dataIndex].lat + ", " + data[dataIndex].lon + "<br><strong>Delayed: </strong>" + busDelayed +
+				"<br><strong>Vehicle ID: </strong>" + data[dataIndex].vid + "<br><strong>Last Update: </strong>" +
+				data[dataIndex].tmstmp.substring(0,4) + "-" + data[dataIndex].tmstmp.substring(4,6) + "-" + data[dataIndex].tmstmp.substring(6,8) +
+				" " + data[dataIndex].tmstmp.substring(9,14));
+				
+			markers[data[dataIndex].vid] = marker;
+			layerContainer.circles.push(marker);
+
+		} else {
+			console.log("lat: " + latitude);
+			console.log("lon: " + longitude);
+			marker.setLatLng([latitude, longitude]).update();
+		}
+			
         //actually create the marker
-        layerContainer.circles.push(
+        /*layerContainer.circles.push(
 			L.marker([data[dataIndex]["lat"], data[dataIndex]["lon"]], 
 			{
 				icon: ctaIcon,
@@ -735,11 +765,7 @@ function DataCircles() {
             "<br><strong>Vehicle ID: </strong>" + data[dataIndex].vid + "<br><strong>Last Update: </strong>" +
             data[dataIndex].tmstmp.substring(0,4) + "-" + data[dataIndex].tmstmp.substring(4,6) + "-" + data[dataIndex].tmstmp.substring(6,8) +
             " " + data[dataIndex].tmstmp.substring(9,14))
-        /*.bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
-			"<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
-			data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10) + 
-			"<br><strong>Days Reported Parked:</strong> " + data[dataIndex]["how_many_days_has_the_vehicle_been_reported_as_parked_"])*/
-		);//end .push
+		);//end .push*/
 		//TODO change icon based on value of "status"
 		//TODO do we want to put extra data like color, licenese plate, make/model? maybe under a "show more" tab/button, etc?
 		
