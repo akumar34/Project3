@@ -74,13 +74,14 @@ function DataCircles() {
         iconAnchor:   [30, 90],
         popupAnchor:  [0, -90]
     });//end CTA
-	//crimes
+
+	//food inspection
     var foodInspectionIcon = L.icon({
-        iconUrl: 'icons/svg/marker_crime_sized_new.svg',
+        iconUrl: 'icons/svg/marker_food_inspection.svg',
         iconSize:     [60, 90],
         iconAnchor:   [30, 90],
         popupAnchor:  [0, -90] 
-    });//end crimes
+    });//end food inspection
     //end custom markers
 
 /************Potholes Data Handling************/
@@ -168,7 +169,8 @@ function DataCircles() {
             {
                 icon: potholeIcon,
                 service_request_number : data[dataIndex].service_request_number,
-				date: data[dataIndex].creation_date
+				date: data[dataIndex].creation_date,
+                riseOnHover: true
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -268,7 +270,8 @@ function DataCircles() {
             {
                 icon: abandonedVehicleIcon,
                 service_request_number : data[dataIndex].service_request_number,
-				date: data[dataIndex].creation_date
+				date: data[dataIndex].creation_date,
+                riseOnHover: true
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -371,7 +374,8 @@ function DataCircles() {
             {
                 icon: streetLightIcon,
                 service_request_number : data[dataIndex].service_request_number,
-				date: data[dataIndex].creation_date
+				date: data[dataIndex].creation_date,
+                riseOnHover: true
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -473,7 +477,8 @@ function DataCircles() {
                 icon: divvyStationIcon,
 				totalDocks : data[dataIndex].totalDocks,
     			availableBikes : data[dataIndex].availableBikes,
-    			statusValue : data[dataIndex].statusValue
+    			statusValue : data[dataIndex].statusValue,
+                riseOnHover: true
             }
         ).bindPopup("<strong>Station Name:</strong> " + data[dataIndex]["stationName"] + "<br><strong>Status:</strong> " +
                 data[dataIndex]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[dataIndex]["availableBikes"] + 
@@ -590,7 +595,8 @@ function DataCircles() {
                 icon: crimeIcon,
 				id : data[dataIndex].id,
 				date: data[dataIndex].date,
-				crimeType: data[dataIndex].primary_type
+				crimeType: data[dataIndex].primary_type,
+                riseOnHover: true
             }
         ).bindPopup("<strong>Type:</strong> " + data[dataIndex]["primary_type"] + "<br><strong>Arrest:</strong> " +
                 data[dataIndex]["arrest"] +"<br><strong>Location Description:</strong> " + data[dataIndex]["location_description"] + 
@@ -724,7 +730,8 @@ function DataCircles() {
 				[latitude, longitude], 
 				{
 					icon	: ctaIcon,
-					vid 	: data[dataIndex].vid
+					vid 	: data[dataIndex].vid,
+                    riseOnHover: true
 				}
 			).bindPopup("<strong>Route: </strong>" + data[dataIndex].rt + "<br><strong>Destination: </strong>" + data[dataIndex].des +
 				"<br><strong>Heading: </strong>" + busHeading + " (" + data[dataIndex].hdg + "&deg)" + "<br><strong>Lat, Lon: </strong>" +
@@ -848,7 +855,8 @@ function DataCircles() {
             {
                 icon: foodInspectionIcon,
                 inspection_id : data[dataIndex].inspection_id,
-				date: data[dataIndex].inspection_date
+				date: data[dataIndex].inspection_date,
+                riseOnHover: true
             }
         ).bindPopup("<strong>Name:</strong> " + data[dataIndex]["aka_name"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["address"] + "<br><strong>Risk:</strong> " +
