@@ -74,14 +74,13 @@ function DataCircles() {
         iconAnchor:   [30, 90],
         popupAnchor:  [0, -90]
     });//end CTA
-
-	//food inspection
+	//crimes
     var foodInspectionIcon = L.icon({
-        iconUrl: 'icons/svg/marker_food_inspection.svg',
+        iconUrl: 'icons/svg/marker_crime_sized_new.svg',
         iconSize:     [60, 90],
         iconAnchor:   [30, 90],
         popupAnchor:  [0, -90] 
-    });//end food inspection
+    });//end crimes
     //end custom markers
 
 /************Potholes Data Handling************/
@@ -144,7 +143,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].creation_date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;      		
-					if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) break;
+					if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) continue;
 					
 					// add the circles
 					var outLine = "black";
@@ -170,8 +169,7 @@ function DataCircles() {
             {
                 icon: potholeIcon,
                 service_request_number : data[dataIndex].service_request_number,
-				date: data[dataIndex].creation_date,
-                riseOnHover: true
+				date: data[dataIndex].creation_date
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -251,7 +249,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].creation_date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;
-					if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) break;
+					if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) continue;
 					
 					// add the circles
 					var outLine = "black";
@@ -278,8 +276,7 @@ function DataCircles() {
             {
                 icon: abandonedVehicleIcon,
                 service_request_number : data[dataIndex].service_request_number,
-				date: data[dataIndex].creation_date,
-                riseOnHover: true
+				date: data[dataIndex].creation_date
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -363,7 +360,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].creation_date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;
-					if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) break;
+					if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) continue;
 					
 					// add the circles
 					var outLine = "black";
@@ -388,8 +385,7 @@ function DataCircles() {
             {
                 icon: streetLightIcon,
                 service_request_number : data[dataIndex].service_request_number,
-				date: data[dataIndex].creation_date,
-                riseOnHover: true
+				date: data[dataIndex].creation_date
             }
         ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
@@ -405,6 +401,8 @@ function DataCircles() {
         // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[STREET_LIGHTS].circles.push(newMarker);
+            // debug
+            console.log("Marker was added to the section");
         };
     };
 	
@@ -471,11 +469,10 @@ function DataCircles() {
 					// filters
 					if (data[index].statusValue == null) continue;
 					var statusValue = data[index].statusValue;
-					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-					
 					if ( (getByStatusValue(layerContainers[DIVVY], data[index].statusValue) != null) &&
 						(getByAvailableBikes(layerContainers[DIVVY], data[index].availableBikes) != null) &&
-						(getByTotalDocks(layerContainers[DIVVY], data[index].totalDocks) != null ) ) break;
+						(getByTotalDocks(layerContainers[DIVVY], data[index].totalDocks) != null ) ) continue;
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
 					// add the circles
 					outLine = layerInfo.color[statusValue];
@@ -495,8 +492,7 @@ function DataCircles() {
                 icon: divvyStationIcon,
 				totalDocks : data[dataIndex].totalDocks,
     			availableBikes : data[dataIndex].availableBikes,
-    			statusValue : data[dataIndex].statusValue,
-                riseOnHover: true
+    			statusValue : data[dataIndex].statusValue
             }
         ).bindPopup("<strong>Station Name:</strong> " + data[dataIndex]["stationName"] + "<br><strong>Status:</strong> " +
                 data[dataIndex]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[dataIndex]["availableBikes"] + 
@@ -589,7 +585,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;
-					if ( getById(layerContainers[CRIME], data[index].id) != null ) break;
+					if ( getById(layerContainers[CRIME], data[index].id) != null ) continue;
 
 					// add the circles
 					if (daysAgo > 14) outLine = layerInfo.color;
@@ -614,21 +610,27 @@ function DataCircles() {
                 icon: crimeIcon,
 				id : data[dataIndex].id,
 				date: data[dataIndex].date,
-				crimeType: data[dataIndex].primary_type,
-                riseOnHover: true
+				crimeType: data[dataIndex].primary_type
             }
         ).bindPopup("<strong>Type:</strong> " + data[dataIndex]["primary_type"] + "<br><strong>Arrest:</strong> " +
                 data[dataIndex]["arrest"] +"<br><strong>Location Description:</strong> " + data[dataIndex]["location_description"] + 
-                "<br><strong>Date Recorded:</strong> " + data[dataIndex]["date"].substring(0,10) + "<br><strong>Updated On:</strong> " +
-                data[dataIndex]["updated_on"].substring(0,10))
+                "<br><strong>Date:</strong> " + data[dataIndex]["date"].substring(0,10) + "<br><strong>Updated On:</strong> " +
+                data[dataIndex]["updated_on"])
         );//end .push
         //TODO maybe add details like the description and if it was domestic or not, case number, iucr, etc? either
         //in the popup or some sort of "show more"? or maybe we show some basic info on hover, and that+more on click/popup?
         
-        // check to see if the new marker is inside the drawn shapes, if any
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
+        // add marker to set that contains week old stuff
+        var daysAgo = getDaysAgo(data[dataIndex].date);
+        if (daysAgo <= 14) {
+            layerContainer.weekOld.push(newMarker); 
+        };
+        // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[CRIME].circles.push(newMarker);
+            // debug
+            console.log("Marker was added to the section");
         };
     };
 	
@@ -699,6 +701,8 @@ function DataCircles() {
 					for (var index = 0; index < data.length; index++) {
 						// filters
 						if(data[index].vid === null) continue;
+						//if ( getByLat(layerContainers[CTA], data[index].lat) != null && 
+						//	 getByLon(layerContainers[CTA], data[index].lon) != null ) continue;
 						if ( data[index]["lat"] == undefined || data[index]["lon"] == undefined) continue;
 						
 						// add the circles
@@ -749,8 +753,7 @@ function DataCircles() {
 				[latitude, longitude], 
 				{
 					icon	: ctaIcon,
-					vid 	: data[dataIndex].vid,
-                    riseOnHover: true
+					vid 	: data[dataIndex].vid
 				}
 			).bindPopup("<strong>Route: </strong>" + data[dataIndex].rt + "<br><strong>Destination: </strong>" + data[dataIndex].des +
 				"<br><strong>Heading: </strong>" + busHeading + " (" + data[dataIndex].hdg + "&deg)" + "<br><strong>Lat, Lon: </strong>" +
@@ -763,6 +766,8 @@ function DataCircles() {
 			layerContainer.circles.push(marker);
 
 		} else {
+			console.log("lat: " + latitude);
+			console.log("lon: " + longitude);
 			marker.setLatLng([latitude, longitude]).update();
 		}
 
@@ -849,7 +854,7 @@ function DataCircles() {
 					var daysAgo = getDaysAgo(data[index].inspection_date);
 					if(daysAgo === null) continue;
 					if (daysAgo > 31) break;                
-					if (getByInspectionId(layerContainers[FOOD_INSPECTION], data[index].inspection_id) != null) break;
+					if (getByInspectionId(layerContainers[FOOD_INSPECTION], data[index].inspection_id) != null) continue;
 					// add the circles
 					var outLine = "black";
 					if (daysAgo > 7) outLine = layerInfo.color;
@@ -875,8 +880,7 @@ function DataCircles() {
             {
                 icon: foodInspectionIcon,
                 inspection_id : data[dataIndex].inspection_id,
-				date: data[dataIndex].inspection_date,
-                riseOnHover: true
+				date: data[dataIndex].inspection_date
             }
         ).bindPopup("<strong>Name:</strong> " + data[dataIndex]["aka_name"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["address"] + "<br><strong>Risk:</strong> " +
@@ -888,6 +892,8 @@ function DataCircles() {
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
         if (isInShapes(newMarker)) {
             selectedDataPoints[FOOD_INSPECTION].circles.push(newMarker);
+            // debug
+            // console.log("Marker was added to the section");
         };
     };
 	
