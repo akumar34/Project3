@@ -71,6 +71,13 @@ function DataCircles() {
         iconAnchor:   [30, 90],
         popupAnchor:  [0, -90]
     });//end CTA
+	//crimes
+    var foodInspectionIcon = L.icon({
+        iconUrl: 'icons/svg/marker_crime_sized_new.svg',
+        iconSize:     [60, 90],
+        iconAnchor:   [30, 90],
+        popupAnchor:  [0, -90] 
+    });//end crimes
     //end custom markers
 
 /************Potholes Data Handling************/
@@ -96,53 +103,61 @@ function DataCircles() {
         };
 		
         var sourceLink = layerInfo.sourceLink;
-        d3.json(sourceLink, function(error, data){
-            if (error) console.error(error);
+	    sourceLink.forEach(function(link){
+			d3.json(link, function(error, data){
+				if (error) console.error(error);
 
-            for (var index = 0; index < data.length; index++) {
-				if(data[index].status === "STATUS") continue;
-				
-                // filters
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                var daysAgo = getDaysAgo(data[index].creation_date);
-				if(daysAgo === null) continue;
-                if (daysAgo > 31) break;
-                
-                // add the circles
-                var outLine = "black";
-                if (daysAgo > 7) outLine = layerInfo.color;
-                if (data[index].status.indexOf("completed") > -1) outLine = "white";
-				addPotholesMarkers(layerContainers[POTHOLES], index, data, layer, false);
-            };
-        });
+				for (var index = 0; index < data.length; index++) {
+					if(data[index].status === "STATUS") continue;
+					
+					// filters
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+					var daysAgo = getDaysAgo(data[index].creation_date);
+					if(daysAgo === null) continue;
+					if (daysAgo > 10){
+						console.log("marker not added " + data[index].service_request_number);
+						break;
+					}
+					
+					// add the circles
+					var outLine = "black";
+					if (daysAgo > 7) outLine = layerInfo.color;
+					if (data[index].status.indexOf("completed") > -1) outLine = "white";
+					addPotholesMarkers(layerContainers[POTHOLES], index, data, layer, false);
+				};
+			});
+		});
 	};
 	
 	function refreshPotholesData(layerInfo, layer){
         var sourceLink = layerInfo.sourceLink;
-        d3.json(sourceLink, function(error, data){
-            if (error) console.error(error);
+	    sourceLink.forEach(function(link){
+			d3.json(link, function(error, data){
+				if (error) console.error(error);
 
-            for (var index = 0; index < data.length; index++) {
-				if(data[index].status === "STATUS") continue;
-				
-                // filters
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-				var daysAgo = getDaysAgo(data[index].creation_date);
-				if(daysAgo === null) continue;
-                if (daysAgo > 31) break;                
-				if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) break;
-                // add the circles
-                var outLine = "black";
-                if (daysAgo > 7) outLine = layerInfo.color;
-                if (data[index].status.indexOf("completed") > -1) outLine = "white";
-                addPotholesMarkers(layerContainers[POTHOLES], index, data, layer, true);
+				for (var index = 0; index < data.length; index++) {
+					if(data[index].status === "STATUS") continue;
+					
+					// filters
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+					var daysAgo = getDaysAgo(data[index].creation_date);
+					if(daysAgo === null) continue;
+					if (daysAgo > 31) break;                
+					if (getByServiceNumber(layerContainers[POTHOLES], data[index].service_request_number) != null) break;
+					console.log("REFRESH: marker added " + data[index].service_request_number);
+					// add the circles
+					var outLine = "black";
+					if (daysAgo > 7) outLine = layerInfo.color;
+					if (data[index].status.indexOf("completed") > -1) outLine = "white";
+					addPotholesMarkers(layerContainers[POTHOLES], index, data, layer, true);
 
-            };
+				};
 
-            var selectedLayer = selectedDataPoints[POTHOLES].controlLayer;
-            selectedLayer.clearLayers();
-            L.layerGroup(selectedDataPoints[POTHOLES].circles).addTo(selectedLayer);
-        });	
+				var selectedLayer = selectedDataPoints[POTHOLES].controlLayer;
+				selectedLayer.clearLayers();
+				L.layerGroup(selectedDataPoints[POTHOLES].circles).addTo(selectedLayer);
+			});	
+		});
 	}
 
     //helper function for adding potholes to map
@@ -193,52 +208,55 @@ function DataCircles() {
         };
 		
         var sourceLink = layerInfo.sourceLink;
-        d3.json(sourceLink, function(error, data){
-            if (error) console.error(error);
+	    sourceLink.forEach(function(link){
+			d3.json(link, function(error, data){
+				if (error) console.error(error);
 
-            for (var index = 0; index < data.length; index++) {
-                // filters
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                var daysAgo = getDaysAgo(data[index].creation_date);
-				if(daysAgo === null) continue;
-                if (daysAgo > 31) break;
-                
-                // add the circles
-                var outLine = "black";
-                if (daysAgo > 7) outLine = layerInfo.color;
-                if (data[index].status.indexOf("completed") > -1) outLine = "white";
-				addAbandonedVehiclesMarkers(layerContainers[ABANDONED_VEHICLES], index, data, layer, false);
-            };
-        });
+				for (var index = 0; index < data.length; index++) {
+					// filters
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+					var daysAgo = getDaysAgo(data[index].creation_date);
+					if(daysAgo === null) continue;
+					if (daysAgo > 31) break;
+					
+					// add the circles
+					var outLine = "black";
+					if (daysAgo > 7) outLine = layerInfo.color;
+					if (data[index].status.indexOf("completed") > -1) outLine = "white";
+					addAbandonedVehiclesMarkers(layerContainers[ABANDONED_VEHICLES], index, data, layer, false);
+				};
+			});
+		});
 	};
 
 	function refreshAbandonedVehiclesData(layerInfo, layer){
-        console.log("refresh");
         var sourceLink = layerInfo.sourceLink;
-        d3.json(sourceLink, function(error, data){
-            if (error) console.error(error);
+	    sourceLink.forEach(function(link){
+			d3.json(link, function(error, data){
+				if (error) console.error(error);
 
-            for (var index = 0; index < data.length; index++) {
-                // filters
+				for (var index = 0; index < data.length; index++) {
+					// filters
 
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                var daysAgo = getDaysAgo(data[index].creation_date);
-				if(daysAgo === null) continue;
-                if (daysAgo > 31) break;
-                if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) break;
-				
-                // add the circles
-                var outLine = "black";
-                if (daysAgo > 7) outLine = layerInfo.color;
-                if (data[index].status.indexOf("completed") > -1) outLine = "white";
-                addAbandonedVehiclesMarkers(layerContainers[ABANDONED_VEHICLES], index, data, layer, true);
-            };
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+					var daysAgo = getDaysAgo(data[index].creation_date);
+					if(daysAgo === null) continue;
+					if (daysAgo > 31) break;
+					if (getByServiceNumber(layerContainers[ABANDONED_VEHICLES], data[index].service_request_number) != null) break;
+					
+					// add the circles
+					var outLine = "black";
+					if (daysAgo > 7) outLine = layerInfo.color;
+					if (data[index].status.indexOf("completed") > -1) outLine = "white";
+					addAbandonedVehiclesMarkers(layerContainers[ABANDONED_VEHICLES], index, data, layer, true);
+				};
 
-            // temp way to refresh when updating
-            var selectedLayer = selectedDataPoints[ABANDONED_VEHICLES].controlLayer;
-            selectedLayer.clearLayers();
-            L.layerGroup(selectedDataPoints[ABANDONED_VEHICLES].circles).addTo(selectedLayer);
-        });	
+				// temp way to refresh when updating
+				var selectedLayer = selectedDataPoints[ABANDONED_VEHICLES].controlLayer;
+				selectedLayer.clearLayers();
+				L.layerGroup(selectedDataPoints[ABANDONED_VEHICLES].circles).addTo(selectedLayer);
+			});	
+		});
 	};
 	
 	//helper function for adding abandoned vehicle data to map
@@ -291,53 +309,57 @@ function DataCircles() {
         };
 		
         var sourceLink = layerInfo.sourceLink;
-        d3.json(sourceLink, function(error, data){
-            if (error) console.error(error);
+	    sourceLink.forEach(function(link){
+			d3.json(link, function(error, data){
+				if (error) console.error(error);
 
-            for (var index = 0; index < data.length; index++) {
-				if(data[index].status === "STATUS") continue;
-				
-                // filters
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                var daysAgo = getDaysAgo(data[index].creation_date);
-				if(daysAgo === null) continue;
-                if (daysAgo > 31) break;
-                
-                // add the circles
-                var outLine = "black";
-                if (daysAgo > 7) outLine = layerInfo.color;
-                if (data[index].status.indexOf("completed") > -1) outLine = "white";
-				addStreetLightsMarkers(layerContainers[STREET_LIGHTS], index, data, layer, false);
-            };
-        });
+				for (var index = 0; index < data.length; index++) {
+					if(data[index].status === "STATUS") continue;
+					
+					// filters
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+					var daysAgo = getDaysAgo(data[index].creation_date);
+					if(daysAgo === null) continue;
+					if (daysAgo > 31) break;
+					
+					// add the circles
+					var outLine = "black";
+					if (daysAgo > 7) outLine = layerInfo.color;
+					if (data[index].status.indexOf("completed") > -1) outLine = "white";
+					addStreetLightsMarkers(layerContainers[STREET_LIGHTS], index, data, layer, false);
+				};
+			});
+		});
 	};
 	
 	function refreshStreetLightsData(layerInfo, layer){
         var sourceLink = layerInfo.sourceLink;
-        d3.json(sourceLink, function(error, data){
-            if (error) console.error(error);
+	    sourceLink.forEach(function(link){
+			d3.json(link, function(error, data){
+				if (error) console.error(error);
 
-            for (var index = 0; index < data.length; index++) {
-				if(data[index].status === "STATUS") continue;
-				
-                // filters
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                var daysAgo = getDaysAgo(data[index].creation_date);
-				if(daysAgo === null) continue;
-                if (daysAgo > 31) break;
-                if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) break;
-				
-                // add the circles
-                var outLine = "black";
-                if (daysAgo > 7) outLine = layerInfo.color;
-                if (data[index].status.indexOf("completed") > -1) outLine = "white";
-                addStreetLightsMarkers(layerContainers[STREET_LIGHTS], index, data, layer, true);
-            };
+				for (var index = 0; index < data.length; index++) {
+					if(data[index].status === "STATUS") continue;
+					
+					// filters
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+					var daysAgo = getDaysAgo(data[index].creation_date);
+					if(daysAgo === null) continue;
+					if (daysAgo > 31) break;
+					if (getByServiceNumber(layerContainers[STREET_LIGHTS], data[index].service_request_number) != null) break;
+					
+					// add the circles
+					var outLine = "black";
+					if (daysAgo > 7) outLine = layerInfo.color;
+					if (data[index].status.indexOf("completed") > -1) outLine = "white";
+					addStreetLightsMarkers(layerContainers[STREET_LIGHTS], index, data, layer, true);
+				};
 
-            var selectedLayer = selectedDataPoints[STREET_LIGHTS].controlLayer;
-            selectedLayer.clearLayers();
-            L.layerGroup(selectedDataPoints[STREET_LIGHTS].circles).addTo(selectedLayer);
-        });	
+				var selectedLayer = selectedDataPoints[STREET_LIGHTS].controlLayer;
+				selectedLayer.clearLayers();
+				L.layerGroup(selectedDataPoints[STREET_LIGHTS].circles).addTo(selectedLayer);
+			});
+		});
 	}
 	
     function addStreetLightsMarkers(layerContainer, dataIndex, data, layer, refresh) {
@@ -394,44 +416,48 @@ function DataCircles() {
         };
 		
 		var sourceLink = layerInfo.sourceLink;
-		d3.json(sourceLink, function(error, json){
-            if (error) console.error(error);
-            
-			var data = json.query.results.json.stationBeanList;
-			for (var index = 0; index < data.length; index++) {
-			
-				// filters
-				if (data[index].statusValue == null) continue;
-				var statusValue = data[index].statusValue;
-				if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+	    sourceLink.forEach(function(link){
+			d3.json(link, function(error, json){
+				if (error) console.error(error);
+				
+				var data = json.query.results.json.stationBeanList;
+				for (var index = 0; index < data.length; index++) {
+				
+					// filters
+					if (data[index].statusValue == null) continue;
+					var statusValue = data[index].statusValue;
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
-				// add the circles
-				outLine = layerInfo.color[statusValue];
-				addDivvyMarkers(layerContainers[DIVVY], index, data, layer, false);
-            };
+					// add the circles
+					outLine = layerInfo.color[statusValue];
+					addDivvyMarkers(layerContainers[DIVVY], index, data, layer, false);
+				};
+			});
 		});
 	};
 	
 	function refreshDivvyData(layerInfo, layer){
 		var sourceLink = layerInfo.sourceLink;
-		d3.json(sourceLink, function(error, json){
-            if (error) console.error(error);
-			
-			var data = json.query.results.json.stationBeanList;
-			for (var index = 0; index < data.length; index++) {
-                
-				// filters
-                if (data[index].statusValue == null) continue;
-				var statusValue = data[index].statusValue;
-                if ( (getByStatusValue(layerContainers[DIVVY], data[index].statusValue) != null) &&
-					(getByAvailableBikes(layerContainers[DIVVY], data[index].availableBikes) != null) &&
-					(getByTotalDocks(layerContainers[DIVVY], data[index].totalDocks) != null ) ) return;
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+	    sourceLink.forEach(function(link){
+			d3.json(link, function(error, json){
+				if (error) console.error(error);
+				
+				var data = json.query.results.json.stationBeanList;
+				for (var index = 0; index < data.length; index++) {
+					
+					// filters
+					if (data[index].statusValue == null) continue;
+					var statusValue = data[index].statusValue;
+					if ( (getByStatusValue(layerContainers[DIVVY], data[index].statusValue) != null) &&
+						(getByAvailableBikes(layerContainers[DIVVY], data[index].availableBikes) != null) &&
+						(getByTotalDocks(layerContainers[DIVVY], data[index].totalDocks) != null ) ) return;
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 
-                // add the circles
-                outLine = layerInfo.color[statusValue];
-                addDivvyMarkers(layerContainers[DIVVY], index, data, layer, true);
-            };
+					// add the circles
+					outLine = layerInfo.color[statusValue];
+					addDivvyMarkers(layerContainers[DIVVY], index, data, layer, true);
+				};
+			});
 		});
 	}
 	
@@ -499,49 +525,53 @@ function DataCircles() {
         };
 		
        var sourceLink = layerInfo.sourceLink;
-        d3.json(sourceLink, function(error, data){
-            if (error) console.error(error);
+	   sourceLink.forEach(function(link){
+			d3.json(link, function(error, data){
+				if (error) console.error(error);
 
-            for (var index = 0; index < data.length; index++) {
-                // filters
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                var daysAgo = getDaysAgo(data[index].date);
-				if(daysAgo === null) continue;
-                if (daysAgo > 31) break;
-                
-                // add the circles
-                var outLine = "black";
-                if (daysAgo > 14) outLine = layerInfo.color;
-                addCrimeMarkers(layerContainers[CRIME], index, data, layer, false);
-			};
-        });
+				for (var index = 0; index < data.length; index++) {
+					// filters
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+					var daysAgo = getDaysAgo(data[index].date);
+					if(daysAgo === null) continue;
+					if (daysAgo > 31) break;
+					
+					// add the circles
+					var outLine = "black";
+					if (daysAgo > 14) outLine = layerInfo.color;
+					addCrimeMarkers(layerContainers[CRIME], index, data, layer, false);
+				};
+			});
+		});
 	};
 	
 	function refreshCrimeData(layerInfo, layer){
         var sourceLink = layerInfo.sourceLink;
-        d3.json(sourceLink, function(error, data){
-            if (error) console.error(error);
-			
-            for (var index = 0; index < data.length; index++) {
-				// filters
+	    sourceLink.forEach(function(link){
+			d3.json(link, function(error, data){
+				if (error) console.error(error);
+				
+				for (var index = 0; index < data.length; index++) {
+					// filters
 
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                if (data[index].id == null) continue;
-				var id = data[index].id;
-				var daysAgo = getDaysAgo(data[index].date);
-				if(daysAgo === null) continue;
-                if (daysAgo > 31) break;
-                if ( getById(layerContainers[CRIME], data[index].id) != null ) break;
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+					if (data[index].id == null) continue;
+					var id = data[index].id;
+					var daysAgo = getDaysAgo(data[index].date);
+					if(daysAgo === null) continue;
+					if (daysAgo > 31) break;
+					if ( getById(layerContainers[CRIME], data[index].id) != null ) break;
 
-                // add the circles
-                if (daysAgo > 14) outLine = layerInfo.color;
-                addCrimeMarkers(layerContainers[CRIME], index, data, layer, true);
-            };
+					// add the circles
+					if (daysAgo > 14) outLine = layerInfo.color;
+					addCrimeMarkers(layerContainers[CRIME], index, data, layer, true);
+				};
 
-            var selectedLayer = selectedDataPoints[CRIME].controlLayer;
-            selectedLayer.clearLayers();
-            L.layerGroup(selectedDataPoints[CRIME].circles).addTo(selectedLayer);
-        });	
+				var selectedLayer = selectedDataPoints[CRIME].controlLayer;
+				selectedLayer.clearLayers();
+				L.layerGroup(selectedDataPoints[CRIME].circles).addTo(selectedLayer);
+			});	
+		});
 	};
 	
     //helper function for adding crime data to map
@@ -743,52 +773,56 @@ function DataCircles() {
         };
 		
         var sourceLink = layerInfo.sourceLink;
-        d3.json(sourceLink, function(error, data){
-            if (error) console.error(error);
+	    sourceLink.forEach(function(link){
+			d3.json(link, function(error, data){
+				if (error) console.error(error);
 
-            for (var index = 0; index < data.length; index++) {
-				if(data[index].status === "STATUS") continue;
-				
-                // filters
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-                var daysAgo = getDaysAgo(data[index].inspection_date);
-				if(daysAgo === null) continue;
-                if (daysAgo > 31) break;
-                
-                // add the circles
-                var outLine = "black";
-                if (daysAgo > 7) outLine = layerInfo.color;
-				addFoodInspectionMarkers(layerContainers[FOOD_INSPECTION], index, data, layer, false);
-            };
-        });
+				for (var index = 0; index < data.length; index++) {
+					if(data[index].status === "STATUS") continue;
+					
+					// filters
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+					var daysAgo = getDaysAgo(data[index].inspection_date);
+					if(daysAgo === null) continue;
+					if (daysAgo > 31) break;
+					
+					// add the circles
+					var outLine = "black";
+					if (daysAgo > 7) outLine = layerInfo.color;
+					addFoodInspectionMarkers(layerContainers[FOOD_INSPECTION], index, data, layer, false);
+				};
+			});
+		});
 	};
 	
 	function refreshFoodInspectionData(layerInfo, layer){
         var sourceLink = layerInfo.sourceLink;
-        d3.json(sourceLink, function(error, data){
-            if (error) console.error(error);
+	    sourceLink.forEach(function(link){
+			d3.json(link, function(error, data){
+				if (error) console.error(error);
 
-            for (var index = 0; index < data.length; index++) {
-				if(data[index].status === "STATUS") continue;
-				
-                // filters
-                if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
-				var daysAgo = getDaysAgo(data[index].inspection_date);
-				if(daysAgo === null) continue;
-                if (daysAgo > 31) break;                
-				if (getByInspectionId(layerContainers[FOOD_INSPECTION], data[index].inspection_id) != null) break;
-                // add the circles
-                var outLine = "black";
-                if (daysAgo > 7) outLine = layerInfo.color;
-                
-                // needs rework we are always adding markers, filters are not working
-                // addFoodInspectionMarkers(layerContainers[FOOD_INSPECTION], index, data, layer, true);
-            };
+				for (var index = 0; index < data.length; index++) {
+					if(data[index].status === "STATUS") continue;
+					
+					// filters
+					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
+					var daysAgo = getDaysAgo(data[index].inspection_date);
+					if(daysAgo === null) continue;
+					if (daysAgo > 31) break;                
+					if (getByInspectionId(layerContainers[FOOD_INSPECTION], data[index].inspection_id) != null) break;
+					// add the circles
+					var outLine = "black";
+					if (daysAgo > 7) outLine = layerInfo.color;
+					
+					// needs rework we are always adding markers, filters are not working
+					// addFoodInspectionMarkers(layerContainers[FOOD_INSPECTION], index, data, layer, true);
+				};
 
-            var selectedLayer = selectedDataPoints[FOOD_INSPECTION].controlLayer;
-            selectedLayer.clearLayers();
-            L.layerGroup(selectedDataPoints[FOOD_INSPECTION].circles).addTo(selectedLayer);
-        });	
+				var selectedLayer = selectedDataPoints[FOOD_INSPECTION].controlLayer;
+				selectedLayer.clearLayers();
+				L.layerGroup(selectedDataPoints[FOOD_INSPECTION].circles).addTo(selectedLayer);
+			});	
+		});
 	}
 
     //helper function for adding food inspection to map
