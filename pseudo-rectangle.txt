@@ -1,0 +1,62 @@
+//ANGLE WITH NORMAL + TRIANGLE METHOD
+A //coords of start of line segment
+B //coords of end of line segment
+
+/*
+right and left from A & B are from the perspective of the point
+facing the other point. So "left of A" means "left when at A, facing B"
+
+A*---------B*
+|          |
+|          |
+A__________B
+|          |
+|          |
+A**--------B**
+
+*/
+A* //coords "left" of A, makes line with B*
+A** //coords of "right" of A, makes line with B**
+B* //coords of "right" of B, makes line with A*
+B** //coords of "left" of B, makes line with A**
+
+xOffset //unigned (absolute) difference between <A/B> x and <A/B><*/**> x
+yOffset //unigned (absolute) difference between <A/B> y and <A/B><*/**> 
+
+radius //distance on either side of <A/B>, e.g., length of line A-A*
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//scrap above (for now)
+//INTERNAL TRIANGLE + DUAL DISTANCE METHOD
+
+/*DAMNIT, START OVER
+//just the standard geometric distance formula
+function distLine(pointA, pointB) {
+	xDiff = pointB.x - pointA.x;
+	yDiff = pointB.y - pointA.y;
+
+	inSquare = (xDiff ^2) + (yDiff ^2);
+
+	result = sqrt(inSquare);
+
+	return
+}//end distLine
+*/
+
+//coords of target point; could be <A/B><*/**>
+target.x, target.y
+
+//distance formula
+//d = sqrt[(B.x - A.x)^2 + (B.y - A.y)^2]
+
+/*
+solving system of equations for distance formula
+*/
+
+/*
+Need {
+	A.x, A.y
+	B.x, B.y
+
+}
+*/
