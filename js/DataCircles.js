@@ -750,22 +750,7 @@ function DataCircles() {
 			console.log("lon: " + longitude);
 			marker.setLatLng([latitude, longitude]).update();
 		}
-			
-        //actually create the marker
-        /*layerContainer.circles.push(
-			L.marker([data[dataIndex]["lat"], data[dataIndex]["lon"]], 
-			{
-				icon: ctaIcon,
-				lat : data[dataIndex].lat,
-				lon : data[dataIndex].lon
-			}
-		).bindPopup("<strong>Route: </strong>" + data[dataIndex].rt + "<br><strong>Destination: </strong>" + data[dataIndex].des +
-            "<br><strong>Heading: </strong>" + busHeading + " (" + data[dataIndex].hdg + "&deg)" + "<br><strong>Lat, Lon: </strong>" +
-            data[dataIndex].lat + ", " + data[dataIndex].lon + "<br><strong>Delayed: </strong>" + busDelayed +
-            "<br><strong>Vehicle ID: </strong>" + data[dataIndex].vid + "<br><strong>Last Update: </strong>" +
-            data[dataIndex].tmstmp.substring(0,4) + "-" + data[dataIndex].tmstmp.substring(4,6) + "-" + data[dataIndex].tmstmp.substring(6,8) +
-            " " + data[dataIndex].tmstmp.substring(9,14))
-		);//end .push*/
+
 		//TODO change icon based on value of "status"
 		//TODO do we want to put extra data like color, licenese plate, make/model? maybe under a "show more" tab/button, etc?
 		
