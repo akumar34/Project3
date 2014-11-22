@@ -766,8 +766,6 @@ function DataCircles() {
 			layerContainer.circles.push(marker);
 
 		} else {
-			console.log("lat: " + latitude);
-			console.log("lon: " + longitude);
 			marker.setLatLng([latitude, longitude]).update();
 		}
 
