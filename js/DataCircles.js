@@ -90,6 +90,7 @@ function DataCircles() {
 			link         : layerInfo.sourceLink,
             type         : layerInfo.type,
             circles      : [],
+            weekOld      : [],
             refresh      : layerInfo.refresh,
             id           : layerInfo.id,
             controlLayer : layer
@@ -174,14 +175,18 @@ function DataCircles() {
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
             data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))//because time at end is always uselessly zeroed
         );//end .push
+
         //TODO change icon based on value of "status"
         
-        // check to see if the new marker is inside the drawn shapes, if any
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
+        // add marker to set that contains week old stuff
+        var daysAgo = getDaysAgo(data[dataIndex].creation_date);
+        if (daysAgo <= 7) {
+            layerContainer.weekOld.push(newMarker); 
+        };
+        // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[POTHOLES].circles.push(newMarker);
-            // debug
-            console.log("Marker was added to the section");
         };
     };
 /************End Potholes Data Handling************/
@@ -193,6 +198,7 @@ function DataCircles() {
 			link         : layerInfo.sourceLink,
             type         : layerInfo.type,
             circles      : [],
+            weekOld      : [],
             refresh      : layerInfo.refresh,
             id           : layerInfo.id,
             controlLayer : layer
@@ -280,12 +286,15 @@ function DataCircles() {
         //TODO change icon based on value of "status"
         //TODO do we want to put extra data like color, licenese plate, make/model? maybe under a "show more" tab/button, etc?
 
-        // check to see if the new marker is inside the drawn shapes, if any
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
+        // add marker to set that contains week old stuff
+        var daysAgo = getDaysAgo(data[dataIndex].creation_date);
+        if (daysAgo <= 7) {
+            layerContainer.weekOld.push(newMarker); 
+        };
+        // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[ABANDONED_VEHICLES].circles.push(newMarker);
-            // debug
-            console.log("Marker was added to the section");
         };
     };	
 /************End Abandoned Vehicles Data Handling************/
@@ -297,6 +306,7 @@ function DataCircles() {
 			link         : layerInfo.sourceLink,
             type         : layerInfo.type,
             circles      : [],
+            weekOld      : [],
             refresh      : layerInfo.refresh,
             id           : layerInfo.id,
             controlLayer : layer
@@ -382,9 +392,13 @@ function DataCircles() {
             data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))
         );//end .push
         //TODO change icon based on value of "status"
-        
-        // check to see if the new marker is inside the drawn shapes, if any
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
+        // add marker to set that contains week old stuff
+        var daysAgo = getDaysAgo(data[dataIndex].creation_date);
+        if (daysAgo <= 7) {
+            layerContainer.weekOld.push(newMarker); 
+        };
+        // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[STREET_LIGHTS].circles.push(newMarker);
             // debug
@@ -519,6 +533,7 @@ function DataCircles() {
 			link         : layerInfo.sourceLink,
             type         : layerInfo.type,
             circles      : [],
+            weekOld      : [],
             refresh      : layerInfo.refresh,
             id           : layerInfo.id,
             controlLayer : layer
@@ -781,6 +796,7 @@ function DataCircles() {
 			link         : layerInfo.sourceLink,
             type         : layerInfo.type,
             circles      : [],
+            weekOld      : [],
             refresh      : layerInfo.refresh,
             id           : layerInfo.id,
             controlLayer : layer
