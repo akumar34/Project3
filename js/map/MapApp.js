@@ -202,7 +202,7 @@ var MapApp = Class.extend({
 	            iconAnchor:   [30, 90],
 	            popupAnchor:  [0, -90]
         	}
-		});//.addTo(this.map);
+		});
 		//end DBPediaLayer stuff
 		
 		var overlays = {
