@@ -203,6 +203,12 @@ var MapApp = Class.extend({
 	            popupAnchor:  [0, -90]
         	}
 		});
+		/*
+		dbpedia_layer.eachLayer(function(){//} (layer) {
+		    console.log('hi');
+		    //layer.bindPopup('Hello');
+		});
+		*/
 		//end DBPediaLayer stuff
 		
 		var overlays = {
