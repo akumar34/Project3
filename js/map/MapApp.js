@@ -223,6 +223,7 @@ var MapApp = Class.extend({
 		*/
 		//end DBPediaLayer stuff
 		
+		/*
 		var overlays = {
 			"Potholes"  			: this.layers[this.POTHOLES],
 			"Abandoned Vehicles"	: this.layers[this.ABANDONED_VEHICLES],
@@ -251,7 +252,53 @@ var MapApp = Class.extend({
                     });
                 }
             })
-		};
+		};//end overlays
+		*/
+
+		//PANEL LAYERS STUFF
+		var baseLayers = [
+			{
+				name: "Base Layer",
+				sep: true
+			},
+		    {
+		        name: "Road Map",
+		        layer: L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', {
+					attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+					subdomains: '1234',
+					maxZoom : 18,
+					minZoom: 10
+				})
+		    },
+		    {
+		        name: "Aerial",
+		        layer: L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}')       
+		    }
+		];
+
+		var overLayers = [
+		    {
+		        name: 'Overlays',   //separator with label
+		        sep: true       
+		    },
+		    {
+		        name: "Potholes",
+		        icon: DataCircles.potholeIcon,
+		        layer: this.layers[this.POTHOLES]
+		    }/*,
+		    {
+		        name: 'Car POI',    //separator with label
+		        sep: true       
+		    },
+		    {
+		        name: "Parking",
+		        icon: '<i class="icon icon-parking"></i>',
+		        layer: L.geoJson(ParkingGeoJSON)
+		    }   */
+		];
+
+		this.map.addControl( new L.Control.PanelLayers(baseLayers, overLayers, {collapsed: false}) );
+		//END PANEL LAYERS STUFF
 		
 		// L.control.layers(baseLayers, overlays).addTo(this.map);
 		// L.control.layers(baseLayers, overlays, {position: 'bottomleft', collapsed:false}).addTo(this.map);
@@ -264,7 +311,7 @@ var MapApp = Class.extend({
 		$('#filters').append(controlDiv);
 		// $('.leaflet-top.leaflet-right').hide();
 		baseLayers['Streets'].addTo(this.map);
-		*//
+		*/
 
 
 
