@@ -330,6 +330,20 @@ var MapApp = Class.extend({
 		$('#sidebar').css({'margin-top' : (height - padding) + 'px'});
 	},
 
+	drawDefaultRectangle: function(){
+		var bounds = [[41.8762076638325, -87.6873779296875], [41.8478259600331, -87.61322021484375]];
+		var rect = L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(context.map);
+		
+		shapes[rect._leaflet_id] = 
+		{
+			type 	: "rectangle",
+			id  	: rect._leaflet_id,
+			latlngs : rect._latlngs
+		};
+		
+		context.filterByShapes(shapes, true);
+	},
+	
 	filterByShapes: function (selectedShapes, add){
 		var point;
 		for(var x in selectedShapes){
