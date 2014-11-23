@@ -35,6 +35,7 @@ function D3Graphs(){
 		var dy = graphPadding/2;
 		
 		var svg;
+		if(data.length === 0) return;
 		if(data[0].type.search("Potholes") != -1) svg = svgs[REFRESHABLE_DATA_SVG];
 		else svg = svgs[CRIME_DATA_SVG]; 
 		

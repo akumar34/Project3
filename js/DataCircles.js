@@ -118,7 +118,7 @@ function DataCircles() {
 					if ( data[index]["latitude"] == undefined || data[index]["longitude"] == undefined) continue;
 					var daysAgo = getDaysAgo(data[index].creation_date);
 					if(daysAgo === null) continue;
-
+					//if (daysAgo > 5) break;  
 					// add the circles
 					var outLine = "black";
 					if (daysAgo > 7) outLine = layerInfo.color;
@@ -164,6 +164,10 @@ function DataCircles() {
     function addPotholesMarkers(layerContainer, dataIndex, data, layer, refresh) {
 		if(refresh) console.log("refreshing pothole");
 		else console.log("adding pothole");
+		var popupMsg = "<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
+            "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
+            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10);
+			
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -171,9 +175,7 @@ function DataCircles() {
                 service_request_number : data[dataIndex].service_request_number,
 				date: data[dataIndex].creation_date
             }
-        ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
-            "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
-            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))//because time at end is always uselessly zeroed
+        ).bindPopup(popupMsg)//because time at end is always uselessly zeroed
         );//end .push
 
         //TODO change icon based on value of "status"
@@ -187,6 +189,13 @@ function DataCircles() {
         // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[POTHOLES].circles.push(newMarker);
+			console.log("marker in rectangle");
+			
+			/*var popLocation= newMarker.getLatLng();
+			var popup = L.popup()
+				.setLatLng(popLocation)
+				.setContent(popupMsg)
+			mapApp.map.addLayer(popup);*/
         };
     };
 /************End Potholes Data Handling************/
