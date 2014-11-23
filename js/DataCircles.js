@@ -76,7 +76,7 @@ function DataCircles() {
     });//end CTA
 	//crimes
     var foodInspectionIcon = L.icon({
-        iconUrl: 'icons/svg/marker_crime_sized_new.svg',
+        iconUrl: 'icons/svg/marker_food_inspection.svg',
         iconSize:     [60, 90],
         iconAnchor:   [30, 90],
         popupAnchor:  [0, -90] 
