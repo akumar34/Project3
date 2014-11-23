@@ -672,7 +672,9 @@ function DataCircles() {
 		
         var sourceLink = layerInfo.sourceLink;
 		sourceLink.forEach(function(link){
-			d3.json(link, function(error, json){	
+			d3.json(link, function(error, json){
+                if (error) console.error(error);
+
 				var results = json.query.results['bustime-response'];		
 				//if (results.error) console.error(results.error);
 				var data = results.vehicle;
@@ -909,25 +911,35 @@ function DataCircles() {
 /************End Food Inspection Data Handling************/
 
     // function that filters by a simple rectangle
-    function filterByShape(coordinates, add){
+    function filterByShape(coordinates, add, weekFilter){
         var poly = {
             "type": "Polygon",
             "coordinates": coordinates
         };
 
+        var markersToUse = 'circles';
+        if (weekFilter) 
+            markersToUse = 'weekOld';
+        var origToUse = markersToUse;
+
         for (var q = 0; q < layerContainers.length; q++) {
-            for (var i = 0; i < layerContainers[q].circles.length; i++) {
+            if (q == CTA || q == DIVVY)
+                markersToUse = 'circles';
+            else
+                markersToUse = origToUse;
+
+            for (var i = 0; i < layerContainers[q][markersToUse].length; i++) {
                 var point = {
                     "type": "Point", 
-                    "coordinates": [layerContainers[q].circles[i]._latlng.lng, layerContainers[q].circles[i]._latlng.lat]
+                    "coordinates": [layerContainers[q][markersToUse][i]._latlng.lng, layerContainers[q][markersToUse][i]._latlng.lat]
                 };
 
                 // if the point is in the polygon add it or remove it
                 if (gju.pointInPolygon(point, poly)){
-                    var index = containsCircle(selectedDataPoints[q].circles, layerContainers[q].circles[i]);
+                    var index = containsCircle(selectedDataPoints[q].circles, layerContainers[q][markersToUse][i]);
                     // create subset of the total circles to be later shown on map and sent to graphs
                     if (add && index < 0) {
-                        selectedDataPoints[q].circles.push(layerContainers[q].circles[i]);
+                        selectedDataPoints[q].circles.push(layerContainers[q][markersToUse][i]);
                     }
                     // remove subset of circles
                     else if (!add && index >= 0){
@@ -949,20 +961,30 @@ function DataCircles() {
     };
 
     // functions that checks if a marker is inside a circle
-    function filterByCircle(circleObj, add){
+    function filterByCircle(circleObj, add, weekFilter){
+        var markersToUse = 'circles';
+        if (weekFilter) 
+            markersToUse = 'weekOld';
+        var origToUse = markersToUse;
+
         for (var i = 0; i < layerContainers.length; i++) {
-            for (var m = 0; m < layerContainers[i].circles.length; m++) {
+            if (i == CTA || i == DIVVY)
+                markersToUse = 'circles';
+            else
+                markersToUse = origToUse;
+
+            for (var m = 0; m < layerContainers[i][markersToUse].length; m++) {
                 var point = {
                     "type": "Point", 
-                    "coordinates": [layerContainers[i].circles[m]._latlng.lng, layerContainers[i].circles[m]._latlng.lat]
+                    "coordinates": [layerContainers[i][markersToUse][m]._latlng.lng, layerContainers[i][markersToUse][m]._latlng.lat]
                 };
 
                 if (pointInCircle(circleObj.center, circleObj.radius, point)) {
 
-                    var index = containsCircle(selectedDataPoints[i].circles, layerContainers[i].circles[m]);
+                    var index = containsCircle(selectedDataPoints[i].circles, layerContainers[i][markersToUse][m]);
                     // create subset of the total circles to be later shown on map and sent to graphs
                     if (add && index < 0) 
-                        selectedDataPoints[i].circles.push(layerContainers[i].circles[m]);
+                        selectedDataPoints[i].circles.push(layerContainers[i][markersToUse][m]);
                     // remove subset of circles
                     else if (!add && index >= 0){
                         selectedDataPoints[i].circles.splice(index, 1);
