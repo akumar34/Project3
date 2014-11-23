@@ -207,20 +207,20 @@ var MapApp = Class.extend({
         };
 
         //DBPediaLayer stuff
-		/*dbpedia_layer = L.dbPediaLayer({
+		dbpedia_layer = L.dbPediaLayer({
 			icon: {
 	            iconUrl: 'icons/svg/marker_wikipedia.svg',
 	            iconSize:     [60, 90],
 	            iconAnchor:   [30, 90],
 	            popupAnchor:  [0, -90]
         	}
-		});*/
+		});
 		/*
 		dbpedia_layer.eachLayer(function(){//} (layer) {
 		    console.log('hi');
 		    //layer.bindPopup('Hello');
-		});
-		*/
+		});*/
+		
 		//end DBPediaLayer stuff
 		
 		var overlays = {
@@ -231,7 +231,7 @@ var MapApp = Class.extend({
 			"Crime"					: this.layers[this.CRIME],
 			"CTA"					: this.layers[this.CTA],
 			"Food Inspection"		: this.layers[this.FOOD_INSPECTION],
-			//"Wikipedia POIs"		: dbpedia_layer,
+			"Wikipedia POIs"		: dbpedia_layer,
 
 			'Chicago Communities' : L.geoJson(chicagoMap, {
                 style: function (feature){
