@@ -256,6 +256,7 @@ var MapApp = Class.extend({
 		// L.control.layers(baseLayers, overlays).addTo(this.map);
 		// L.control.layers(baseLayers, overlays, {position: 'bottomleft', collapsed:false}).addTo(this.map);
 
+		/*commented out to test panel layers
 		var control = L.control.layers(baseLayers, overlays, {collapsed:false});
 		control._map = this.map;
 		var controlDiv = control.onAdd(this.map);
@@ -263,6 +264,7 @@ var MapApp = Class.extend({
 		$('#filters').append(controlDiv);
 		// $('.leaflet-top.leaflet-right').hide();
 		baseLayers['Streets'].addTo(this.map);
+		*//
 
 
 
