@@ -331,6 +331,7 @@ var MapApp = Class.extend({
 	},
 
 	drawDefaultRectangle: function(){
+		var context = this;
 		var bounds = [[41.8762076638325, -87.6873779296875], [41.8478259600331, -87.61322021484375]];
 		var rect = L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(context.map);
 		
