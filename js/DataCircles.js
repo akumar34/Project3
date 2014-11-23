@@ -171,6 +171,7 @@ function DataCircles() {
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
+                riseOnHover: true,
                 icon: potholeIcon,
                 service_request_number : data[dataIndex].service_request_number,
 				date: data[dataIndex].creation_date
@@ -283,6 +284,7 @@ function DataCircles() {
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
+                riseOnHover: true,
                 icon: abandonedVehicleIcon,
                 service_request_number : data[dataIndex].service_request_number,
 				date: data[dataIndex].creation_date
@@ -392,6 +394,7 @@ function DataCircles() {
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
+                riseOnHover: true,
                 icon: streetLightIcon,
                 service_request_number : data[dataIndex].service_request_number,
 				date: data[dataIndex].creation_date
@@ -498,6 +501,7 @@ function DataCircles() {
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
+                riseOnHover: true,
                 icon: divvyStationIcon,
 				totalDocks : data[dataIndex].totalDocks,
     			availableBikes : data[dataIndex].availableBikes,
@@ -616,6 +620,7 @@ function DataCircles() {
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
+                riseOnHover: true,
                 icon: crimeIcon,
 				id : data[dataIndex].id,
 				date: data[dataIndex].date,
@@ -763,6 +768,7 @@ function DataCircles() {
             marker = L.marker(
 				[latitude, longitude], 
 				{
+                    riseOnHover: true,
 					icon	: ctaIcon,
 					vid 	: data[dataIndex].vid
 				}
@@ -887,6 +893,7 @@ function DataCircles() {
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
+                riseOnHover: true,
                 icon: foodInspectionIcon,
                 inspection_id : data[dataIndex].inspection_id,
 				date: data[dataIndex].inspection_date
