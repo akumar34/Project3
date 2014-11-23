@@ -1111,15 +1111,27 @@ function DataCircles() {
 		var selectedAndOverallData = [];
 		var SELECTED = 0;
 		var OVERALL = 1;
+		var length = data[SELECTED].length;
 		
-		for(var index = 0; index < data[0].length; index++){	
-			selectedAndOverallData.push({
-				selectedRecent	: data[SELECTED][index].recent,
-				selectedOld		: data[SELECTED][index].old,
-				overallRecent	: data[OVERALL][index].recent,
-				overallOld		: data[OVERALL][index].old,
-				type			: data[OVERALL][index].type
-			});
+		if(length === 0) length = data[OVERALL].length;
+		
+		for(var index = 0; index < length; index++){	
+			if(data[SELECTED].length === 0)
+				selectedAndOverallData.push({
+					selectedRecent	: 0,
+					selectedOld		: 0,
+					overallRecent	: data[OVERALL][index].recent,
+					overallOld		: data[OVERALL][index].old,
+					type			: data[OVERALL][index].type
+				});
+			else
+				selectedAndOverallData.push({
+					selectedRecent	: data[SELECTED][index].recent,
+					selectedOld		: data[SELECTED][index].old,
+					overallRecent	: data[OVERALL][index].recent,
+					overallOld		: data[OVERALL][index].old,
+					type			: data[OVERALL][index].type
+				});
 		}
 		
 		var columns = {
