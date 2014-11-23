@@ -26,6 +26,17 @@ var MapApp = Class.extend({
 		this.divvyUrl = [];
 		this.ctaUrl = [];
 		this.foodInspectionUrl = [];
+
+		this.weekFilter = true;
+		
+		// this.updateDiv = L.control({
+  //       	position: 'topleft'
+  //   	});
+  //   	this.updateDiv.onAdd = function () {
+  //       	this._div = L.DomUtil.create('div', 'updateDiv');
+  //       	this._div.innerHTML = '<h5>Update:</h5> <hr>' + '<p>ID:' + 1 + '<br>' + 2 + '</p>';
+  //       	return this._div;
+  //   	};
 	},
 	
 	init: function(chicagoMap){
@@ -174,6 +185,7 @@ var MapApp = Class.extend({
 		
 		//add zoom control with options. Thanks internet
 		new L.Control.Zoom({ position:'bottomright'}).addTo(this.map);
+		// this.updateDiv.addTo(this.map);
 
 		this.map._initPathRoot();  
 
@@ -307,6 +319,7 @@ var MapApp = Class.extend({
 			for(var x in layers){
 				layer = layers[x];
 				shapesToRemove[layer._leaflet_id] = shapes[layer._leaflet_id];
+				delete shapes[layer._leaflet_id];
 			};
 			
 			context.filterByShapes(shapesToRemove, false);			
@@ -351,14 +364,10 @@ var MapApp = Class.extend({
 			
 			if (shape.type == 'rectangle' || shape.type == 'polygon') {
 				point = this.extractLngLatFromShape(shape.latlngs);
-				this.DataCircles.filterByShape(point, add);
+				this.DataCircles.filterByShape(point, add, this.weekFilter);
 			}
 			else if (shape.type == 'circle'){
-				this.DataCircles.filterByCircle(shape, add);
-			};
-
-			if (!add) {
-				delete shapes[x];
+				this.DataCircles.filterByCircle(shape, add, this.weekFilter);
 			};
 		};
 	},
@@ -370,6 +379,12 @@ var MapApp = Class.extend({
         };
 
         return coordinates;
+    },
+
+    filterByWeek : function (){
+    	this.filterByShapes(shapes, false);
+    	this.weekFilter = !this.weekFilter;
+    	this.filterByShapes(shapes, true);
     },
 	
 	/*dateBefore: function(date1,date2) { return (date1-date2) < 0; },	

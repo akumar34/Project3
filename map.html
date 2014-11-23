@@ -20,7 +20,7 @@
 		<script type="text/javascript" src="js/D3Graphs.js"></script>
 		<script src="js/weather/USWeatherApp.js"></script>
 		<!--sidebar includes-->
-		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="sidebar-v2-gh-pages/css/leaflet-sidebar.min.css" />
 		<script src="sidebar-v2-gh-pages/js/leaflet-sidebar.min.js"></script>
 		<!--end sidebar includes-->
@@ -89,36 +89,26 @@
 		<div id="sidebar" class="sidebar collapsed">
 			<!-- Nav tabs -->
 			<ul class="sidebar-tabs" role="tablist">
-			    <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
-			    <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
-			    <li><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
-			    <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+			    <li><a href="#home" role="tab"><i class="fa fa-users"></i></a></li>
+			    <li><a href="#filters" role="tab"><i class="fa fa-filter"></i></a></li>
+			    <li><a href="#settings" role="tab"><i class="fa fa-bar-chart"></i></a></li>
 			</ul><!--end nav tabs-->
 
 			<!-- Tab panes -->
 	        <div class="sidebar-content active">
 	            <div class="sidebar-pane" id="home">
-	                <h1>sidebar-v2</h1>
-
-	                <p>A responsive sidebar for mapping libraries like <a href="http://leafletjs.com/">Leaflet</a> or <a href="http://openlayers.org/">OpenLayers</a>.</p>
-
-	                <p class="lorem">TEST TEXT</p>
-
-	                <p class="lorem">TEST TEXT</p>
-
-	                <p class="lorem">TEST TEXT</p>
-
-	                <p class="lorem">TEST TEXT</p>
-	            </div>
-	            <div class="sidebar-pane" id="profile">
-	            	<h1>Team</h1>
+	                <h1>Team</h1>
 	            	<p>Niko Bessinas- Developer</p>
 	            	<p>Carlos Ortega- Developer</p>
 	            	<p>Abinav Kumar- Developer</p>
 	            	<p>Bryan Sphar- Developer</p>
 	            </div>
-	            <div class="sidebar-pane" id="messages"><h1>Messages</h1></div>
-	            <div class="sidebar-pane" id="settings"><h1>Comparison</h1></div>
+	            <div class="sidebar-pane" id="filters">
+	            	<h1>Filters</h1>
+	            </div>
+	            <div class="sidebar-pane" id="settings">
+	            	<h1>Comparison</h1>
+	            </div>
 	        </div><!--tab panes-->
 		</div>
 		<script>var sidebar = L.control.sidebar('sidebar').addTo(map);</script>
