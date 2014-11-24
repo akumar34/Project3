@@ -83,6 +83,15 @@ function DataCircles() {
     });//end crimes
     //end custom markers
 
+	var popupLayers = [];
+	popupLayers[POTHOLES] = [];
+	popupLayers[ABANDONED_VEHICLES] = [];
+	popupLayers[STREET_LIGHTS] = [];
+	popupLayers[CRIME] = [];
+	popupLayers[DIVVY] = [];
+	popupLayers[CTA] = [];
+	popupLayers[FOOD_INSPECTION] = [];
+	
 /************Potholes Data Handling************/
 	function addPotholesData(layerInfo, layer){
 		layerContainers[POTHOLES] = 
@@ -130,6 +139,7 @@ function DataCircles() {
 	};
 	
 	function refreshPotholesData(layerInfo, layer){
+		clearPopups(POTHOLES);	
         var sourceLink = layerInfo.sourceLink;
 	    sourceLink.forEach(function(link){
 			d3.json(link, function(error, data){
@@ -164,6 +174,7 @@ function DataCircles() {
     function addPotholesMarkers(layerContainer, dataIndex, data, layer, refresh) {
 		if(refresh) console.log("refreshing pothole");
 		else console.log("adding pothole");
+		
 		var popupMsg = "<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
             "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
             data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10);
@@ -189,13 +200,11 @@ function DataCircles() {
         // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[POTHOLES].circles.push(newMarker);
-			console.log("marker in rectangle");
-			
-			/*var popLocation= newMarker.getLatLng();
-			var popup = L.popup()
-				.setLatLng(popLocation)
-				.setContent(popupMsg)
-			mapApp.map.addLayer(popup);*/
+			addPopup(newMarker, POTHOLES, popupMsg);
+			//var popLocation= newMarker.getLatLng();
+			//var popup = L.popup().setLatLng(popLocation).setContent(popupMsg);
+			//mapApp.map.addLayer(popup);
+			//popupLayers[POTHOLES].push(popup);
         };
     };
 /************End Potholes Data Handling************/
@@ -246,6 +255,7 @@ function DataCircles() {
 	};
 
 	function refreshAbandonedVehiclesData(layerInfo, layer){
+		clearPopups(ABANDONED_VEHICLES);
         var sourceLink = layerInfo.sourceLink;
 	    sourceLink.forEach(function(link){
 			d3.json(link, function(error, data){
@@ -280,6 +290,10 @@ function DataCircles() {
 		if(refresh) console.log("refreshing aband vehicles");
 		else console.log("adding aband vehicles");
 		
+		var popupMsg = "<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
+            "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
+            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10) + 
+            "<br><strong>Days Reported Parked:</strong> " + data[dataIndex]["how_many_days_has_the_vehicle_been_reported_as_parked_"];
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -287,10 +301,7 @@ function DataCircles() {
                 service_request_number : data[dataIndex].service_request_number,
 				date: data[dataIndex].creation_date
             }
-        ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
-            "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
-            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10) + 
-            "<br><strong>Days Reported Parked:</strong> " + data[dataIndex]["how_many_days_has_the_vehicle_been_reported_as_parked_"])
+        ).bindPopup(popupMsg)
         );//end .push
         //TODO change icon based on value of "status"
         //TODO do we want to put extra data like color, licenese plate, make/model? maybe under a "show more" tab/button, etc?
@@ -304,6 +315,7 @@ function DataCircles() {
         // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[ABANDONED_VEHICLES].circles.push(newMarker);
+			addPopup(newMarker, ABANDONED_VEHICLES, popupMsg);
         };
     };	
 /************End Abandoned Vehicles Data Handling************/
@@ -356,6 +368,7 @@ function DataCircles() {
 	};
 	
 	function refreshStreetLightsData(layerInfo, layer){
+		clearPopups(STREET_LIGHTS);
         var sourceLink = layerInfo.sourceLink;
 	    sourceLink.forEach(function(link){
 			d3.json(link, function(error, data){
@@ -389,6 +402,9 @@ function DataCircles() {
 		if(refresh) console.log("refreshing street lights");
 		else console.log("adding street lights");
 		
+		var popupMsg = "<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
+            "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
+            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10);
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -396,9 +412,7 @@ function DataCircles() {
                 service_request_number : data[dataIndex].service_request_number,
 				date: data[dataIndex].creation_date
             }
-        ).bindPopup("<strong>Community Area:</strong> " + data[dataIndex]["community_area"] +
-            "<br><strong>Street Address:</strong> " + data[dataIndex]["street_address"] + "<br><strong>Status:</strong> " +
-            data[dataIndex]["status"] + "<br><strong>Creation Date:</strong> " + data[dataIndex]["creation_date"].substring(0,10))
+        ).bindPopup(popupMsg)
         );//end .push
         //TODO change icon based on value of "status"
         var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
@@ -410,8 +424,7 @@ function DataCircles() {
         // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[STREET_LIGHTS].circles.push(newMarker);
-            // debug
-            console.log("Marker was added to the section");
+			addPopup(newMarker, STREET_LIGHTS, popupMsg);
         };
     };
 	
@@ -580,6 +593,7 @@ function DataCircles() {
 	};
 	
 	function refreshCrimeData(layerInfo, layer){
+		clearPopups(CRIME);
         var sourceLink = layerInfo.sourceLink;
 	    sourceLink.forEach(function(link){
 			d3.json(link, function(error, data){
@@ -613,6 +627,10 @@ function DataCircles() {
 		if(refresh) console.log("refreshing crime");
 		else console.log("adding crime");
 		
+		var popupMsg = "<strong>Type:</strong> " + data[dataIndex]["primary_type"] + "<br><strong>Arrest:</strong> " +
+                data[dataIndex]["arrest"] +"<br><strong>Location Description:</strong> " + data[dataIndex]["location_description"] + 
+                "<br><strong>Date:</strong> " + data[dataIndex]["date"].substring(0,10) + "<br><strong>Updated On:</strong> " +
+                data[dataIndex]["updated_on"];
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -621,10 +639,7 @@ function DataCircles() {
 				date: data[dataIndex].date,
 				crimeType: data[dataIndex].primary_type
             }
-        ).bindPopup("<strong>Type:</strong> " + data[dataIndex]["primary_type"] + "<br><strong>Arrest:</strong> " +
-                data[dataIndex]["arrest"] +"<br><strong>Location Description:</strong> " + data[dataIndex]["location_description"] + 
-                "<br><strong>Date:</strong> " + data[dataIndex]["date"].substring(0,10) + "<br><strong>Updated On:</strong> " +
-                data[dataIndex]["updated_on"])
+        ).bindPopup(popupMsg)
         );//end .push
         //TODO maybe add details like the description and if it was domestic or not, case number, iucr, etc? either
         //in the popup or some sort of "show more"? or maybe we show some basic info on hover, and that+more on click/popup?
@@ -638,8 +653,7 @@ function DataCircles() {
         // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[CRIME].circles.push(newMarker);
-            // debug
-            console.log("Marker was added to the section");
+			addPopup(newMarker, CRIME, popupMsg);
         };
     };
 	
@@ -850,6 +864,7 @@ function DataCircles() {
 	};
 	
 	function refreshFoodInspectionData(layerInfo, layer){
+		clearPopups(FOOD_INSPECTION);
         var sourceLink = layerInfo.sourceLink;
 	    sourceLink.forEach(function(link){
 			d3.json(link, function(error, data){
@@ -884,6 +899,9 @@ function DataCircles() {
 		if(refresh) console.log("refreshing food inspection");
 		else console.log("adding food inspection");
 		
+		var popupMsg = "<strong>Name:</strong> " + data[dataIndex]["aka_name"] +
+            "<br><strong>Street Address:</strong> " + data[dataIndex]["address"] + "<br><strong>Risk:</strong> " +
+            data[dataIndex]["risk"] + "<br><strong>Results:</strong> " + data[dataIndex]["results"] + "<br><strong>Type:</strong> " + data[dataIndex]["facility_type"] + "<br><strong>Inspection Date:</strong> " + data[dataIndex]["inspection_date"].substring(0,10);
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -891,9 +909,7 @@ function DataCircles() {
                 inspection_id : data[dataIndex].inspection_id,
 				date: data[dataIndex].inspection_date
             }
-        ).bindPopup("<strong>Name:</strong> " + data[dataIndex]["aka_name"] +
-            "<br><strong>Street Address:</strong> " + data[dataIndex]["address"] + "<br><strong>Risk:</strong> " +
-            data[dataIndex]["risk"] + "<br><strong>Results:</strong> " + data[dataIndex]["results"] + "<br><strong>Type:</strong> " + data[dataIndex]["facility_type"] + "<br><strong>Inspection Date:</strong> " + data[dataIndex]["inspection_date"].substring(0,10))//because time at end is always uselessly zeroed
+        ).bindPopup(popupMsg)//because time at end is always uselessly zeroed
         );//end .push
         //TODO change icon based on value of "status"
         
@@ -906,8 +922,7 @@ function DataCircles() {
         // check to see if the new marker is inside the drawn shapes, if any
         if (isInShapes(newMarker)) {
             selectedDataPoints[FOOD_INSPECTION].circles.push(newMarker);
-            // debug
-            // console.log("Marker was added to the section");
+			addPopup(newMarker, FOOD_INSPECTION, popupMsg);
         };
     };
 	
@@ -919,6 +934,23 @@ function DataCircles() {
     };
 /************End Food Inspection Data Handling************/
 
+	function addPopup(marker, type, popupMsg){
+		var popLocation= marker.getLatLng();
+		var popup = L.popup().setLatLng(popLocation).setContent(popupMsg);
+		mapApp.map.addLayer(popup);
+		popupLayers[type].push(popup);
+	}
+	
+	function clearPopups(type){
+		var popups = popupLayers[type];
+		if(popups !== undefined && popups.length > 0){
+			for(popup in popups){
+				mapApp.map.removeLayer(popups[popup]);
+			}
+			popupLayers[type] = [];
+		}
+	}
+	
     // function that filters by a simple rectangle
     function filterByShape(coordinates, add, weekFilter){
         var poly = {
@@ -1149,11 +1181,12 @@ function DataCircles() {
 		
 		D3Graphs.clearAll();
 		
-		datasets = [POTHOLES,ABANDONED_VEHICLES,STREET_LIGHTS,CRIME];
+		datasets = [POTHOLES,ABANDONED_VEHICLES,STREET_LIGHTS,CRIME, FOOD_INSPECTION];
 		daysAgoThresholds['Potholes'] = 7;
 		daysAgoThresholds['Abandoned Vehicles'] = 7;
 		daysAgoThresholds['Street Lights'] = 7;
 		daysAgoThresholds['Crime'] = 14;
+		daysAgoThresholds['Food Inspection'] = 7;
 		
 		data = extractData(datasets, daysAgoThresholds, "type", "data");
 		makeStackedAndGroupedBarGraph(data, '311 Bar Chart');
