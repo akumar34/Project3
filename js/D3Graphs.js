@@ -145,7 +145,7 @@ function D3Graphs(){
             .enter()
             .append("text")
             .text(function(d) {
-                return d.total;
+                return (d.overallOld + d.overallRecent) + "\n" + (d.selectedOld + d.selectedRecent);
             })
             .attr("text-anchor", "middle")
             .attr("x", function(d, index) {
