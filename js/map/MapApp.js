@@ -285,6 +285,26 @@ var MapApp = Class.extend({
 		*/
 
 		//PANEL LAYERS STUFF
+
+		var community_areas = L.geoJson(chicagoMap, {
+	        style: function (feature){
+	            return {
+	                color: "#A669FF",
+	                // colorOpacity: 1,
+	                fillColor: "white",
+	                fillOpacity: 0.25,
+	                opacity: 1,
+	                weight: 2
+	            };
+	        },
+	        onEachFeature: function (feature, layer){
+	            layer.bindPopup(feature.properties.name);
+	            layer.on('click', function (){
+	                // call some function;
+	            });
+	        }
+	    });
+
 		var baseLayers = [
 			{
 				name: "Base Layers",
@@ -307,7 +327,16 @@ var MapApp = Class.extend({
 
 		var overLayers = [
 		    {
-		        name: 'Overlays',   //separator with label
+		    	name: 'Community Areas',
+		    	sep: true
+		    },
+		    {
+		    	name: 'Show/Hide Communities',
+		    	icon: '<i class="icon-chicago_flag"></i>',
+		    	layer: community_areas
+		    },
+		    {
+		        name: 'Data',   //separator with label
 		        sep: true       
 		    },
 		    {
