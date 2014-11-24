@@ -415,6 +415,7 @@ var MapApp = Class.extend({
 			draw: 
 			{
 		        marker	: false,
+		        polyline : false
 		    }
 		});
 
@@ -447,9 +448,9 @@ var MapApp = Class.extend({
 						radius	: layer.getRadius()
 					};
 			}
-			else if (type == 'polyline') {
-				foo = layer;
-			};
+			// else if (type == 'polyline') {
+			// 	foo = layer;
+			// };
 
 			// extract lat lngs and add datapoints inside shape to the layers
 			context.filterByShapes(shapes, true);
