@@ -942,7 +942,7 @@ function DataCircles() {
 
 	function addPopup(marker, type, popupMsg){
 		var popLocation= marker.getLatLng();
-		var popup = L.popup().setLatLng(popLocation).setContent(popupMsg);
+		var popup = L.popup().setLatLng(popLocation).setContent("<strong>NEW DATA</strong><br />" + popupMsg);
 		mapApp.map.addLayer(popup);
 		popupLayers[type].push(popup);
 	}
