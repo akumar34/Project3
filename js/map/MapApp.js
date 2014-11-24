@@ -285,16 +285,37 @@ var MapApp = Class.extend({
 		        name: "Potholes",
 		        icon: '<i class="icon-legend_pothole"></i>',
 		        layer: this.layers[this.POTHOLES]
-		    }/*,
-		    {
-		        name: 'Car POI',    //separator with label
-		        sep: true       
 		    },
 		    {
-		        name: "Parking",
-		        icon: '<i class="icon icon-parking"></i>',
-		        layer: L.geoJson(ParkingGeoJSON)
-		    }   */
+		    	name: "Street Lights Out",
+		    	icon: '<i class="icon-legend_light"></i>',
+		    	layer: this.layers[this.STREET_LIGHTS]
+		    },
+		    {
+		    	name: "Abandoned Vehicles",
+		    	icon: '<i class="icon-legend_car"></i>',
+		    	layer: this.layers[this.ABANDONED_VEHICLES]
+		    },
+		    {
+		    	name: "Divvy Stations",
+		    	icon: '<i class="icon-legend_divvy"></i>',
+		    	layer: this.layers[this.DIVVY]
+		    },
+		    {
+		    	name: "Crime",
+		    	icon: '<i class="icon-legend_crime"></i>',
+		    	layer: this.layers[this.CRIME]
+		    },
+		    {
+		    	name: "CTA Buses",
+		    	icon: '<i class="icon-legend_cta"></i>',
+		    	layer: this.layers[this.CTA]
+		    },
+		    {
+		    	name: "Food Inspection Reports",
+		    	icon: '<i class="icon-legend_food_inspection"></i>',
+		    	layer: this.layers[this.FOOD_INSPECTION]
+		    }
 		];
 
 		baseLayersT[1].layer.addTo(this.map);//MUST be added before control otherwise disappearing layer bug
