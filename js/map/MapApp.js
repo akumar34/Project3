@@ -189,6 +189,7 @@ var MapApp = Class.extend({
 
 		this.map._initPathRoot();  
 
+		/*
 		var baseLayers = {
 	        'Streets' : L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', {
 				attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
@@ -205,6 +206,7 @@ var MapApp = Class.extend({
 	        })
 		
         };
+        */
 
         //DBPediaLayer stuff
 		/*dbpedia_layer = L.dbPediaLayer({
@@ -256,9 +258,9 @@ var MapApp = Class.extend({
 		*/
 
 		//PANEL LAYERS STUFF
-		var baseLayersT = [
+		var baseLayers = [
 			{
-				name: "Base Layer",
+				name: "Base Layers",
 				sep: true
 			},
 		    {
@@ -318,8 +320,8 @@ var MapApp = Class.extend({
 		    }
 		];
 
-		baseLayersT[1].layer.addTo(this.map);//MUST be added before control otherwise disappearing layer bug
-		this.map.addControl( new L.Control.PanelLayers(baseLayersT, overLayers, {collapsed: false}) );
+		baseLayers[1].layer.addTo(this.map);//MUST be added before control otherwise disappearing layer bug
+		this.map.addControl( new L.Control.PanelLayers(baseLayers, overLayers, {collapsed: false}) );
 		//END PANEL LAYERS STUFF
 		
 		// L.control.layers(baseLayers, overlays).addTo(this.map);
