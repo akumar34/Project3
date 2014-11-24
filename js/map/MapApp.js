@@ -446,15 +446,18 @@ var MapApp = Class.extend({
 
 
 		//terrible hack to move sidebar down. Will make it better
-		// var height = $('#map').height();
-		// var padding = 0;
-		// divs = $('.leaflet-bottom');
-		// for (var i = 0; i < divs.length; i++) {
-		// 	if ($(divs[i]).attr('class') == "leaflet-bottom leaflet-left") {
-		// 		padding = $(divs[i]).height() + $('#sidebar').height() + 20;
-		// 	};
-		// };
-		// $('#sidebar').css({'margin-top' : (height - padding) + 'px'});
+		var height = $('#map').height();
+		var padding = 0;
+		divs = $('.leaflet-bottom');
+		for (var i = 0; i < divs.length; i++) {
+			if ($(divs[i]).attr('class') == "leaflet-bottom leaflet-left") {
+				padding = $(divs[i]).height() + (40*3) + 20;
+			};
+		};
+
+		console.log(height - padding);
+
+		$('#sidebar').css({'margin-top' : (height - padding) + 'px'});
 
 		// add the set of buttons
 		this.filters.addTo(this.map);
