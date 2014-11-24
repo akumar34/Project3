@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<script>
+lat1 = 41.86403739452362;
+lon1 = 87.7445912361145;
+
+lat2 = 41.86403739452363;
+lon2 = 87.744591236115;
+
+var R = 6371; // km raidus of earth
+var fi1 = lat1 * Math.PI / 180;//.toRadians();
+var fi2 = lat2 * Math.PI / 180;//.toRadians();
+var deltafi = (lat2-lat1) * Math.PI / 180;//.toRadians();
+var deltalambda = (lon2-lon1) * Math.PI / 180;//.toRadians();
+
+var a = Math.sin(deltafi/2) * Math.sin(deltafi/2) +
+        Math.cos(fi1) * Math.cos(fi2) *
+        Math.sin(deltalambda/2) * Math.sin(deltalambda/2);
+var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+var d = R * c;
+console.log(d);
+</script>
+</html>
