@@ -152,7 +152,7 @@ var USWeatherApp = Class.extend({
 ///////////////////////////////////////
 
     drawEverything: function (weather, iconSrc) {
-        var weatherlegend = L.control({position: 'topright'});
+        var weatherlegend = L.control({position: 'topleft'});
         weatherlegend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'map image');
             div.innerHTML = '<img src="' + iconSrc + '"/>' + '<i class="WeatherIcon" style="padding-bottom: 50px;color:black;font-size:25px;font-style:normal;font-weight:bold">' + weather + ' F</i>';
