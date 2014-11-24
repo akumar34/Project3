@@ -1,0 +1,250 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot?-cfhfm0');
+	src:url('fonts/icomoon.eot?#iefix-cfhfm0') format('embedded-opentype'),
+		url('fonts/icomoon.woff?-cfhfm0') format('woff'),
+		url('fonts/icomoon.ttf?-cfhfm0') format('truetype'),
+		url('fonts/icomoon.svg?-cfhfm0#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-bicycle2:before {
+	content: "\e600";
+}
+.icon-bike2:before {
+	content: "\e601";
+}
+.icon-burger4:before {
+	content: "\e602";
+}
+.icon-bus:before {
+	content: "\e603";
+}
+.icon-car168:before {
+	content: "\e604";
+}
+.icon-cooker1:before {
+	content: "\e605";
+}
+.icon-covered16:before {
+	content: "\e606";
+}
+.icon-cutlery6:before {
+	content: "\e607";
+}
+.icon-error6:before {
+	content: "\e608";
+}
+.icon-exclamation3:before {
+	content: "\e609";
+}
+.icon-fastfood1:before {
+	content: "\e60a";
+}
+.icon-food_inspection:before {
+	content: "\e60b";
+}
+.icon-food_inspection2:before {
+	content: "\e60c";
+}
+.icon-food9:before {
+	content: "\e60d";
+}
+.icon-handcuffs:before {
+	content: "\e60e";
+}
+.icon-iconmonstr-light-bulb-14-icon:before {
+	content: "\e60f";
+}
+.icon-iconmonstr-location-4-icon:before {
+	content: "\e610";
+}
+.icon-iconmonstr-police-badge-4-icon:before {
+	content: "\e611";
+}
+.icon-inspection:before {
+	content: "\e612";
+}
+.icon-knife35:before {
+	content: "\e613";
+}
+.icon-magnifier12:before {
+	content: "\e614";
+}
+.icon-marker_car:before {
+	content: "\e615";
+}
+.icon-marker_car_sized:before {
+	content: "\e616";
+}
+.icon-marker_car_sized_new:before {
+	content: "\e617";
+}
+.icon-marker_car_sized_old:before {
+	content: "\e618";
+}
+.icon-marker_crime:before {
+	content: "\e619";
+}
+.icon-marker_crime_sized:before {
+	content: "\e61a";
+}
+.icon-marker_crime_sized_new:before {
+	content: "\e61b";
+}
+.icon-marker_crime_sized_old:before {
+	content: "\e61c";
+}
+.icon-marker_cta:before {
+	content: "\e61d";
+}
+.icon-marker_cta_sized:before {
+	content: "\e61e";
+}
+.icon-marker_cta_sized_new:before {
+	content: "\e61f";
+}
+.icon-marker_cta_sized_old:before {
+	content: "\e620";
+}
+.icon-marker_divvy:before {
+	content: "\e621";
+}
+.icon-marker_divvy2:before {
+	content: "\e622";
+}
+.icon-marker_divvy2_sized:before {
+	content: "\e623";
+}
+.icon-marker_divvy2_sized_new:before {
+	content: "\e624";
+}
+.icon-marker_divvy2_sized_old:before {
+	content: "\e625";
+}
+.icon-marker_divvy2_sized_old2:before {
+	content: "\e626";
+}
+.icon-marker_food_inspection:before {
+	content: "\e627";
+}
+.icon-marker_food_inspection_0-1:before {
+	content: "\e628";
+}
+.icon-marker_food_inspection_0-2:before {
+	content: "\e629";
+}
+.icon-marker_food_inspection_1-1:before {
+	content: "\e62a";
+}
+.icon-marker_food_inspection_1-2:before {
+	content: "\e62b";
+}
+.icon-marker_food_inspection_1-3:before {
+	content: "\e62c";
+}
+.icon-marker_food_inspection_1-4:before {
+	content: "\e62d";
+}
+.icon-marker_food_inspection_1-5:before {
+	content: "\e62e";
+}
+.icon-marker_food_inspection_2-1:before {
+	content: "\e62f";
+}
+.icon-marker_food_inspection_2-2:before {
+	content: "\e630";
+}
+.icon-marker_food_inspection_2-3:before {
+	content: "\e631";
+}
+.icon-marker_light:before {
+	content: "\e632";
+}
+.icon-marker_light_sized:before {
+	content: "\e633";
+}
+.icon-marker_light_sized_new:before {
+	content: "\e634";
+}
+.icon-marker_light_sized_old:before {
+	content: "\e635";
+}
+.icon-marker_pothole:before {
+	content: "\e636";
+}
+.icon-marker_pothole_sized:before {
+	content: "\e637";
+}
+.icon-marker_pothole_sized_new:before {
+	content: "\e638";
+}
+.icon-marker_pothole_sized_old:before {
+	content: "\e639";
+}
+.icon-marker_template:before {
+	content: "\e63a";
+}
+.icon-marker_wikipedia:before {
+	content: "\e63b";
+}
+.icon-pins6:before {
+	content: "\e63c";
+}
+.icon-pins17:before {
+	content: "\e63d";
+}
+.icon-plate7:before {
+	content: "\e63e";
+}
+.icon-question5:before {
+	content: "\e63f";
+}
+.icon-rentacar1:before {
+	content: "\e640";
+}
+.icon-searching40:before {
+	content: "\e641";
+}
+.icon-semaphore5:before {
+	content: "\e642";
+}
+.icon-snack:before {
+	content: "\e643";
+}
+.icon-snacks:before {
+	content: "\e644";
+}
+.icon-street9:before {
+	content: "\e645";
+}
+.icon-suicide:before {
+	content: "\e646";
+}
+.icon-traffic1:before {
+	content: "\e647";
+}
+.icon-waiter:before {
+	content: "\e648";
+}
+.icon-wiki_marker:before {
+	content: "\e649";
+}
+.icon-wikipedia2:before {
+	content: "\e64a";
+}

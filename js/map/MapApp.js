@@ -283,7 +283,12 @@ var MapApp = Class.extend({
 		    },
 		    {
 		        name: "Potholes",
-		        icon: DataCircles.potholeIcon,
+		        icon: L.icon({
+			        iconUrl: 'icons/svg/marker_pothole_sized_new.svg',//pothole_sized.svg',
+			        iconSize:     [60, 90],//must be of ratio 1:1.5 because our icons
+			        iconAnchor:   [30, 90],
+			        popupAnchor:  [0, -90]
+			    }),
 		        layer: this.layers[this.POTHOLES]
 		    }/*,
 		    {
