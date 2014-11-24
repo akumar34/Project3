@@ -344,6 +344,11 @@ var MapApp = Class.extend({
 		    	name: "Food Inspection Reports",
 		    	icon: '<i class="icon-legend_food_inspection"></i>',
 		    	layer: this.layers[this.FOOD_INSPECTION]
+		    },
+		    {
+		    	name: "Wikipedia POIs",
+		    	icon: '<i class="icon-legend_wikipedia"></i>',
+		    	layer: dbpedia_layer
 		    }
 		];
 
