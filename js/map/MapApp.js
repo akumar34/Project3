@@ -470,7 +470,7 @@ var MapApp = Class.extend({
 		//END LEAFLET.DRAW STUFF
 
 		//leaflet locate control stuff
-		L.control.locate({position: "bottomright"}).addTo(this.map);
+		L.control.locate({position: "bottomleft"}).addTo(this.map);
 		//end leaflet locate control stuff
 
 

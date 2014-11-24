@@ -56,12 +56,16 @@ p {
 }
 
 /*filter css*/
-.filters{
+.filters{/*
+    margin-right: 10px !important;
+    margin-left: 10px;*/
+    margin: 0 auto !important;
+    text-align: center;
     line-height: 1.5vh;
     background-color: #fff;
     color: black;
-    width: 25vh;
-    padding: 5px;
+    width: 15vw;
+    padding: 10px;
 }
 
 .filters h5{
@@ -91,4 +95,10 @@ p {
 
 #weatherInfo > img{
     padding-left: 10px;
+}
+
+/*right control pannel*/
+.leaflet-top.leaflet-right .leaflet-panel-layers{
+    padding: 10px !important;
+    width: 15vw;
 }
