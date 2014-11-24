@@ -216,6 +216,7 @@ var MapApp = Class.extend({
 
 		this.map._initPathRoot();  
 
+		/*
 		var baseLayers = {
 	        'Streets' : L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', {
 				attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
@@ -232,6 +233,7 @@ var MapApp = Class.extend({
 	        })
 		
         };
+        */
 
         //DBPediaLayer stuff
 		dbpedia_layer = L.dbPediaLayer({
@@ -250,6 +252,7 @@ var MapApp = Class.extend({
 		
 		//end DBPediaLayer stuff
 		
+		/*
 		var overlays = {
 			"Potholes"  			: this.layers[this.POTHOLES],
 			"Abandoned Vehicles"	: this.layers[this.ABANDONED_VEHICLES],
@@ -279,10 +282,79 @@ var MapApp = Class.extend({
                 }
             })
 		};
+		*/
+
+		//PANEL LAYERS STUFF
+		var baseLayers = [
+			{
+				name: "Base Layers",
+				sep: true
+			},
+		    {
+		        name: "Streets",
+		        layer: L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', {
+					attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+					subdomains: '1234',
+					maxZoom : 18,
+					minZoom: 10
+				})
+		    },
+		    {
+		        name: "Aerial",
+		        layer: L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}')       
+		    }
+		];
+
+		var overLayers = [
+		    {
+		        name: 'Overlays',   //separator with label
+		        sep: true       
+		    },
+		    {
+		        name: "Potholes",
+		        icon: '<i class="icon-legend_pothole"></i>',
+		        layer: this.layers[this.POTHOLES]
+		    },
+		    {
+		    	name: "Street Lights Out",
+		    	icon: '<i class="icon-legend_light"></i>',
+		    	layer: this.layers[this.STREET_LIGHTS]
+		    },
+		    {
+		    	name: "Abandoned Vehicles",
+		    	icon: '<i class="icon-legend_car"></i>',
+		    	layer: this.layers[this.ABANDONED_VEHICLES]
+		    },
+		    {
+		    	name: "Divvy Stations",
+		    	icon: '<i class="icon-legend_divvy"></i>',
+		    	layer: this.layers[this.DIVVY]
+		    },
+		    {
+		    	name: "Crime",
+		    	icon: '<i class="icon-legend_crime"></i>',
+		    	layer: this.layers[this.CRIME]
+		    },
+		    {
+		    	name: "CTA Buses",
+		    	icon: '<i class="icon-legend_cta"></i>',
+		    	layer: this.layers[this.CTA]
+		    },
+		    {
+		    	name: "Food Inspection Reports",
+		    	icon: '<i class="icon-legend_food_inspection"></i>',
+		    	layer: this.layers[this.FOOD_INSPECTION]
+		    }
+		];
+
+		baseLayers[1].layer.addTo(this.map);//MUST be added before control otherwise disappearing layer bug
+		this.map.addControl( new L.Control.PanelLayers(baseLayers, overLayers, {collapsed: false}) );
+		//END PANEL LAYERS STUFF
 		
 		// L.control.layers(baseLayers, overlays).addTo(this.map);
 		// L.control.layers(baseLayers, overlays, {position: 'bottomleft', collapsed:false}).addTo(this.map);
 
+		/*
 		var control = L.control.layers(baseLayers, overlays, {collapsed:false});
 		control._map = this.map;
 		var controlDiv = control.onAdd(this.map);
@@ -290,6 +362,7 @@ var MapApp = Class.extend({
 		$('#filters').append(controlDiv);
 		// $('.leaflet-top.leaflet-right').hide();
 		baseLayers['Streets'].addTo(this.map);
+		*/
 
 
 
