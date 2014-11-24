@@ -64,21 +64,25 @@ p {
     line-height: 1.5vh;
     background-color: #fff;
     color: black;
-    width: 15vw;
+    width: 12vw;
     padding: 10px;
 }
 
 .filters h5{
     line-height: 1vh;
-    font-size: 2vh;
+    font-size: 2.5vh;
     margin: 0;
 }
 
 .filters p{
     line-height: 0.5vh;
-    font-size: 1.5vh;
+    font-size: 2vh;
 }
 
+/*.filters > label {
+    line-height: 0px !important;
+    margin-bottom: 10px !important;
+}*/
 /*weather info*/
 #weatherInfo{
     width: 100px;
@@ -100,5 +104,10 @@ p {
 /*right control pannel*/
 .leaflet-top.leaflet-right .leaflet-panel-layers{
     padding: 10px !important;
-    width: 15vw;
+    width: 12vw;
+    font-size: 2.5vh;
+}
+.leaflet-top.leaflet-right > .leaflet-panel-layers-base .leaflet-panel-layers-item, .leaflet-panel-layers-overlays .leaflet-panel-layers-item{
+    margin-bottom: 1vh !important;
+    height: 2.5vh !important;
 }
