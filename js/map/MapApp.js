@@ -373,7 +373,7 @@ var MapApp = Class.extend({
 		this.map.addLayer(drawnItems); 
 		//draw control, passed the FeatureGroup from above
 		drawControl = new L.Control.Draw({
-			position: 'bottomright',
+			position: 'bottomleft',
 			edit: 
 			{
 				featureGroup: drawnItems
