@@ -13,3 +13,19 @@ body{
     height: 50%;
     /*margin-top: 10%;*/
 }
+
+.filters{
+    background-color: #fff;
+    color: black;
+    width: 25vh;
+    padding: 5px;
+}
+
+.filters h5{
+    font-size: 1.5vh;
+    margin: 0;
+}
+
+.filters p{
+    font-size: 1vh;
+}

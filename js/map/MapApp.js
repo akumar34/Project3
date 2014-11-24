@@ -28,15 +28,43 @@ var MapApp = Class.extend({
 		this.foodInspectionUrl = [];
 
 		this.weekFilter = true;
+		this.UICRect = null;
 		
-		// this.updateDiv = L.control({
-  //       	position: 'topleft'
-  //   	});
-  //   	this.updateDiv.onAdd = function () {
-  //       	this._div = L.DomUtil.create('div', 'updateDiv');
-  //       	this._div.innerHTML = '<h5>Update:</h5> <hr>' + '<p>ID:' + 1 + '<br>' + 2 + '</p>';
-  //       	return this._div;
-  //   	};
+		this.filters = L.control({
+        	position: 'topleft'
+    	});
+    	this.filters.onAdd = function () {
+        	this._div = L.DomUtil.create('div', 'filters');
+        	this._div.innerHTML = '<h5>Filters:</h5>';
+        	this._div.innerHTML += '<hr><p>Week:</p>' +
+                '<form>' +
+					'<div id="radio">' +
+						'<input type="radio" id="weekOne" name="radio" checked="checked"><label for="weekOne" >One Week</label>' +
+				    	'<input type="radio" id="monthButton" name="radio"><label for="monthButton">Month</label>' +
+					'</div>'+
+				'</form>'+
+				// weather
+				'<form>' +
+					// weather stuff
+					'<div id="weaterButtons">' +
+				    	'<hr><p>Weather:</p>'+
+				    	'<input type="radio" id="weatherOn" name="radio" checked="checked"><label for="weatherOn">On</label>' +
+				    	'<input type="radio" id="weatherOff" name="radio"><label for="weatherOff">Off</label>' +
+					'</div>'+
+				'</form>' +
+				// UIC Rect
+				'<form>' +
+					// UIC Rect stuff
+					'<div id="UICRectButtons">' +
+				    	'<hr><p>UIC to Museum Campus	:</p>'+
+				    	'<input type="radio" id="UICOn" name="radio"><label for="UICOn">Show</label>' +
+				    	'<input type="radio" id="UICOff" name="radio" checked="checked"><label for="UICOff">Hide</label>' +
+					'</div>'+
+				'</form>'
+				;
+
+        	return this._div;
+    	};
 	},
 	
 	init: function(chicagoMap){
@@ -185,7 +213,6 @@ var MapApp = Class.extend({
 		
 		//add zoom control with options. Thanks internet
 		new L.Control.Zoom({ position:'bottomright'}).addTo(this.map);
-		// this.updateDiv.addTo(this.map);
 
 		this.map._initPathRoot();  
 
@@ -350,12 +377,49 @@ var MapApp = Class.extend({
 			};
 		};
 		$('#sidebar').css({'margin-top' : (height - padding) + 'px'});
+
+		// add the set of buttons
+		this.filters.addTo(this.map);
+		// / add listeners
+  		$("#radio").click(function(d){
+  			// week filters
+  			if (d.target.checked == true && d.target == $("#monthButton")[0] && context.weekFilter) {
+  				console.log("month");
+  				context.filterByWeek();
+  			}
+  			else if(d.target.checked == true && d.target == $("#weekOne")[0] && !context.weekFilter){
+  				console.log("week");
+  				context.filterByWeek();
+  			};
+  		});
+  		// weather toggle
+  		$("#weaterButtons").click(function(d){
+  			// weather toggle
+  			if (d.target.checked == true && d.target == $("#weatherOn")[0] && !($('#weatherInfo').is(':visible'))) {
+  				$('#weatherInfo').show();
+  			}
+  			else if (d.target.checked == true && d.target == $("#weatherOff")[0] && ($('#weatherInfo').is(':visible'))) {
+  				$('#weatherInfo').hide();
+  			};
+  		});
+  		// UIC Rect Toggle
+  		$("#UICRectButtons").click(function(d){
+  			// weather toggle
+  			if (d.target.checked == true && d.target == $("#UICOn")[0] && context.UICRect === null) {
+  				context.drawDefaultRectangle();
+  			}
+  			else if (d.target.checked == true && d.target == $("#UICOff")[0] && context.UICRect != null) {
+  				context.deleteDefaultRectangle();
+  			};
+  		});
 	},
 
 	drawDefaultRectangle: function(){
 		var context = this;
 		var bounds = [[41.8762076638325, -87.6873779296875], [41.8478259600331, -87.61322021484375]];
-		var rect = L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(context.map);
+		var rect = L.rectangle(bounds, {color: "#ff7800", weight: 1})
+		this.UICRect = rect;
+		this.UICRect.addTo(context.map);
 		
 		shapes[rect._leaflet_id] = 
 		{
@@ -364,7 +428,19 @@ var MapApp = Class.extend({
 			latlngs : rect._latlngs
 		};
 		
-		context.filterByShapes(shapes, true);
+		this.filterByShapes(shapes, true);
+	},
+
+	deleteDefaultRectangle: function(){
+		var shapesToRemove = {};
+		layer = this.UICRect;
+		shapesToRemove[layer._leaflet_id] = shapes[layer._leaflet_id];
+		delete shapes[layer._leaflet_id];
+
+		this.filterByShapes(shapesToRemove, false);
+		this.map.removeLayer(this.UICRect);
+		this.UICRect = null;
+
 	},
 	
 	filterByShapes: function (selectedShapes, add){
