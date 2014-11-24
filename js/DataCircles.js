@@ -1181,11 +1181,12 @@ function DataCircles() {
 		
 		D3Graphs.clearAll();
 		
-		datasets = [POTHOLES,ABANDONED_VEHICLES,STREET_LIGHTS,CRIME];
+		datasets = [POTHOLES,ABANDONED_VEHICLES,STREET_LIGHTS,CRIME, FOOD_INSPECTION];
 		daysAgoThresholds['Potholes'] = 7;
 		daysAgoThresholds['Abandoned Vehicles'] = 7;
 		daysAgoThresholds['Street Lights'] = 7;
 		daysAgoThresholds['Crime'] = 14;
+		daysAgoThresholds['Food Inspection'] = 7;
 		
 		data = extractData(datasets, daysAgoThresholds, "type", "data");
 		makeStackedAndGroupedBarGraph(data, '311 Bar Chart');
