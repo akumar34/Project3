@@ -48,8 +48,14 @@
 		<script src="lib/leaflet-panel-layers/dist/leaflet-panel-layers.src.js"></script>
 		<link rel="stylesheet" href="lib/leaflet-panel-layers/dist/leaflet-panel-layers.src.css" />
 		<!--end Leaflet Paenl Layers includes-->
+
 		<!--icon font-->
 		<link rel="stylesheet" href="fonts/font-style.css" />
+
+		<!--Leaflet.Spin includes-->
+		<script src="js/spin.min.js"></script><!--dependency, must come first-->
+		<script src="lib/Leaflet.Spin/leaflet.spin.js"></script>
+		<!--end Leaflet.Spin includes-->
 		<script>
 			var mapApp;
 			var usWeatherApp;
@@ -62,6 +68,7 @@
 				mapApp = new MapApp;
 				d3.json("data/chicagoDist.json", function(data){
 					mapApp.init(data);
+					//mapApp.map.spin(true);
 				});
 
 				D3Graphs = new D3Graphs();
