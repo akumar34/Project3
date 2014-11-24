@@ -3,18 +3,61 @@ body{
     padding: 0;
 }
 
+h1 {
+    padding-left:       4%;
+    padding-right:      4%;
+    font-size:          5vh;
+}
+
+h2 {
+    font-size:          4vh;
+    text-align:         center;
+}
+
+h3, h4, h5, h6 {
+    font-size:          3vh;
+}
+
+li {
+    font-size:          2vmin;
+}
+    
+p {
+    font-size:          2vmin;
+}
+
 #map {
     position: absolute;
     height: 100%;
     width: 100%;
 }
 
+/*side bar css*/
 #sidebar {
-    height: 50%;
+    height: 50% !important;
+    margin-top: 22% !important;
+    z-index: 0;
+    border-radius: 4px;
+    box-shadow: none;
     /*margin-top: 10%;*/
 }
 
+.sidebar-tabs{
+    background: none !important; 
+}
+
+.sidebar-tabs>li {
+    background: white !important;
+}
+
+#settings {
+    /*width: 33%;*/
+    /*height: 500px;*/
+}
+
+/*filter css*/
 .filters{
+    line-height: 1.5vh;
     background-color: #fff;
     color: black;
     width: 25vh;
@@ -22,10 +65,30 @@ body{
 }
 
 .filters h5{
-    font-size: 1.5vh;
+    line-height: 1vh;
+    font-size: 2vh;
     margin: 0;
 }
 
 .filters p{
-    font-size: 1vh;
+    line-height: 0.5vh;
+    font-size: 1.5vh;
+}
+
+/*weather info*/
+#weatherInfo{
+    width: 100px;
+    height:100px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, .6);
+}
+
+#weatherInfo > .WeatherIcon{
+    margin-left: 15%;
+    padding-left: 10px;
+    line-height: 0;
+}
+
+#weatherInfo > img{
+    padding-left: 10px;
 }

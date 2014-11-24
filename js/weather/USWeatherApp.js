@@ -156,7 +156,7 @@ var USWeatherApp = Class.extend({
         weatherlegend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'map image');
             div.innerHTML = '<div id = "weatherInfo">' +
-                '<img src="' + iconSrc + '"/>' + 
+                '<img src="' + iconSrc + '"/>' + '<br>' + 
                 '<i class="WeatherIcon" style="padding-bottom: 50px;color:black;font-size:25px;font-style:normal;font-weight:bold">' + weather + ' F</i>'+
                 '</div>';
             //div.innerHTML = '<i class="WeatherIcon" style="color:black;font-size:50px;font-weight:bold">' + weather + ' F</i>' + '<img src="' + iconSrc + '"/>';
