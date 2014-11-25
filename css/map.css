@@ -103,12 +103,14 @@ p {
 }
 
 /*right control pannel*/
-.leaflet-top.leaflet-right .leaflet-panel-layers{
-    padding: 10px !important;
-    width: 12vw;
-    font-size: 2.5vh;
-}
-.leaflet-top.leaflet-right > .leaflet-panel-layers-base .leaflet-panel-layers-item, .leaflet-panel-layers-overlays .leaflet-panel-layers-item{
-    margin-bottom: 1vh !important;
-    height: 2.5vh !important;
+@media screen and (min-width: 2000px){
+    .leaflet-top.leaflet-right .leaflet-panel-layers{
+        padding: 10px !important;
+        width: 12vw;
+        font-size: 2.5vh;
+    }
+    .leaflet-top.leaflet-right > .leaflet-panel-layers-base .leaflet-panel-layers-item, .leaflet-panel-layers-overlays .leaflet-panel-layers-item{
+        margin-bottom: 1vh !important;
+        height: 2.5vh !important;
+    }
 }
