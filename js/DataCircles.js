@@ -1172,25 +1172,25 @@ function DataCircles() {
 		for(var index = 0; index < length; index++){	
 			if(data[SELECTED].length === 0)
 				selectedAndOverallData.push({
-					selectedRecent	: 0,
-					selectedOld		: 0,
-					overallRecent	: data[OVERALL][index].recent,
-					overallOld		: data[OVERALL][index].old,
+					Selected_Week	: 0,
+					Selected_Month		: 0,
+					Overall_Week	: data[OVERALL][index].recent,
+					Overall_Month		: data[OVERALL][index].old,
 					type			: data[OVERALL][index].type
 				});
 			else
 				selectedAndOverallData.push({
-					selectedRecent	: data[SELECTED][index].recent,
-					selectedOld		: data[SELECTED][index].old,
-					overallRecent	: data[OVERALL][index].recent,
-					overallOld		: data[OVERALL][index].old,
+					Selected_Week	: data[SELECTED][index].recent,
+					Selected_Month		: data[SELECTED][index].old,
+					Overall_Week	: data[OVERALL][index].recent,
+					Overall_Month		: data[OVERALL][index].old,
 					type			: data[OVERALL][index].type
 				});
 		}
 		
 		var columns = {
-		  "column1" : ["overallRecent","overallOld"],
-		  "column2" : ["selectedRecent","selectedOld"]
+		  "column1" : ["Overall_Week","Overall_Month"],
+		  "column2" : ["Selected_Week","Selected_Month"]
 		};
 		
 		D3Graphs.makeStackedAndGroupedBarGraph(selectedAndOverallData, columns, title);
