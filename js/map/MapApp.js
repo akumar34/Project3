@@ -474,6 +474,14 @@ var MapApp = Class.extend({
 		L.control.locate({position: "bottomleft"}).addTo(this.map);
 		//end leaflet locate control stuff
 
+		//LEAFLET STYLE EDITOR STUFF
+		var styleEditor = L.control.styleEditor({
+			position: "bottomleft"
+			//openOnLeafletDraw: true
+		});
+		this.map.addControl(styleEditor);
+		//END LEAFLET STYLE EDITOR STUFF
+
 
 		//terrible hack to move sidebar down. Will make it better
 		var height = $('#map').height();
