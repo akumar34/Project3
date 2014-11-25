@@ -145,7 +145,7 @@ function D3Graphs(){
             .enter()
             .append("text")
             .text(function(d) {
-                return (d.overallOld + d.overallRecent) + "\\" + (d.selectedOld + d.selectedRecent);
+                return (d.Overall_Month + d.Overall_Week) + "\\" + (d.Selected_Month + d.Selected_Week);
             })
             .attr("text-anchor", "middle")
             .attr("x", function(d, index) {
