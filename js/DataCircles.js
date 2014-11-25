@@ -483,6 +483,7 @@ function DataCircles() {
 	};
 	
 	function refreshDivvyData(layerInfo, layer){
+		clearPopups(DIVVY);
 		var sourceLink = layerInfo.sourceLink;
 	    sourceLink.forEach(function(link){
 			d3.json(link, function(error, json){
@@ -511,6 +512,9 @@ function DataCircles() {
 		if(refresh) console.log("refreshing divvy");
 		else console.log("adding divvy");
 		
+		var popupMsg = "<strong>Station Name:</strong> " + data[dataIndex]["stationName"] + "<br><strong>Status:</strong> " +
+                data[dataIndex]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[dataIndex]["availableBikes"] + 
+                "/" + data[dataIndex]["totalDocks"];
         layerContainer.circles.push(
             L.marker([data[dataIndex]["latitude"], data[dataIndex]["longitude"]], 
             {
@@ -518,14 +522,21 @@ function DataCircles() {
                 icon: divvyStationIcon,
 				totalDocks : data[dataIndex].totalDocks,
     			availableBikes : data[dataIndex].availableBikes,
-    			statusValue : data[dataIndex].statusValue
+    			statusValue : data[dataIndex].statusValue,
+				id : data[dataIndex].id
             }
-        ).bindPopup("<strong>Station Name:</strong> " + data[dataIndex]["stationName"] + "<br><strong>Status:</strong> " +
-                data[dataIndex]["statusValue"] +"<br><strong>Occupied Docks / Total Docks: </strong>" + data[dataIndex]["availableBikes"] + 
-                "/" + data[dataIndex]["totalDocks"])
+        ).bindPopup(popupMsg)
         );//end .push
         //TODO change icon based on value of "statusValue"
         
+        var newMarker = layerContainer.circles[layerContainer.circles.length - 1];
+
+        // check to see if the new marker is inside the drawn shapes, if any
+        if (isInShapes(newMarker)) {
+            selectedDataPoints[DIVVY].circles.push(newMarker);
+			addPopup(newMarker, DIVVY, popupMsg);
+        };
+		
         // we should only show the data on the map when a polygon is drawn
         // if(refresh) layer.clearLayers();
         // L.layerGroup(layerContainer.circles).addTo(layer);
@@ -550,6 +561,11 @@ function DataCircles() {
             if(layer.circles[index].options.totalDocks == number) return layer.circles[index];
         return null;
     };
+	
+	function getByDivvyId(layer, number){
+		for (var index = 0; index < layer.circles.length; index++)
+			if(layer.circles[index].options.id == number) return layer.circles[index];
+	};
 /************End Divvy Data Handling************/		
 
 /************Crime Data Handling************/
