@@ -34,7 +34,7 @@ p {
 
 /*side bar css*/
 #sidebar {
-    height: 50% !important;
+    /*height: 50% !important;*/
     /*margin-top: 22% !important;*/
     z-index: 0;
     border-radius: 4px;
